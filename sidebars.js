@@ -389,6 +389,11 @@ module.exports = {
                 'userguide/logstash_to_signoz',
               ],
             },
+            {
+              type: 'doc',
+              label: 'Tomcat access and garbage collector logs',
+              id: 'userguide/collecting_tomcat_access_and_gc_logs'
+            },
           ],
         },
         {
