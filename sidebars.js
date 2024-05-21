@@ -824,6 +824,38 @@ module.exports = {
       ],
     },
     {
+      label: "Troubleshooting",
+      type: "category",
+      link: {
+        type: 'generated-index',
+        title: 'Troubleshooting',
+        description: 'Find the Troubleshooting instructions for SigNoz Cloud',
+        slug: '/troubleshooting',
+      },
+      items: [
+        {
+          id: "troubleshooting/signoz-cloud/general-troubleshooting",
+          type: "doc",
+          label: "General",
+        },
+        {
+          id: "troubleshooting/signoz-cloud/traces-troubleshooting",
+          type: "doc",
+          label: "Traces",
+        },
+        {
+          id: "troubleshooting/signoz-cloud/logs-troubleshooting",
+          type: "doc",
+          label: "Logs",
+        },
+        {
+          id: "troubleshooting/signoz-cloud/metrics-troubleshooting",
+          type: "doc",
+          label: "Metrics",
+        },
+      ],
+    },
+    {
       label: "FAQ",
       type: "category",
       link: {
