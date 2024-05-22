@@ -12,7 +12,7 @@ This documentation provides detailed instructions about configuring the OpenTele
 0:0:0:0:0:0:0:1 - - [18/Apr/2024:13:45:30 +0530] "GET /demo1/add?num1=2&num2=3 HTTP/1.1" 200 11
 ```
 
-## Sample Garbage Collector log
+### Sample Garbage Collector log
 ```
 [0.724s][info][gc] GC(3) Concurrent Mark Cycle 6.218ms
 [0.772s][info][gc] GC(4) Pause Young (Prepare Mixed) (G1 Preventive Collection) 28M->8M(40M) 1.891ms
