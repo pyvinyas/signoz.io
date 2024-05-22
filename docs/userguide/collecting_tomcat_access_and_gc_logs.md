@@ -4,7 +4,7 @@ id: collect-tomcat-access-and-garbage-collector-logs
 ---
 ## Overview
 
-This guide provides detailed instructions on configuring the OpenTelemetry Collector to read read Tomcat Server Access and Garbage Collector logs and push them to SigNoz, enabling you to analyze them effectively.
+This documentation provides detailed instructions about configuring the OpenTelemetry Collector to read Tomcat Server Access and Garbage Collector logs and push them to SigNoz, enabling you to analyze them effectively.
 
 ## Sample Access Log
 ```
