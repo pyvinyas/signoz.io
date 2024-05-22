@@ -1,6 +1,6 @@
 ---
 title: Collecting Tomcat Access and Garbage Collector Logs
-id: collecting_tomcat_access_and_gc_logs
+id: collect-tomcat-access-and-garbage-collector-logs
 ---
 ## Overview
 
