@@ -133,7 +133,7 @@ Replace `<access_logs_path>` , `<garbage_collector_logs_path>` with the path whe
   
 #### Add Filelog receiver
 
-Add the filelog reciever to `otel-collector-config.yaml` which is present inside `deploy/docker/clickhouse-setup` directory in your self-hosted SigNoz setup. The configuratoin below tells the collector where to find your log file and how to start processing it.
+Add the filelog reciever to `otel-collector-config.yaml` which is present inside `deploy/docker/clickhouse-setup` directory in your self-hosted SigNoz setup. The configuration below tells the collector where to find your log file and how to start processing it.
 
   ```yaml {3-15}
   receivers:
