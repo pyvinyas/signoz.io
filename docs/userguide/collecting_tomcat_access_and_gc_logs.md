@@ -34,7 +34,7 @@ Sending logs to SigNoz cloud can be achieved by following these simple steps:
 
 The OpenTelemetry collector provides a vendor-neutral way to collect, process, and export your telemetry data such as logs, metrics, and traces.
 
-You can install OpenTelemetry collector as an agent on your Virtual Machine by following this [guide](https://signoz.io/docs/tutorial/opentelemetry-binary-usage-in-virtual-machine/). 
+You can install OpenTelemetry collector (OTel collector) as an agent by following this [guide](https://signoz.io/docs/tutorial/opentelemetry-binary-usage-in-virtual-machine/). 
   
 
 ### Configure Filelog receiver
