@@ -100,7 +100,7 @@ The logs will be exported to SigNoz and will be visible in SigNoz UI.
     <figcaption><i>Sample tomcat garbage collector logs data shown in SigNoz Logs Explorer</i></figcaption>
 </figure>
 
-## Collecting Tomcat Access and Garbage Collector Logs in self-hosted SigNoz
+## Collect logs in self-hosted SigNoz
 
 Collecting Tomcat Access and Garbage Collector logs in Self-Hosted SigNoz can have two scenarios:
 - SigNoz running on the same host
