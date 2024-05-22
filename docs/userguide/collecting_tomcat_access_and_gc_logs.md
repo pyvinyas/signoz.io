@@ -6,7 +6,7 @@ id: collect-tomcat-access-and-garbage-collector-logs
 
 This documentation provides detailed instructions about configuring the OpenTelemetry Collector to read Tomcat Server Access and Garbage Collector logs and push them to SigNoz, enabling you to analyze them effectively.
 
-## Sample Access Log
+### Sample Access Log
 ```
 0:0:0:0:0:0:0:1 - - [18/Apr/2024:13:45:29 +0530] "GET /demo1/add?num1=1&num2=2 HTTP/1.1" 200 11
 0:0:0:0:0:0:0:1 - - [18/Apr/2024:13:45:30 +0530] "GET /demo1/add?num1=2&num2=3 HTTP/1.1" 200 11
