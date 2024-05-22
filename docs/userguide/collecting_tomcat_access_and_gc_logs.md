@@ -191,7 +191,7 @@ The logs will be exported to SigNoz UI if there are no errors.
     <img src="/img/docs/tomcat_access_logs.png" alt="Access logs visible in SigNoz"/>
     <figcaption><i>Sample tomcat access logs data shown in SigNoz Logs Explorer</i></figcaption>
 </figure>
-
+<br> </br>
 <figure data-zoomable align='center'>
     <img src="/img/docs/tomcat_gc_logs.png" alt="garbage collector logs visible in SigNoz"/>
     <figcaption><i>Sample tomcat garbage collector logs data shown in SigNoz Logs Explorer</i></figcaption>
