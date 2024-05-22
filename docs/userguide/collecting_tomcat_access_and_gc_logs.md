@@ -20,7 +20,7 @@ This documentation provides detailed instructions about configuring the OpenTele
 ```
 
 
-## Collect Tomcat Access and Garbage Collector Logs in SigNoz Cloud
+## Collect Logs in SigNoz Cloud
 
 ### Prerequisite
 
