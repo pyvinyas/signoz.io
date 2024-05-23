@@ -75,4 +75,4 @@ community to get help!
 [3]: /docs/install/
 [4]: /docs/userguide/retention-period#configuring-cold-storage---amazon-s3
 [5]: /img/blog/common/join_slack_cta.webp
-[6]: /slack
+[6]: https://signoz.io/slack
