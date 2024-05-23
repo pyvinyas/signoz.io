@@ -49,6 +49,8 @@ receivers:
 
 The `start_at: end` configuration ensures that only newly added logs are transmitted. If you wish to include historical logs from the file, remember to modify `start_at` to `beginning`.
 
+Log lines from the file will be visible on the SigNoz UI and you will able to filter them once new logs are added to the file while using `start_at: end`
+
 :::
 
 <!--- 
@@ -125,6 +127,8 @@ Add the filelog reciever to `otel-collector-config.yaml` which is present inside
 :::note
 
 The `start_at: end` configuration ensures that only newly added logs are transmitted. If you wish to include historical logs from the file, remember to modify `start_at` to `beginning`.
+
+Log lines from the file will be visible on the SigNoz UI and you will able to filter them once new logs are added to the file while using `start_at: end`
 
 :::
 
