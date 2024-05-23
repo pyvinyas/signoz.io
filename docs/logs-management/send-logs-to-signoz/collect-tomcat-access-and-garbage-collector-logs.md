@@ -166,7 +166,7 @@ If you want to change the path of where your garbage collector logs are stored y
 
 
 <!---
-For parsing logs of different formats you will have to use operators, you can read more about operators [here](./logs.md#operators-for-parsing-and-manipulating-logs)
+For parsing logs of different formats you will have to use operators, you can read more about operators [here](../../userguide/logs.md#operators-for-parsing-and-manipulating-logs)
 --->
 
 For more fields that are available for filelog receiver please check [this link](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/filelogreceiver).
@@ -235,10 +235,10 @@ You need to create an `otel-collector-config.yaml` file, this file defines how t
         exporters: [ otlp/log ]
   ```
    
-<!--- For parsing logs of different formats you will have to use operators, you can read more about operators [here](./logs.md#operators-for-parsing-and-manipulating-logs) --->
+<!--- For parsing logs of different formats you will have to use operators, you can read more about operators [here](../../userguide/logs.md#operators-for-parsing-and-manipulating-logs) --->
   
 
-The parsed logs are batched up using the batch processor and then exported to the host where SigNoz is deployed. For finding the right host and port for your SigNoz cluster please follow the guide [here](../install/troubleshooting.md#signoz-otel-collector-address-grid).  
+The parsed logs are batched up using the batch processor and then exported to the host where SigNoz is deployed. For finding the right host and port for your SigNoz cluster please follow the guide [here](../../install/troubleshooting.md#signoz-otel-collector-address-grid).  
 
 :::note
 
