@@ -623,6 +623,7 @@ module.exports = {
         'tutorial/setting-up-sso-saml-with-keycloak',
         'tutorial/writing-clickhouse-queries-in-dashboard',
         'tutorial/traefik-observability',
+        'tutorial/infinite-retention-aws-s3',
       ],
     },
     {
