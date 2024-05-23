@@ -6,6 +6,9 @@ id: collect-tomcat-access-and-garbage-collector-logs
 
 This documentation provides detailed instructions about configuring the OpenTelemetry Collector to read Tomcat Server Access and Garbage Collector logs and push them to SigNoz, enabling you to analyze them effectively.
 
+## Sample Log
+Here is how the Tomcat Access logs and Garbage Collector logs look like:
+
 ### Sample Access Log
 ```
 0:0:0:0:0:0:0:1 - - [18/Apr/2024:13:45:29 +0530] "GET /demo1/add?num1=1&num2=2 HTTP/1.1" 200 11
@@ -94,7 +97,7 @@ The logs will be exported to SigNoz and will be visible in SigNoz UI.
     <img src="/img/docs/tomcat_access_logs.png" alt="access logs visible in SigNoz"/>
     <figcaption><i>Sample tomcat access logs data shown in SigNoz Logs Explorer</i></figcaption>
 </figure>
-<br> </br>
+<br/>
 <figure data-zoomable align='center'>
     <img src="/img/docs/tomcat_gc_logs.png" alt="garbage logs visible in SigNoz"/>
     <figcaption><i>Sample tomcat garbage collector logs data shown in SigNoz Logs Explorer</i></figcaption>
@@ -191,7 +194,7 @@ The logs will be exported to SigNoz UI if there are no errors.
     <img src="/img/docs/tomcat_access_logs.png" alt="Access logs visible in SigNoz"/>
     <figcaption><i>Sample tomcat access logs data shown in SigNoz Logs Explorer</i></figcaption>
 </figure>
-<br> </br>
+<br/>
 <figure data-zoomable align='center'>
     <img src="/img/docs/tomcat_gc_logs.png" alt="garbage collector logs visible in SigNoz"/>
     <figcaption><i>Sample tomcat garbage collector logs data shown in SigNoz Logs Explorer</i></figcaption>

@@ -392,7 +392,7 @@ module.exports = {
             {
               type: 'doc',
               label: 'Tomcat access and garbage collector logs',
-              id: 'userguide/collecting_tomcat_access_and_gc_logs'
+              id: 'logs-management/send-logs-to-signoz/collect-tomcat-access-and-garbage-collector-logs'
             },
           ],
         },
