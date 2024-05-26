@@ -20,7 +20,7 @@ retain the OpenTelemetry data as long as we need.
 :::info
 If you want to query data stored in AWS S3 using **SigNoz** and do not
 have the requirement for infinite or very long retention period, then use
-[SigNoz's AWS S3 Retention][2] instead.
+[SigNoz's AWS S3 Retention][4] instead.
 :::
 
 ## Prerequisites
@@ -61,7 +61,7 @@ configuration that is sending data.
 - For any **Standalone OtelCollector** deployments that is directly sending
 data to SigNoz, you can add it in its respective configuration.
 
-List of all supported configuration of `awss3` exporter can be found [here][4].
+List of all supported configuration of `awss3` exporter can be found [here][1].
 
 ---
 
