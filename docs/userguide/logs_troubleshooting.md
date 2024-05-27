@@ -26,7 +26,7 @@ There are different ways to add a resource attribute.
                   action: upsert
     ...
     service:
-        pipelines:
+        logs:
             processors: [attributes/add_hostname, batch]
     ```
     replace the value of `<host_name>` with the actual hostname
