@@ -1,3 +1,6 @@
+Note: SigNoz website is now at this [Github repo](https://github.com/SigNoz/signoz-web). Make any new PRs to that repo.
+
+
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/51120f58-16f1-4b3e-8d80-70e17442957c/deploy-status)](https://app.netlify.com/sites/frosty-austin-928e43/deploys)
 
