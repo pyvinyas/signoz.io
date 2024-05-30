@@ -1,11 +1,11 @@
 ---
-title: Top 11 Loki alternatives in 2022
+title: Top 11 Loki alternatives in 2024
 slug: loki-alternatives
-date: 2022-10-30
+date: 2024-02-05
 tags: [Tech Resources]
 authors: ankit_anand
-description: There are many Loki alternatives that you can use for logs analytics. Top 11 Loki alternatives in 2022. 1.SigNoz 2.Logz.io 3.Graylog 4.Logtail 5.Sumologic ...
-image: /img/blog/2022/10/loki_aternatives_cover.webp
+description: There are many Loki alternatives that you can use for logs analytics. Top 11 Loki alternatives in 2024. 1.SigNoz 2.Logz.io 3.Graylog 4.Logtail 5.Sumologic ...
+image: /img/blog/2023/09/loki-alternatives-cover.jpeg
 keywords:
   - loki
   - grafana loki
@@ -15,6 +15,7 @@ keywords:
   - plg stack
   - plg stack alternative
 ---
+import GetStartedSigNoz from '../docs/shared/get-started-signoz.md';
 
 <head>
   <link rel="canonical" href="https://signoz.io/blog/loki-alternatives/"/>
@@ -24,7 +25,7 @@ Loki is a open source log aggregation tool developed by Grafana labs. It is insp
 
 <!--truncate-->
 
-![Cover Image](/img/blog/2022/10/loki_aternatives_cover.webp)
+![Cover Image](/img/blog/2023/09/loki-alternatives-cover.webp)
 
 Loki is designed to keep indexing low. It does this by making use of labels. Labels are any key-value pairs that can be used to describe a log stream. For example:
 
@@ -262,21 +263,7 @@ SigNoz supports efficient log storage, provides an intuitive UI, and lets you co
 
 ## Getting started with SigNoz
 
-SigNoz can be installed on macOS or Linux computers in just three steps by using a simple install script.
-
-The install script automatically installs Docker Engine on Linux. However, on macOS, you must manually install <a href = "https://docs.docker.com/engine/install/" rel="noopener noreferrer nofollow" target="_blank" >Docker Engine</a> before running the install script.
-
-```bash
-git clone -b main https://github.com/SigNoz/signoz.git
-cd signoz/deploy/
-./install.sh
-```
-
-You can visit our documentation for instructions on how to install SigNoz using Docker Swarm and Helm Charts.
-
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=opentelemetry_springboot)
-
-You can also check out the documentation for logs [here](https://signoz.io/docs/userguide/logs/).
+<GetStartedSigNoz />
 
 ---
 

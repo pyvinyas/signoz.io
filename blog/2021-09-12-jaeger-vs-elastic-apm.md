@@ -1,7 +1,7 @@
 ---
 title: Jaeger vs Elastic APM - key differences, features and alternatives
 slug: jaeger-vs-elastic-apm
-date: 2021-09-12
+date: 2023-05-16
 tags: [Tools Comparison, Jaeger]
 authors: ankit_anand
 description: Jaeger is an open-source end-to-end distributed tracing tool for microservices architecture. On the other hand, Elastic APM is an application performance monitoring system which is built on top of the ELK Stack...
@@ -16,6 +16,8 @@ keywords:
 <head>
   <link rel="canonical" href="https://signoz.io/blog/jaeger-vs-elastic-apm/"/>
 </head>
+
+import GetStartedSigNoz from '../docs/shared/get-started-signoz.md';
 
 Jaeger is an open-source end-to-end distributed tracing tool for microservices architecture. On the other hand, Elastic APM is an application performance monitoring system that is built on top of the ELK Stack (Elasticsearch, Logstash, Kibana, Beats). In this article, let's explore their key features, differences, and alternatives.
 
@@ -35,7 +37,7 @@ Jaeger was originally built by teams at Uber and then open-sourced. It is used f
   One of the challenges of distributed systems is to have a standard format for passing context across process boundaries and services. Jaeger provides client libraries that support code instrumentation in multiple languages to propagate context across services
 
 - **Distributed transaction monitoring**<br></br>
-  Jaeger comes with a web UI written in Javascript. The dashboard can be used to see traces and spans across services.
+  Jaeger comes with a web UI written in Javascript. The dashboard can be used to see traces and [spans](https://signoz.io/blog/distributed-tracing-span/) across services.
 
 - **Root Cause Analysis**<br></br>
   Using traces you can drill down to services causing latency in particular user request.
@@ -48,13 +50,15 @@ Jaeger was originally built by teams at Uber and then open-sourced. It is used f
 
 import Screenshot from "@theme/Screenshot"
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Jaeger UI"
-    height={500}
+    
     src="/img/blog/2021/08/jaeger_ui-min.webp"
-    title="Jaeger UI showing services and corresponding traces"
-    width={700}
-/>
+    />
+<figcaption><i>Jaeger UI showing services and corresponding traces</i></figcaption>
+    </figure>
+<br/>
 
 ## Key features of Elastic APM
 Elastic APM consists of four components: APM agents, APM Server, Elasticsearch, and Kibana. Some of you might be familiar with the popular ELK stack which comprises of Elasticsearch, Logstash and Kibana. The ELK stack is used for collecting and analyzing logs. Elastic APM is an effort by [Elastic](https://www.elastic.co/) to venture into the field of application performance monitoring.
@@ -66,13 +70,15 @@ The four major components of elastic APM has the following features:
 - APM agents - Collects the data to send to the APM server
 - APM server - Receives data from APM agents and process it for storing in Elasticsearch
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Elastic APM architecture"
-    height={500}
+    
     src="/img/blog/2021/09/elastic_apm_architecture.webp"
-    title="Elastic APM architecture"
-    width={700}
-/>
+    />
+<figcaption><i>Elastic APM architecture</i></figcaption>
+    </figure>
+<br/>
 
 Some of the key features of Elastic APM includes:
 
@@ -94,12 +100,26 @@ Elastic APM provides capabilities to set threshold based alerts through popular 
 - **Multi-language support**<br></br>
 Elastic APM provides support for Java, Go, Node.js, Python, PHP, Ruby, .NET and Javascript.
 
+## Jaeger vs Elastic APM - At a glance
+
+| Feature | Jaeger | Elastic APM |
+| --- | --- | --- |
+| Use Case  | Primarily for distributed tracing | Application Performance Monitoring (APM) with integrated tracing |
+| License | Open-source | Elastic License |
+| Tracing | Yes | Yes |
+| Storage Backend | Elasticsearch, Cassandra | Elasticsearch |
+| Language Support | Multiple (Go, Java, Python, etc.) | Multiple (Java, Python, Node.js, etc.) |
+| Visualization | Limited | Yes (via Kibana) |
+| Vendor Lock-in | Low (OpenTracing/OpenTelemetry compatible) | Yes (Elastic Stack) |
+| Metrics and Logs | Not available | Available |
+| Cost | Free (open-source licensing) | Paid (Elastic Licensing) |
+
 ## Comparing Jaeger and Elastic APM
 From the description above, you might have a good idea about the differences between Jaeger and Elastic APM. The major difference between the two is that Jaeger is specifically meant for distributed tracing, whereas Elastic APM is a full-fledged application performance monitoring tool.
 
 Summarizing the key differences between Jaeger and Elastic APM:
 
-- Jaeger is an open-source distributed tracing tool meant for microservices. Elastic APM is an APM tool that provides metrics and log monitoring along with distributed tracing.
+- Jaeger is an open-source distributed tracing tool meant for microservices. Elastic APM is an APM tool that provides metrics and [log monitoring](https://signoz.io/blog/log-monitoring/) along with distributed tracing.
 
 - Jaeger's instrumentation libraries are based on OpenTracing APIs, which is an open-source standard for providing vendor-neutral instrumentation libraries. OpenTracing based telemetry data is supported by multiple APM vendors. If you decide to use Elastic APM, your telemetry data can only be used by Elastic APM.
 
@@ -111,40 +131,46 @@ Open-source standards like [OpenTelemetry](https://opentelemetry.io/) aims to st
 
 So is there a tool that can provide you extensive APM capabilities along with the freedom that comes with open-source standards?
 
-That's where [SigNoz](https://signoz.io/?utm_source=blog&utm_medium=jaeger_vs_elasticapm) comes into the picture.
+That's where [SigNoz](https://signoz.io/) comes into the picture.
 
 ## Alternative to Elastic APM and Jaeger - SigNoz
 SigNoz is a full-stack open-source application performance monitoring and observability tool which can be used in place of Elastic APM and Jaeger. It provides advanced distributed tracing capabilities along with metrics under a single dashboard.
 
 SigNoz is built to support OpenTelemetry natively. [OpenTelemetry](https://opentelemetry.io/) is becoming the world standard for generating and managing telemetry data (Logs, metrics and traces). It provides a fast OLAP datastore, ClickHouse as the storage backend.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Architecture of SigNoz with OpenTelemetry and ClickHouse"
-    height={500}
+    
     src="/img/blog/2021/09/SigNoz_architecture_clickhouse.webp"
-    title="Architecture of SigNoz with ClickHouse as storage backend and OpenTelemetry for code instrumentatiion"
-    width={700}
-/>
+    />
+<figcaption><i>Architecture of SigNoz with ClickHouse as storage backend and OpenTelemetry for code instrumentatiion</i></figcaption>
+    </figure>
+<br/>
 
 SigNoz comes with out of box visualization of things like RED metrics.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="SigNoz UI showing the popular RED metrics"
-    height={500}
+    
     src="/img/blog/common/signoz_charts_application_metrics.webp"
-    title="SigNoz UI showing application overview metrics like RPS, 50th/90th/99th Percentile latencies, and Error Rate"
-    width={700}
-/>
+    />
+<figcaption><i>SigNoz UI showing application overview metrics like RPS, 50th/90th/99th Percentile latencies, and Error Rate</i></figcaption>
+    </figure>
+<br/>
 
 You can also use flamegraphs to visualize spans from your trace data. All of this comes out of the box with SigNoz.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Flamegraphs used to visualize spans of distributed tracing in SigNoz UI"
-    height={500}
+    
     src="/img/blog/common/signoz_flamegraphs.webp"
-    title="Flamegraphs showing exact duration taken by each spans - a concept of distributed tracing"
-    width={700}
-/>
+    />
+<figcaption><i>Flamegraphs showing exact duration taken by each spans - a concept of distributed tracing</i></figcaption>
+    </figure>
+<br/>
 
 
 Some of the things SigNoz can help you track:
@@ -158,17 +184,7 @@ Some of the things SigNoz can help you track:
 
 ## Getting started with SigNoz
 
-If you have docker installed, getting started with SigNoz just takes three easy steps at the command line:
-```jsx
-git clone -b main https://github.com/SigNoz/signoz.git
-cd signoz/deploy/
-./install.sh
-```
-You can read more about deploying SigNoz from its [documentation](https://signoz.io/docs/install/docker/).
-
-You can check out SigNoz's GitHub repo here 👇
-
-[![SigNoz GitHub repo](/img/blog/common/signoz_github.webp)](https://github.com/SigNoz/signoz)
+<GetStartedSigNoz />
 
 ___
 

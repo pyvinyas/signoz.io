@@ -43,13 +43,112 @@ Let’s understand how to download, install, and run OpenTelemetry in a Spring B
 
 Java 8 or higher
 
-## Send Traces Directly to SigNoz
+## Send Traces to SigNoz Cloud
+
+OpenTelemetry provides a handy Java JAR agent that can be attached to any Java 8+ application and dynamically injects bytecode to capture telemetry from a number of popular libraries and frameworks.
+
+Based on your application environment, you can choose the setup below to send traces to SigNoz Cloud.
+
+<Tabs>
+<TabItem value="vm" label="VM" default>
+
+From VMs, there are two ways to send data to SigNoz Cloud.
+
+- [Send traces directly to SigNoz Cloud](#send-traces-directly-to-signoz-cloud)
+- [Send traces via OTel Collector binary](#send-traces-via-otel-collector-binary) (recommended)
+
+#### **Send traces directly to SigNoz Cloud**
+OpenTelemetry Java agent can send traces directly to SigNoz Cloud.
+  
+Step 1. Download otel java binary agent
+
+```bash
+wget https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar
+```
+
+Step 2. Run your application
+
+```bash
+OTEL_RESOURCE_ATTRIBUTES=service.name=<app_name> \
+OTEL_EXPORTER_OTLP_HEADERS="signoz-access-token=SIGNOZ_INGESTION_KEY" \
+OTEL_EXPORTER_OTLP_ENDPOINT=https://ingest.{region}.signoz.cloud:443 \
+java -javaagent:$PWD/opentelemetry-javaagent.jar -jar <my-app>.jar
+```
+- `<app_name>` is the name for your application
+- `SIGNOZ_INGESTION_KEY` is the API token provided by SigNoz. You can find your ingestion key from SigNoz cloud account details sent on your email.
+
+Depending on the choice of your region for SigNoz cloud, the ingest endpoint will vary according to this table.
+
+| Region | Endpoint |
+| --- | --- |
+| US |	ingest.us.signoz.cloud:443 |
+| IN |	ingest.in.signoz.cloud:443 |
+| EU | ingest.eu.signoz.cloud:443 |
+
+In case you encounter an issue where all applications do not get listed in the services section then please refer to the [troubleshooting section](#troubleshooting-your-installation).
+
+---
+
+#### **Send traces via OTel Collector binary**
+
+OTel Collector binary helps to collect logs, hostmetrics, resource and infra attributes. It is recommended to install Otel Collector binary to collect and send traces to SigNoz cloud. You can correlate signals and have rich contextual data through this way.
+
+You can find instructions to install OTel Collector binary [here](https://signoz.io/docs/tutorial/opentelemetry-binary-usage-in-virtual-machine/) in your VM. Once you are done setting up your OTel Collector binary, you can follow the below steps for instrumenting your Java application.
+
+Step 1. Download OTel java binary agent<br></br>
+```bash
+wget https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar
+```
+
+Step 2. Run your application<br></br>
+
+```bash
+java -javaagent:$PWD/opentelemetry-javaagent.jar -jar <myapp>.jar
+```
+
+- `<myapp>` is the name of your application jar file
+- In case you download `opentelemetry-javaagent.jar` file in different directory than that of the project, replace `$PWD` with the path of the otel jar file.
+
+In case you encounter an issue where all applications do not get listed in the services section then please refer to the [troubleshooting section](#troubleshooting-your-installation).
+  
+</TabItem>
+<TabItem value="k8s" label="Kubernetes">
+
+For Java application deployed on Kubernetes, you need to install OTel Collector agent in your k8s infra to collect and send traces to SigNoz Cloud. You can find the instructions to install OTel Collector agent [here](/docs/tutorial/kubernetes-infra-metrics/).
+
+Once you have set up OTel Collector agent, you can proceed with OpenTelemetry java instrumentation by following the below steps:
+
+1. Download otel java binary<br></br>
+
+   ```bash
+   wget https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar
+   ```
+
+2. Run your application<br></br>
+   
+   ```bash
+   java -javaagent:$PWD/opentelemetry-javaagent.jar -jar <myapp>.jar
+   ```
+
+   - `<myapp>` is the name of your application jar file
+   - In case you download `opentelemetry-javaagent.jar` file in different directory than that of the project, replace `$PWD` with the path of the otel jar file.
+
+3. Make sure to dockerise your application along with OpenTelemetry instrumentation.
+
+You can validate if your application is sending traces to SigNoz cloud by following the instructions [here](#validating-instrumentation-by-checking-for-traces).
+
+In case you encounter an issue where all applications do not get listed in the services section then please refer to the [troubleshooting section](#troubleshooting-your-installation).
+  
+</TabItem>
+</Tabs>
+
+## Send Traces to Self-Hosted SigNoz
 
 You can use OpenTelemetry Java to send your traces directly to SigNoz. OpenTelemetry provides a **handy Java JAR agent** that can be attached to any Java 8+ application and dynamically injects bytecode to capture telemetry from a number of popular libraries and frameworks. 
 
 ### Steps to auto-instrument Spring Boot applications for traces
 
-OpenTelemetry Java auto-instrumentation supports collecting telemetry data from a huge number of libraries and frameworks. You can check out the full list [here](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/supported-libraries.md).
+[OpenTelemetry Java auto-instrumentation](https://signoz.io/opentelemetry/java-auto-instrumentation/) supports collecting telemetry data from a huge number of libraries and frameworks. You can check out the full list [here](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/docs/supported-libraries.md).
 
 1. **Download the latest OpenTelemetry Java JAR agent**<br></br>
    Download the latest [Java JAR agent](https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar). You can also use the terminal to get the file using the following command:
@@ -101,7 +200,9 @@ OpenTelemetry Java auto-instrumentation supports collecting telemetry data from 
 
 If you want to try this instrumentation with a sample Spring Boot application, visit this [GitHub repo](https://github.com/SigNoz/spring-petclinic).
 
-### Validating instrumentation by checking for traces
+In case you encounter an issue where all applications do not get listed in the services section then please refer to the [troubleshooting section](#troubleshooting-your-installation).
+
+## Validating instrumentation by checking for traces
 
 With your application running, you can verify that you’ve instrumented your application with OpenTelemetry correctly by confirming that tracing data is being reported to SigNoz.
 
@@ -120,11 +221,11 @@ You might see other dummy applications if you’re using SigNoz for the first ti
     <figcaption><i>Java Application in the list of services being monitored in SigNoz</i></figcaption></figure>
 <br></br>
 
-### Configuring the agent
+## Configuring the agent
 
 The agent is highly configurable. You can check out all the configuration options available [here](https://opentelemetry.io/docs/instrumentation/java/automatic/agent-config/).
 
-### Disabled instrumentations
+## Disabled instrumentations
 
 Some instrumentations can produce too many spans and make traces very noisy. For this reason, the following instrumentations are disabled by default:
 
@@ -133,7 +234,7 @@ Some instrumentations can produce too many spans and make traces very noisy. For
 
 To enable them, add the `otel.instrumentation.<name>.enabled` system property: `-Dotel.instrumentation.jdbc-datasource.enabled=true`
 
-### Manual Instrumentation
+## Manual Instrumentation
 
 For manual instrumentation of Java application, refer to the docs [here](https://opentelemetry.io/docs/instrumentation/java/manual/).
 
@@ -167,7 +268,6 @@ You can also specify environment variables in the following way
 
 ```bash
 java -javaagent:/path/opentelemetry-javaagent.jar \
-    -Dotel.metrics.exporter=none \
     -Dotel.exporter.otlp.endpoint=http://<IP of SigNoz Backend>:4317 \
     -Dotel.resource.attributes=service.name=<app_name> \
     -jar <myapp>.jar

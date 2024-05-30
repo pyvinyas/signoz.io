@@ -1,7 +1,7 @@
 ---
 title: Implementing OpenTelemetry in a Rust application for performance monitoring 
 slug: opentelemetry-rust
-date: 2022-10-11
+date: 2023-10-11
 tags: [OpenTelemetry Instrumentation, Rust]
 authors: [srikanth]
 description: OpenTelemetry can be used to instrument Rust applications in production for performance monitoring. OpenTelemetry provides libraries, APIs, and SDKs to collect telemetry data(logs, metrics, and traces), using which you can monitor and debug your Rust application for...
@@ -32,7 +32,7 @@ Before we demonstrate how to implement the OpenTelemetry libraries, let’s have
 
 ## What is OpenTelemetry?
 
-<a href = "https://opentelemetry.io/" rel="noopener noreferrer nofollow" target="_blank">OpenTelemetry</a> is an open-source vendor-agnostic set of tools, APIs, and SDKs used to instrument applications to create and manage telemetry data(logs, metrics, and traces). It aims to make telemetry data(logs, metrics, and traces) a built-in feature of cloud-native software applications.
+<a href = "https://opentelemetry.io/" rel="noopener noreferrer nofollow" target="_blank">OpenTelemetry</a> is an open-source vendor-agnostic set of tools, APIs, and SDKs used to [instrument applications](https://signoz.io/docs/instrumentation/) to create and manage telemetry data(logs, metrics, and traces). It aims to make telemetry data(logs, metrics, and traces) a built-in feature of cloud-native software applications.
 
 The telemetry data is then sent to an observability tool for storage and visualization.
 
@@ -71,7 +71,7 @@ cd signoz/deploy/
 
 You can visit our documentation for instructions on how to install SigNoz using Docker Swarm and Helm Charts.
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=opentelemetry_rust)
+[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/)
 
 When you are done installing SigNoz, you can access the UI at [http://localhost:3301](http://localhost:3301/application)
 
@@ -176,7 +176,7 @@ In the `Traces` tab of SigNoz, you can analyze the tracing data using filters ba
 
 <br></br>
 
-You can see a complete breakdown of the request with Flamegraphs and Gantt charts. You can click on any span in the spans table to access it.
+You can see a complete breakdown of the request with Flamegraphs and Gantt charts. You can click on any span in the [spans](https://signoz.io/blog/distributed-tracing-span/) table to access it.
 
 <figure data-zoomable align='center'>
     <img src="/img/blog/2022/05/rust_application_flamegraphs.webp" alt="Flamegraphs and Gantt charts in SigNoz dashboard"/>
@@ -214,7 +214,7 @@ cd signoz/deploy/
 
 You can visit our documentation for instructions on how to install SigNoz using Docker Swarm and Helm Charts.
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=opentelemetry_rust)
+[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/)
 
 ---
 

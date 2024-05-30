@@ -7,12 +7,240 @@ description: Send events from your Express application to SigNoz
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 import InstrumentationFAQ from '../shared/instrumentation-faq.md'
+import VersionPin from '../shared/nodejs-version-pin.md'
 
 
 This document contains instructions on how to set up OpenTelemetry instrumentation in your Express applications. OpenTelemetry, also known as OTel for short, is an open source observability framework that can help you generate and collect telemetry data - traces, metrics, and logs from your Express application.
 
+## Requirements
 
-Once the telemetry data is collected, you can configure an exporter to send the data to SigNoz.
+Supported Versions
+
+^4.0.0
+
+## Send traces to SigNoz Cloud
+
+Based on your application environment, you can choose the setup below to send traces to SigNoz Cloud.
+
+<Tabs>
+<TabItem value="vm" label="VM" default>
+
+From VMs, there are two ways to send data to SigNoz Cloud.
+
+- [Send traces directly to SigNoz Cloud](#send-traces-directly-to-signoz-cloud)
+- [Send traces via OTel Collector binary](#send-traces-via-otel-collector-binary) (recommended)
+
+#### **Send traces directly to SigNoz Cloud**
+
+Step 1. Install OpenTelemetry packages
+
+```bash
+npm install --save @opentelemetry/api@^1.6.0                                                                       
+npm install --save @opentelemetry/sdk-node@^0.45.0
+npm install --save @opentelemetry/auto-instrumentations-node@^0.39.4
+npm install --save @opentelemetry/exporter-trace-otlp-http@^0.45.0
+```
+
+Step 2. Create tracing.js file<br></br>
+You need to configure the endpoint for SigNoz cloud in this file. You can find your ingestion key from SigNoz cloud account details sent on your email.
+
+```js
+// tracing.js
+'use strict'
+const process = require('process');
+const opentelemetry = require('@opentelemetry/sdk-node');
+const { getNodeAutoInstrumentations } = require('@opentelemetry/auto-instrumentations-node');
+const { OTLPTraceExporter } = require('@opentelemetry/exporter-trace-otlp-http');
+const { Resource } = require('@opentelemetry/resources');
+const { SemanticResourceAttributes } = require('@opentelemetry/semantic-conventions');
+
+// do not set headers in exporterOptions, the OTel spec recommends setting headers through ENV variables
+// https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/protocol/exporter.md#specifying-headers-via-environment-variables
+
+// highlight-start
+const exporterOptions = {
+  url: 'https://ingest.{region}.signoz.cloud:443/v1/traces'
+}
+// highlight-end
+
+const traceExporter = new OTLPTraceExporter(exporterOptions);
+const sdk = new opentelemetry.NodeSDK({
+  traceExporter,
+  instrumentations: [getNodeAutoInstrumentations()],
+  resource: new Resource({
+    // highlight-next-line
+    [SemanticResourceAttributes.SERVICE_NAME]: 'node_app'
+  })
+});
+
+// initialize the SDK and register with the OpenTelemetry API
+// this enables the API to record telemetry
+sdk.start()
+
+// gracefully shut down the SDK on process exit
+process.on('SIGTERM', () => {
+  sdk.shutdown()
+    .then(() => console.log('Tracing terminated'))
+    .catch((error) => console.log('Error terminating tracing', error))
+    .finally(() => process.exit(0));
+});
+```
+
+Depending on the choice of your region for SigNoz cloud, the ingest endpoint will vary according to this table.
+
+| Region | Endpoint |
+| --- | --- |
+| US |	ingest.us.signoz.cloud:443/v1/traces |
+| IN |	ingest.in.signoz.cloud:443/v1/traces |
+| EU | ingest.eu.signoz.cloud:443/v1/traces |
+
+Step 3. Run the application<br></br>
+Make sure you set the `OTEL_EXPORTER_OTLP_HEADERS` env as follows
+```bash
+OTEL_EXPORTER_OTLP_HEADERS="signoz-access-token=<SIGNOZ_INGESTION_KEY>" node -r ./tracing.js app.js
+```
+
+`SIGNOZ_INGESTION_KEY` is the API token provided by SigNoz. You can find your ingestion key from SigNoz cloud account details sent on your email.
+
+Step 4. You can validate if your application is sending traces to SigNoz cloud [here](#validating-instrumentation-by-checking-for-traces).
+
+In case you encounter an issue where all applications do not get listed in the services section then please refer to the [troubleshooting section](#troubleshooting-your-installation).
+
+---
+#### **Send traces via OTel Collector binary**
+
+OTel Collector binary helps to collect logs, hostmetrics, resource and infra attributes. It is recommended to install Otel Collector binary to collect and send traces to SigNoz cloud. You can correlate signals and have rich contextual data through this way.
+
+:::note
+You can find instructions to install OTel Collector binary [here](https://signoz.io/docs/tutorial/opentelemetry-binary-usage-in-virtual-machine/) in your VM. Once you are done setting up your OTel Collector binary, you can follow the below steps for instrumenting your Javascript application.
+:::
+
+Step 1. Install OpenTelemetry packages
+
+```js
+npm install --save @opentelemetry/api@^1.6.0
+npm install --save @opentelemetry/sdk-node@^0.45.0
+npm install --save @opentelemetry/auto-instrumentations-node@^0.39.4
+npm install --save @opentelemetry/exporter-trace-otlp-http@^0.45.0
+```
+
+Step 2. Create tracing.js file<br></br>
+
+```js
+// tracing.js
+'use strict'
+const process = require('process');
+const opentelemetry = require('@opentelemetry/sdk-node');
+const { getNodeAutoInstrumentations } = require('@opentelemetry/auto-instrumentations-node');
+const { OTLPTraceExporter } = require('@opentelemetry/exporter-trace-otlp-http');
+const { Resource } = require('@opentelemetry/resources');
+const { SemanticResourceAttributes } = require('@opentelemetry/semantic-conventions');
+
+const exporterOptions = {
+  url: process.env.OTEL_EXPORTER_OTLP_ENDPOINT || 'http://localhost:4318/v1/traces',
+}
+
+const traceExporter = new OTLPTraceExporter(exporterOptions);
+const sdk = new opentelemetry.NodeSDK({
+  traceExporter,
+  instrumentations: [getNodeAutoInstrumentations()],
+  resource: new Resource({
+    // highlight-next-line
+    [SemanticResourceAttributes.SERVICE_NAME]: 'node_app'
+  })
+});
+
+// initialize the SDK and register with the OpenTelemetry API
+// this enables the API to record telemetry
+sdk.start()
+
+// gracefully shut down the SDK on process exit
+process.on('SIGTERM', () => {
+  sdk.shutdown()
+    .then(() => console.log('Tracing terminated'))
+    .catch((error) => console.log('Error terminating tracing', error))
+    .finally(() => process.exit(0));
+});
+```
+
+Step 3. Run the application<br></br>
+```bash
+node -r ./tracing.js app.js
+```
+
+Step 4. You can validate if your application is sending traces to SigNoz cloud [here](#validating-instrumentation-by-checking-for-traces).
+
+In case you encounter an issue where all applications do not get listed in the services section then please refer to the [troubleshooting section](#troubleshooting-your-installation).
+
+</TabItem>
+<TabItem value="k8s" label="Kubernetes">
+
+For Javascript application deployed on Kubernetes, you need to install OTel Collector agent in your k8s infra to collect and send traces to SigNoz Cloud. You can find the instructions to install OTel Collector agent [here](/docs/tutorial/kubernetes-infra-metrics/).
+
+Once you have set up OTel Collector agent, you can proceed with OpenTelemetry Javascript instrumentation by following the below steps:
+
+Step 1. Install OpenTelemetry packages
+
+```bash
+npm install --save @opentelemetry/api@^1.6.0
+npm install --save @opentelemetry/sdk-node@^0.45.0
+npm install --save @opentelemetry/auto-instrumentations-node@^0.39.4
+npm install --save @opentelemetry/exporter-trace-otlp-http@^0.45.0
+```
+
+Step 2. Create tracing.js file<br></br>
+
+```js
+// tracing.js
+'use strict'
+const process = require('process');
+const opentelemetry = require('@opentelemetry/sdk-node');
+const { getNodeAutoInstrumentations } = require('@opentelemetry/auto-instrumentations-node');
+const { OTLPTraceExporter } = require('@opentelemetry/exporter-trace-otlp-http');
+const { Resource } = require('@opentelemetry/resources');
+const { SemanticResourceAttributes } = require('@opentelemetry/semantic-conventions');
+
+const exporterOptions = {
+  url: process.env.OTEL_EXPORTER_OTLP_ENDPOINT || 'http://localhost:4318/v1/traces',
+}
+
+const traceExporter = new OTLPTraceExporter(exporterOptions);
+const sdk = new opentelemetry.NodeSDK({
+  traceExporter,
+  instrumentations: [getNodeAutoInstrumentations()],
+  resource: new Resource({
+    // highlight-next-line
+    [SemanticResourceAttributes.SERVICE_NAME]: 'node_app'
+  })
+});
+
+// initialize the SDK and register with the OpenTelemetry API
+// this enables the API to record telemetry
+sdk.start()
+
+// gracefully shut down the SDK on process exit
+process.on('SIGTERM', () => {
+  sdk.shutdown()
+    .then(() => console.log('Tracing terminated'))
+    .catch((error) => console.log('Error terminating tracing', error))
+    .finally(() => process.exit(0));
+});
+```
+
+Step 3. Run the application<br></br>
+```bash
+node -r ./tracing.js app.js
+```
+
+Step 4. You can validate if your application is sending traces to SigNoz cloud [here](#validating-instrumentation-by-checking-for-traces).
+
+In case you encounter an issue where all applications do not get listed in the services section then please refer to the [troubleshooting section](#troubleshooting-your-installation).
+
+</TabItem>
+</Tabs>
+
+
+## Send Traces to Self-Hosted SigNoz
 
 There are three major steps to using OpenTelemetry:
 
@@ -41,14 +269,6 @@ You can use individual auto-instrumentation libraries too for a specific compone
 
 Let's see how to instrument your Express application with OpenTelemetry.
 
-## Requirements
-
-Supported Versions
-
-^4.0.0
-
-## Send Traces Directly to SigNoz
-
 ### Using the all-in-one auto-instrumentation library
 
 The recommended way to instrument your Express application is to use the all-in-one auto-instrumentation library -  `@opentelemetry/auto-instrumentations-node`. It provides a simple way to initialize multiple Nodejs instrumentations.
@@ -73,6 +293,9 @@ Internally, it calls the specific auto-instrumentation library for components us
     `@opentelemetry/auto-instrumentations-node` - This module provides a simple way to initialize multiple Node instrumentations.<br></br>
     
     `@opentelemetry/exporter-trace-otlp-http` - This module provides the exporter to be used with OTLP (`http/json`) compatible receivers.<br></br>
+
+    <VersionPin />
+
     
 2. **Create a `tracing.js` file**<br></br>
   The `tracing.js` file will contain the tracing setup code. Notice, that we have set some environment variables in the code(highlighted). You can update these variables based on your environment.
@@ -106,8 +329,6 @@ Internally, it calls the specific auto-instrumentation library for components us
       // initialize the SDK and register with the OpenTelemetry API
       // this enables the API to record telemetry
       sdk.start()
-      .then(() => console.log('Tracing initialized'))
-      .catch((error) => console.log('Error initializing tracing', error));
       
       // gracefully shut down the SDK on process exit
       process.on('SIGTERM', () => {
@@ -145,6 +366,8 @@ Internally, it calls the specific auto-instrumentation library for components us
   :::note
   If you're running your nodejs application in PM2 cluster mode, it doesn't support node args: [Unitech/pm2#3227](https://github.com/Unitech/pm2/issues/3227). As above sample app instrumentation requires to load `tracing.js` before app load by passing node arg, so nodejs instrumentation doesn't work in PM2 cluster mode. So you need to import `tracing.js` in your main application. The `import ./tracing.js` should be the first line of your application code and initialize it before any other function. Here's the [sample github repo](https://github.com/SigNoz/sample-nodejs-app/tree/init-tracer-main) which shows the implementation.    
   :::    
+
+  In case you encounter an issue where all applications do not get listed in the services section then please refer to the [troubleshooting section](#troubleshooting-your-installation).
 
 ### Validating instrumentation by checking for traces
 

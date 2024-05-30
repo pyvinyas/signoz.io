@@ -8,12 +8,349 @@ description: Send events from your Nestjs application to SigNoz
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 import InstrumentationFAQ from '../shared/instrumentation-faq.md'
+import NestjsPinnedVersions from '../shared/nestjs-version-pin.md'
 
 
 This document contains instructions on how to set up OpenTelemetry instrumentation in your Nestjs applications. OpenTelemetry, also known as OTel for short, is an open source observability framework that can help you generate and collect telemetry data - traces, metrics, and logs from your Nestjs application.
 
+## Requirements
 
-Once the telemetry data is collected, you can configure an exporter to send the data to SigNoz.
+**Supported Versions**
+
+- `>=4.0.0`
+
+## Send traces to SigNoz Cloud
+
+Based on your application environment, you can choose the setup below to send traces to SigNoz Cloud.
+
+<Tabs>
+<TabItem value="vm" label="VM" default>
+
+From VMs, there are two ways to send data to SigNoz Cloud.
+
+- [Send traces directly to SigNoz Cloud](#send-traces-directly-to-signoz-cloud)
+- [Send traces via OTel Collector binary](#send-traces-via-otel-collector-binary) (recommended)
+
+#### **Send traces directly to SigNoz Cloud**
+
+Step 1. Install OpenTelemetry packages
+
+```bash
+npm install --save @opentelemetry/api@^1.6.0                                                                       
+npm install --save @opentelemetry/sdk-node@^0.45.0
+npm install --save @opentelemetry/auto-instrumentations-node@^0.39.4
+npm install --save @opentelemetry/exporter-trace-otlp-http@^0.45.0
+```
+
+Step 2. Create `tracer.ts` file<br></br>
+You need to configure the endpoint for SigNoz cloud in this file.
+
+```ts
+'use strict';
+
+import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
+import { Resource } from '@opentelemetry/resources';
+import * as opentelemetry from '@opentelemetry/sdk-node';
+import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+
+// Configure the SDK to export telemetry data to the console
+// Enable all auto-instrumentations from the meta package
+const exporterOptions = {
+  //highlight-start
+  url: 'https://ingest.{region}.signoz.cloud:443/v1/traces',
+  //highlight-end
+};
+
+const traceExporter = new OTLPTraceExporter(exporterOptions);
+const sdk = new opentelemetry.NodeSDK({
+  traceExporter,
+  instrumentations: [getNodeAutoInstrumentations()],
+  resource: new Resource({
+    [SemanticResourceAttributes.SERVICE_NAME]: '<service_name>',
+  }),
+});
+
+// initialize the SDK and register with the OpenTelemetry API
+// this enables the API to record telemetry
+sdk.start();
+
+// gracefully shut down the SDK on process exit
+process.on('SIGTERM', () => {
+  sdk
+    .shutdown()
+    .then(() => console.log('Tracing terminated'))
+    .catch((error) => console.log('Error terminating tracing', error))
+    .finally(() => process.exit(0));
+});
+
+export default sdk;
+```
+- `<service_name>` : Name of your service.
+
+Depending on the choice of your region for SigNoz cloud, the ingest endpoint will vary according to this table.
+
+| Region | Endpoint |
+| --- | --- |
+| US |	ingest.us.signoz.cloud:443/v1/traces |
+| IN |	ingest.in.signoz.cloud:443/v1/traces |
+| EU | ingest.eu.signoz.cloud:443/v1/traces |
+
+
+
+Step 3. On `main.ts` file or file where your app starts import tracer using below command. 
+
+:::info
+The below import should be the first line in the main file of your application (Ex -> `main.ts`)
+::: 
+    
+```jsx
+const tracer = require('./tracer')
+```
+
+Step 4. Start the tracer<br></br>
+In the `async function boostrap` section of the application code, initialize the tracer as follows: 
+
+```jsx
+const tracer = require('./tracer')
+
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+  // All of your application code and any imports that should leverage
+  // OpenTelemetry automatic instrumentation must go here.
+
+async function bootstrap() {
+    // highlight-start
+    await tracer.start();
+    //highlight-end
+    const app = await NestFactory.create(AppModule);
+    await app.listen(3001);
+  }
+  bootstrap();
+```
+
+Step 5. Run the application
+
+```bash
+OTEL_EXPORTER_OTLP_HEADERS="signoz-access-token=<SIGNOZ_INGESTION_KEY>" nest start
+```
+
+The data captured with OpenTelemetry from your application should start showing on the SigNoz dashboard.
+
+`SIGNOZ_INGESTION_KEY` is the API token provided by SigNoz. You can find your ingestion key from SigNoz cloud account details sent on your email.
+
+Step 6. You can validate if your application is sending traces to SigNoz cloud [here](#validating-instrumentation-by-checking-for-traces).
+
+In case you encounter an issue where all applications do not get listed in the services section then please refer to the [troubleshooting section](#troubleshooting-your-installation).
+
+---
+#### **Send traces via OTel Collector binary**
+
+OTel Collector binary helps to collect logs, hostmetrics, resource and infra attributes. It is recommended to install Otel Collector binary to collect and send traces to SigNoz cloud. You can correlate signals and have rich contextual data through this way.
+
+:::note
+You can find instructions to install OTel Collector binary [here](https://signoz.io/docs/tutorial/opentelemetry-binary-usage-in-virtual-machine/) in your VM. Once you are done setting up your OTel Collector binary, you can follow the below steps for instrumenting your Javascript application.
+:::
+
+Step 1. Install OpenTelemetry packages
+
+```js
+npm install --save @opentelemetry/api@^1.6.0
+npm install --save @opentelemetry/sdk-node@^0.45.0
+npm install --save @opentelemetry/auto-instrumentations-node@^0.39.4
+npm install --save @opentelemetry/exporter-trace-otlp-http@^0.45.0
+```
+
+Step 2. Create `tracer.ts` file<br></br>
+
+```ts
+'use strict';
+
+import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
+import { Resource } from '@opentelemetry/resources';
+import * as opentelemetry from '@opentelemetry/sdk-node';
+import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+
+// Configure the SDK to export telemetry data to the console
+// Enable all auto-instrumentations from the meta package
+const exporterOptions = {
+  //highlight-start
+  url: 'http://localhost:4318/v1/traces',
+  //highlight-end
+};
+
+const traceExporter = new OTLPTraceExporter(exporterOptions);
+const sdk = new opentelemetry.NodeSDK({
+  traceExporter,
+  instrumentations: [getNodeAutoInstrumentations()],
+  resource: new Resource({
+    [SemanticResourceAttributes.SERVICE_NAME]: '<service_name>',
+  }),
+});
+
+// initialize the SDK and register with the OpenTelemetry API
+// this enables the API to record telemetry
+sdk.start();
+
+// gracefully shut down the SDK on process exit
+process.on('SIGTERM', () => {
+  sdk
+    .shutdown()
+    .then(() => console.log('Tracing terminated'))
+    .catch((error) => console.log('Error terminating tracing', error))
+    .finally(() => process.exit(0));
+});
+
+export default sdk;
+```
+- `<service_name>` : Name of your service.
+
+Step 3. On `main.ts` file or file where your app starts import tracer using below command. 
+:::info
+The below import should be the first line in the main file of your application (Ex -> `main.ts`)
+:::
+    
+```jsx
+const tracer = require('./tracer')
+```
+    
+
+Step 4. Start the tracer<br></br>
+In the `async function boostrap` section of the application code, initialize the tracer as follows: 
+
+```jsx
+const tracer = require('./tracer')
+
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+  // All of your application code and any imports that should leverage
+  // OpenTelemetry automatic instrumentation must go here.
+
+async function bootstrap() {
+    // highlight-start
+    await tracer.start();
+    //highlight-end
+    const app = await NestFactory.create(AppModule);
+    await app.listen(3001);
+  }
+  bootstrap();
+```
+
+Step 5. Run the application
+```bash
+  nest start
+```
+
+Step 6. You can validate if your application is sending traces to SigNoz cloud [here](#validating-instrumentation-by-checking-for-traces).
+
+In case you encounter an issue where all applications do not get listed in the services section then please refer to the [troubleshooting section](#troubleshooting-your-installation).
+
+</TabItem>
+<TabItem value="k8s" label="Kubernetes">
+
+For Javascript application deployed on Kubernetes, you need to install OTel Collector agent in your k8s infra to collect and send traces to SigNoz Cloud. You can find the instructions to install OTel Collector agent [here](/docs/tutorial/kubernetes-infra-metrics/).
+
+Once you have set up OTel Collector agent, you can proceed with OpenTelemetry Javascript instrumentation by following the below steps:
+
+Step 1. Install OpenTelemetry packages
+
+```bash
+npm install --save @opentelemetry/api@^1.6.0
+npm install --save @opentelemetry/sdk-node@^0.45.0
+npm install --save @opentelemetry/auto-instrumentations-node@^0.39.4
+npm install --save @opentelemetry/exporter-trace-otlp-http@^0.45.0
+```
+
+Step 2. Create `tracer.ts` file<br></br>
+
+```ts
+'use strict';
+
+import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
+import { Resource } from '@opentelemetry/resources';
+import * as opentelemetry from '@opentelemetry/sdk-node';
+import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+
+// Configure the SDK to export telemetry data to the console
+// Enable all auto-instrumentations from the meta package
+const exporterOptions = {
+  //highlight-start
+  url: 'http://localhost:4318/v1/traces',
+  //highlight-end
+};
+
+const traceExporter = new OTLPTraceExporter(exporterOptions);
+const sdk = new opentelemetry.NodeSDK({
+  traceExporter,
+  instrumentations: [getNodeAutoInstrumentations()],
+  resource: new Resource({
+    [SemanticResourceAttributes.SERVICE_NAME]: '<service_name>',
+  }),
+});
+
+// initialize the SDK and register with the OpenTelemetry API
+// this enables the API to record telemetry
+sdk.start();
+
+// gracefully shut down the SDK on process exit
+process.on('SIGTERM', () => {
+  sdk
+    .shutdown()
+    .then(() => console.log('Tracing terminated'))
+    .catch((error) => console.log('Error terminating tracing', error))
+    .finally(() => process.exit(0));
+});
+
+export default sdk;
+```
+- `<service_name>` : Name of your service.
+
+Step 3. On `main.ts` file or file where your app starts import tracer using below command. 
+:::info
+The below import should be the first line in the main file of your application (Ex -> `main.ts`)
+:::
+    
+```jsx
+const tracer = require('./tracer')
+```
+    
+
+Step 4. Start the tracer<br></br>
+In the `async function boostrap` section of the application code, initialize the tracer as follows: 
+
+```jsx
+const tracer = require('./tracer')
+
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+  // All of your application code and any imports that should leverage
+  // OpenTelemetry automatic instrumentation must go here.
+
+async function bootstrap() {
+    // highlight-start
+    await tracer.start();
+    //highlight-end
+    const app = await NestFactory.create(AppModule);
+    await app.listen(3001);
+  }
+  bootstrap();
+```
+
+Step 5. Run the application
+```bash
+  nest start
+```
+
+Step 6. You can validate if your application is sending traces to SigNoz cloud [here](#validating-instrumentation-by-checking-for-traces).
+
+In case you encounter an issue where all applications do not get listed in the services section then please refer to the [troubleshooting section](#troubleshooting-your-installation).
+
+</TabItem>
+</Tabs>
+
+## Send Traces to Self-Hosted SigNoz
 
 There are three major steps to using OpenTelemetry:
 
@@ -42,14 +379,6 @@ You can use individual auto-instrumentation libraries too for a specific compone
 
 Let's see how to instrument your Nestjs application with OpenTelemetry.
 
-## Requirements
-
-**Supported Versions**
-
-- `>=4.0.0`
-
-## Send Traces Directly to SigNoz
-
 ### Using the all-in-one auto-instrumentation library
 
 The recommended way to instrument your Nestjs application is to use the all-in-one auto-instrumentation library -  `@opentelemetry/auto-instrumentations-node`. It provides a simple way to initialize multiple Nodejs instrumentations.
@@ -67,50 +396,57 @@ Internally, it calls the specific auto-instrumentation library for components us
     npm install --save @opentelemetry/exporter-trace-otlp-http
     ```
 
+    <NestjsPinnedVersions />
+
 2. Create a `tracer.ts` file
     
-    ```jsx
-    'use strict'
-    const process = require('process');
-    //OpenTelemetry
-    const opentelemetry = require('@opentelemetry/sdk-node');
-    const { getNodeAutoInstrumentations } = require('@opentelemetry/auto-instrumentations-node');
-    const { OTLPTraceExporter } = require('@opentelemetry/exporter-trace-otlp-http');
-    const {Resource} = require('@opentelemetry/resources');
-    const {SemanticResourceAttributes} = require('@opentelemetry/semantic-conventions');
-    
-    const exporterOptions = {
-        url: 'http://localhost:4318/v1/traces'
-      }
-    
-    const traceExporter = new OTLPTraceExporter(exporterOptions);
-    const sdk = new opentelemetry.NodeSDK({
-      traceExporter,
-      instrumentations: [getNodeAutoInstrumentations()],
-      resource: new Resource({
-        [SemanticResourceAttributes.SERVICE_NAME]: 'sampleNestjsApplication'
-      })
-      });
-      
-      // initialize the SDK and register with the OpenTelemetry API
-      // this enables the API to record telemetry
-      sdk.start()
-      .then(() => console.log('Tracing initialized'))
-      .catch((error) => console.log('Error initializing tracing', error));
-      
-      // gracefully shut down the SDK on process exit
-      process.on('SIGTERM', () => {
-        sdk.shutdown()
-        .then(() => console.log('Tracing terminated'))
-        .catch((error) => console.log('Error terminating tracing', error))
-        .finally(() => process.exit(0));
-        });
-        
-      module.exports = sdk
-    ```
-    
+  ```ts
+  'use strict';
 
-3. Import the tracer module where your app starts
+  import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
+  import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
+  import { Resource } from '@opentelemetry/resources';
+  import * as opentelemetry from '@opentelemetry/sdk-node';
+  import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+
+  // Configure the SDK to export telemetry data to the console
+  // Enable all auto-instrumentations from the meta package
+  const exporterOptions = {
+    //highlight-start
+    url: 'http://localhost:4318/v1/traces',
+    //highlight-end
+  };
+
+  const traceExporter = new OTLPTraceExporter(exporterOptions);
+  const sdk = new opentelemetry.NodeSDK({
+    traceExporter,
+    instrumentations: [getNodeAutoInstrumentations()],
+    resource: new Resource({
+      [SemanticResourceAttributes.SERVICE_NAME]: '<service_name>',
+    }),
+  });
+
+  // initialize the SDK and register with the OpenTelemetry API
+  // this enables the API to record telemetry
+  sdk.start();
+
+  // gracefully shut down the SDK on process exit
+  process.on('SIGTERM', () => {
+    sdk
+      .shutdown()
+      .then(() => console.log('Tracing terminated'))
+      .catch((error) => console.log('Error terminating tracing', error))
+      .finally(() => process.exit(0));
+  });
+
+  export default sdk;
+    ```
+  - `<service_name>` : Name of your service. 
+
+3. On `main.ts` file or file where your app starts import tracer using below command. 
+:::info
+The below import should be the first line in the main file of your application (Ex -> `main.ts`)
+:::
     
     ```jsx
     const tracer = require('./tracer')
@@ -137,8 +473,13 @@ Internally, it calls the specific auto-instrumentation library for components us
       }
       bootstrap();
     ```
-
-    You can now run your Nestjs application. The data captured with OpenTelemetry from your application should start showing on the SigNoz dashboard.
+5. Run the application
+  ```bash
+    nest start
+  ```
+     The data captured with OpenTelemetry from your application should start showing on the SigNoz dashboard.
+  
+  In case you encounter an issue where all applications do not get listed in the services section then please refer to the [troubleshooting section](#troubleshooting-your-installation).
     
 
 ### Validating instrumentation by checking for traces

@@ -1,28 +1,31 @@
 import React from "react";
 import Card from "./Card";
 
+const FAQs = [
+  {
+    body: "You can self-host and manage the community edition yourself. You should choose SigNoz Cloud if you don’t want to worry about managing the SigNoz cluster. There are some exclusive features like unlimited dashboards for logs & traces and SSO & SAML support, which come with SigNoz cloud offering. Our team also offers support on the initial configuration of dashboards & alerts and advises on best practices for setting up your observability stack in the SigNoz cloud offering.",
+    title: "What is the difference between SigNoz cloud(Teams) and community edition?"
+
+  },
+  {
+    body: "If a timeseries sends data every 30s, then it will generate 2 samples per min. So, if you have 10,000 time series sending data every 30s then you will be sending 20,000 samples per min to SigNoz. This will be around 864 mn samples per month and would cost 86.4 USD/month",
+    title: "How are number of samples calculated for metrics pricing?",
+  },
+  {
+    body: "Yes, feel free to reach out to us on <a mailto='hello@signoz.io'>hello@signoz.io</a> if you need a dedicated support plan or paid support for setting up your initial SigNoz setup",
+    title: "Do you offer enterprise support plans?",
+  },
+  {
+    body: "Teams which need enterprise support or features like SSO, Audit logs, etc. may find our enterprise plans valuable",
+    title: "Who should use Enterprise plans?",
+  },
+];
+
 const FAQBody = () => (
   <>
-    <Card
-      body="If a timeseries sends data every 30s, then it will generate 2 samples per min. So, if you have 10,000 time series sending data every 30s then you will be sending 20,000 samples per min to SigNoz. This will be around 864 mn samples per month and would cost 86.4 USD/month
-      "
-      title="How are number of samples calculated for metrics pricing?"
-    />
-    <Card
-      body="Yes, feel free to reach out to us on <a mailto='hello@signoz.io'>hello@signoz.io</a> if you need a dedicated support plan or paid support for setting up your initial SigNoz setup"
-      title="Do you offer enterprise support plans?"
-    />
-    <Card
-      body="The framework behind deciding which features will be in open source and which will be in enterprise plan is that if a feature is needed by an individual developer or small team running the product it should be in open source.
-      <br/><br/>
-      If a capability is uniquely valuable to enterprise requirements and are especially important when used in production and at scale like SSO, LDAP/SAML support,  audit logs, etc. would likely be in an enterprise plan.
-      Read more on our thoughts on pricing <a href='https://signoz.notion.site/Our-Thoughts-on-Pricing-73f5e6939c1f42be905fe937b4107dad'>here</a> "
-      title="What type of features will be there in paid plans?"
-    />
-    <Card
-      body="Teams which need enterprise support or features like SSO, Audit logs, etc. may find our enterprise plans valuable"
-      title="Who should use Enterprise plans?"
-    />
+    {FAQs.map((faq, idx) => (
+      <Card body={faq.body} title={faq.title} key={`${idx}${faq.title}`} />
+    ))}
   </>
 );
 

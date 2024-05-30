@@ -6,7 +6,7 @@ tags: [OpenTelemetry, Distributed Tracing]
 authors: nitin
 description: OpenTelemetry is a set of tools, APIs, and SDKs to generate telemetry signals. The OpenTelemetry architecture has several main components that comes together to create an instrumentation layer for all kinds of telemetry signals....
 image: /img/blog/2023/02/opentelemetry_architecture_cover-min.jpg
-hide_table_of_contents: true
+hide_table_of_contents: false
 keywords:
   - opentelemetry
   - opentelemetry architecture
@@ -31,7 +31,7 @@ But before that, let us have a brief overview of OpenTelemetry.
 
 <a href = "https://opentelemetry.io/" rel="noopener noreferrer nofollow" target="_blank" >OpenTelemetry</a> is an open-source observability framework that aims to standardize the generation, collection, and management of telemetry data(Logs, metrics, and traces). It is incubated under Cloud Native Computing Foundation(<a href = "https://www.cncf.io/" rel="noopener noreferrer nofollow" target="_blank" >Cloud Native Computing Foundation</a>), the same foundation which incubated Kubernetes.
 
-OpenTelemetry follows a <a href = "https://opentelemetry.io/docs/reference/specification/" rel="noopener noreferrer nofollow" target="_blank" >specification-driven</a> development and provides client libraries to instrument applications in most programming languages. Once you have instrumented with OpenTelemetry, you should be able to collect various telemetry signals like logs, metrics, and traces from it.
+OpenTelemetry follows a <a href = "https://opentelemetry.io/docs/specs/otel/" rel="noopener noreferrer nofollow" target="_blank" >specification-driven</a> development and provides client libraries to instrument applications in most programming languages. Once you have instrumented with OpenTelemetry, you should be able to collect various telemetry signals like logs, metrics, and traces from it.
 
 ## What are OpenTelemetry Signals?
 
@@ -40,12 +40,11 @@ OpenTelemetry specification is organized into distinct types of telemetry, which
 OpenTelemetry provides a way to **merge the three signals into a single cohesive data** so that debugging issues becomes very easy. For e.g, if you look at metrics on a chart, you can find the corresponding logs or find the trace associated with that metric instance if you have instrumented your application with OpenTelemetry client libraries.
 
 <figure data-zoomable align='center'>
-    <img src="/img/blog/2022/07/o11y-net-trans.png" alt="Telemetry signals are correlated"/>
+    <img src="/img/blog/2022/07/o11y-net-trans.webp" alt="Telemetry signals are correlated"/>
     <figcaption><i>Telemetry signals are correlated to give maximum contextual insights for troubleshooting issues.</i></figcaption>
 </figure>
 
 <br></br>
-
 
 ## Design Concepts:
 
@@ -67,14 +66,13 @@ The context object is a key-value store associated with an execution context, su
 
 ### Propagators:
 
-In order for distributed tracing to work, the trace context must be shared by every service that participates in the transaction. Propagators accomplish this by serializing and deserializing the context object, allowing the signals to follow their transactions across network requests.
+In order for distributed tracing to work, the [trace context](https://signoz.io/blog/context-propagation-in-distributed-tracing/) must be shared by every service that participates in the transaction. Propagators accomplish this by serializing and deserializing the context object, allowing the signals to follow their transactions across network requests.
 
-Hopefully, you must be comfortable with the basic concepts now.  Let's try to understand the design of OpenTelemetry from a client perspective.
+Hopefully, you must be comfortable with the basic concepts now. Let's try to understand the design of OpenTelemetry from a client perspective.
 
 ## Client Side Architecture :
 
 An application is instrumented with OpenTelemetry by installing a collection of software libraries: the API, the SDK (software development kit), SDK plug-ins, and library instrumentation. This set of libraries is referred to as the OpenTelemetry client.
-
 
 <figure data-zoomable align='center'>
     <img src="/img/blog/2023/02/otel_client_side_architecture.webp" alt="OpenTelemetry client-side Architecture"/>
@@ -85,7 +83,7 @@ An application is instrumented with OpenTelemetry by installing a collection of 
 
 As you can see from the diagram above, there are two key concepts to understand -
 
-the API  & the SDK.
+the API & the SDK.
 
 ### The OpenTelemetry API
 
@@ -95,9 +93,9 @@ take a direct dependency on.
 
 ### The OpenTelemetry SDK
 
-**The SDK** is a complete language library that provides implementations of the API.  The SDK implements the OpenTelemetry API by providing a plug-in framework. When an application starts, an implementation can be loaded by registering a provider for each signal. 
+**The SDK** is a complete language library that provides implementations of the API. The SDK implements the OpenTelemetry API by providing a plug-in framework. When an application starts, an implementation can be loaded by registering a provider for each signal.
 
-The providers become the receivers of all API calls. When no providers are loaded, the API defaults to a no-op provider. This makes OpenTelemetry instrumentation safe to include in shared libraries. If the application does not use OpenTelemetry, the API calls simply become no-ops and do not incur any overhead.  
+The providers become the receivers of all API calls. When no providers are loaded, the API defaults to a no-op provider. This makes OpenTelemetry instrumentation safe to include in shared libraries. If the application does not use OpenTelemetry, the API calls simply become no-ops and do not incur any overhead.
 
 OpenTelemetry provides SDK implementations for major languages, as shown below.
 
@@ -125,7 +123,7 @@ As per the figure, you see three key components:
 
 The applications uses an agent ( Auto instrumentation ) to produce telemetry data using zero code instrumentation.
 
-**On the server side:**  
+**On the server side:**
 
 - All the signal data is sent to a **Collector** component which is considered to be the heart of the system. It is optional, but any matured and complex implementation will need an OpenTelemetry collector component in the architecture.
 
@@ -133,9 +131,9 @@ The applications uses an agent ( Auto instrumentation ) to produce telemetry dat
 
 - Application telemetry data can now be exported to **multiple backends**, depending on the requirements. Also, note that you can plug in various out-of-box **exporters** for any target backend.
 
-For example - *Jaeger backend accepts both jaeger format as well as OTLP format.* 
+For example - _Jaeger backend accepts both jaeger format as well as OTLP format._
 
-*But Zipkin needs data in Zipkin format, so Zipkin exporter translates the trace data from OTLP to Zipkin native format. In the diagram , you can also see that we can configure the exporters directly from the agent library without routing the traces via collector, but such implementations are for simplified requirements only.*
+_But Zipkin needs data in Zipkin format, so Zipkin exporter translates the trace data from OTLP to Zipkin native format. In the diagram , you can also see that we can configure the exporters directly from the agent library without routing the traces via collector, but such implementations are for simplified requirements only._
 
 ## Understanding OpenTelemetry Collectors :
 
@@ -169,7 +167,7 @@ OpenTelemetry Collector also provides a feature known as pipelines . For a given
 
 Pipeline defines a path the data follows in the Collector, starting from reception, then further processing or modification, and finally exiting the Collector via exporters. You can chain the processors, and they will get executed in the order of their definition. Everything is configurable.
 
-In the example above, we can configure multiple receivers to feed the data to a set of processors and then export the data to multiple exporters. 
+In the example above, we can configure multiple receivers to feed the data to a set of processors and then export the data to multiple exporters.
 
 With this, we have come to conclude our topic on the Architecture of OpenTelemetry.
 
@@ -195,7 +193,7 @@ cd signoz/deploy/
 
 You can visit its documentation for instructions on how to install SigNoz using Docker Swarm and Helm Charts.
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=opentelemetry_architecture)
+[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/)
 
 If you liked what you read, then check out our GitHub repo 👇
 

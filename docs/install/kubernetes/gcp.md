@@ -12,10 +12,13 @@ import VerifyInstallation from '../../shared/k8s-verify-installation.md'
 import K8sHotrod from '../../shared/k8s-hotrod.md'
 import NextSteps from '../../shared/next-steps.md'
 import StorageClass from '../../shared/k8s-storageclass.md'
+import SigNozCloud from '../../shared/signoz-cloud.md'
+
+<SigNozCloud />
 
 First, we need to set up a Kubernetes cluster (see the [official GCP documentation][1]
 for more info).
- 
+
 <K8sComponents />
 
 ## Prerequisites
@@ -32,7 +35,7 @@ an overview of the parameters that can be configured during installation under
 
 ### GKE Standard
 
-In GKE Standard, you can either install with default configurations or make
+In GKE Standard, you can either install with the default configuration or make
 use of the following `override-values.yaml`:
 
 ```yaml

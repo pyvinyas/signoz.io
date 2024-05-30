@@ -6,6 +6,8 @@
  */
 
 @import url("https://fonts.googleapis.com/css?family=Space+Grotesk:regular,medium,semi-bold,bold&subset=latin,latin-ext");
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap');
 
 .heroBanner {
   padding: 4rem 0;
@@ -38,11 +40,11 @@
   align-items: center;
   padding: 1rem 0;
   width: 100%;
-  background-color: #1a1a1a;
+  background-color: var(--ifm-color-black-dark);
 }
 
 .used_by .tagline {
-  color: #828282;
+  color: var(--ifm-color-gray-lightest);
   font-size: 0.875rem;
   margin-bottom: 2rem;
   text-align: center;
@@ -63,8 +65,9 @@
 }
 
 .featureImage {
-  height: 200px;
-  width: 200px;
+  height: 7rem;
+  width: 7rem;
+  margin-bottom: 0.5rem;
 }
 
 .configSnippet {

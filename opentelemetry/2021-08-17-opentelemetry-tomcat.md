@@ -8,7 +8,7 @@ author_title: SigNoz Team
 author_url: https://github.com/ankit01-oss
 author_image_url: https://avatars.githubusercontent.com/u/83692067?v=4
 description: In this article learn how to monitor Tomcat Java applications using OpenTelemetry and SigNoz. It is very easy to get started...
-image: /img/blog/2021/08/opentelemetry_tomcat_cover-min.png
+image: /img/blog/2021/08/opentelemetry_tomcat_cover-min.jpeg
 keywords:
   - opentelemetry
   - opentelemetry tomcat
@@ -24,7 +24,7 @@ OpenTelemetry is a vendor-agnostic instrumentation library. In this article, let
 
 <!--truncate-->
 
-![Cover image](/img/blog/2021/08/opentelemetry_tomcat_cover-min.png)
+![Cover image](/img/blog/2021/08/opentelemetry_tomcat_cover-min.webp)
 
 After capturing telemetry data with OpenTelemetry, we will use SigNoz, an open-source full-stack observability tool, to visualize the data.
 
@@ -48,7 +48,7 @@ cd signoz/deploy/
 
 For detailed instructions, you can visit our documentation.
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=opentelemetry_tomcat)
+[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/)
 
 We have installed SigNoz on a Ubuntu VM in Azure cloud. You can access SigNoz UI at `http://IP_of_SigNoz:3301`. You can access SigNoz UI at port: 3301 of any host that you choose. In case of local host just use: `http://localhost:3301`
 
@@ -56,13 +56,14 @@ The application list shown in the dashboard is from a sample app called HOT R.O.
 
 import Screenshot from "@theme/Screenshot"
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
    alt="SigNoz dashboard showing application list"
-   height={500}
-   src="/img/blog/2021/08/openetelemetry_tomcat_signoz_dashboard.png"
-   title="SigNoz Dashboard"
-   width={700}
-/>
+   src="/img/blog/2021/08/openetelemetry_tomcat_signoz_dashboard.webp"
+   />
+<figcaption><i>SigNoz Dashboard</i></figcaption>
+   </figure>
+<br/>
 
 ## Installing sample Tomcat Java application
 
@@ -72,7 +73,7 @@ Make sure you have Tomcat installed on your system. If not, then you can downloa
 ### Steps to install sample Tomcat Java application:
 
 - Download an example app packaged as a war file provided at Apache Tomcat official website - <a href="https://tomcat.apache.org/tomcat-7.0-doc/appdev/sample/" rel="noopener noreferrer nofollow" target="_blank">Sample Tomcat app</a>
-  ![Sample applicationlink](/img/blog/2021/08/opentelemetry_tomcat_sample_app-min.png)
+  ![Sample applicationlink](/img/blog/2021/08/opentelemetry_tomcat_sample_app-min.webp)
 
 - The easiest way to run the sample app is to move it to webapps folder inside the Tomcat directory.
 
@@ -90,7 +91,7 @@ Make sure you have Tomcat installed on your system. If not, then you can downloa
 
 - Check if the sample app is running at: http://localhost:8080/sample/ . The sample should open up like below.
 
-  ![Sample app running](/img/blog/2021/08/opentelemetry_tomcat_sample_app-min.png)
+  ![Sample app running](/img/blog/2021/08/opentelemetry_tomcat_sample_app-min.webp)
   <!--- Sample Tomcat app --->
 
   By clicking on the links shown on the page, you can see that it makes dummy calls to a page as part of the Hello World application.
@@ -134,13 +135,14 @@ OpenTelemetry has a very handy Java JAR agent that can be attached to any Java 8
 
    Below you can find your `Tomcat-SigNoz` app in the list of applications being monitored.
 
-   <Screenshot
+   <figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
       alt="Tomcat shows up in the list of applications monitored by SigNoz"
-      height={500}
-      src="/img/blog/2021/08/opentelemetry_tomcat_ui.png"
-      title="Tomcat-SigNoz shows up in the list of applications monitored by SigNoz"
-      width={700}
-   />
+      src="/img/blog/2021/08/opentelemetry_tomcat_ui.webp"
+      />
+<figcaption><i>Tomcat-SigNoz shows up in the list of applications monitored by SigNoz</i></figcaption>
+     </figure>
+<br/>
 
 ## Metrics and Traces of the Tomcat Java Application
 
@@ -152,40 +154,46 @@ SigNoz comes with out of box RED metrics charts and visualization. RED metrics s
 - Error rate of requests
 - Duration taken by requests
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
    alt="SigNoz UI showing charts"
-   height={500}
-   src="/img/blog/2021/08/opentelemetry_tomcat_signoz_charts.png"
-   title="SigNoz UI showing popular RED metrics of application performance"
-   width={700}
-/>
+   
+   src="/img/blog/2021/08/opentelemetry_tomcat_signoz_charts.webp"
+   />
+<figcaption><i>SigNoz UI showing popular RED metrics of application performance</i></figcaption>
+   </figure>
+<br/>
 
 You can then choose a particular timestamp where latency is high to drill down to traces around that timestamp.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
    alt="View of traces at a particular timestamp"
-   height={500}
-   src="/img/blog/2021/08/opentelemetry_regex.png"
-   title="View of traces at a particular timestamp"
-   width={700}
-/>
+   
+   src="/img/blog/2021/08/opentelemetry_regex.webp"
+   />
+<figcaption><i>View of traces at a particular timestamp</i></figcaption>
+   </figure>
+<br/>
 
 You can use flamegraphs to identify the issue causing the latency.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
    alt="Flamegraphs"
-   height={500}
-   src="/img/blog/2021/08/opentelemetry_tomcat_flamegraphs.png"
-   title="Flamegraphs used for distributed tracing in SigNoz dashboard"
-   width={700}
-/>
+   
+   src="/img/blog/2021/08/opentelemetry_tomcat_flamegraphs.webp"
+   />
+<figcaption><i>Flamegraphs used for distributed tracing in SigNoz dashboard</i></figcaption>
+   </figure>
+<br/>
 
 ## Conclusion
 
 OpenTelemetry makes it very convenient to instrument your Spring Boot application. You can then use an open-source APM tool like SigNoz to analyze the performance of your app. As SigNoz offers a full-stack observability tool, you don't have to use multiple tools for your monitoring needs.
 
 You can try out SigNoz by visiting its GitHub repo 👇<br></br>
-[![SigNoz GitHub repo](/img/blog/common/signoz_github.png)](https://github.com/SigNoz/signoz)
+[![SigNoz GitHub repo](/img/blog/common/signoz_github.webp)](https://github.com/SigNoz/signoz)
 
 If you are someone who understands more from video, then you can watch the tutorial on how to monitor your Tomcat Java Application with OpenTelemetry and SigNoz below👇<br></br>
 

@@ -1,7 +1,7 @@
 ---
 id: send-metrics
-title: Send Metrics to SigNoz
-sidebar_label: Send Metrics
+title: Send Metrics to SigNoz (Self Hosted)
+sidebar_label: Send Metrics (Self Hosted)
 ---
 
 import GetHelp from '../shared/get-help.md'
@@ -17,7 +17,7 @@ There are two ways in which you can send metrics to SigNoz using OpenTelemetry:
 - [Enable a Prometheus Receiver](#enable-a-prometheus-receiver)
 - [Find Metrics available in SigNoz](#find-metrics-available-in-signoz)
   - [Metrics from Hostmetrics receiver](#metrics-from-hostmetrics-receiver)
-- [Related Videos to Metrics](#related-videos)
+- [Related Videos](#related-videos)
 - [Get Help](#get-help)
 
 Depending on your choice, use one of the sections below.
@@ -104,19 +104,20 @@ To enable a new OpenTelemetry receiver, follow the steps below:
 
 ## Enable a Prometheus Receiver
 
-SigNoz supports all the exporters that are listed on the [Exporters and Integrations][4]
+SigNoz supports all the exporters that are listed on the
+[Exporters and Integrations](https://prometheus.io/docs/instrumenting/exporters/)
 page of the Prometheus documentation. If you have a running Prometheus instance,
 and you expose metrics in Prometheus, then you can scrape them in SigNoz by
 configuring Prometheus receivers in the `receivers.prometheus.config.scrape_configs`
-section of the `deploy/docker/clickhouse-setup/otel-collector-metrics-config.yaml` file.
+section of the `deploy/docker/clickhouse-setup/otel-collector-config.yaml` file.
 
 To enable a Prometheus receiver, follow the steps below:
-1. Open the `deploy/docker/clickhouse-setup/otel-collector-metrics-config.yaml`
+1. Open the `deploy/docker/clickhouse-setup/otel-collector-config.yaml`
   file in a plain-text editor.
-2. Enable a new Prometheus receiver. Depending on your use case, there are two
-  ways in which you can enable a new Prometheus exporter:
-    - **By creating a new job**: The following example shows how you can enable
-      a Prometheus receiver by creating a new job named `my-new-job`:
+2. Enable a new Prometheus receiver. Depending on your use case, there
+  are two ways in which you can enable a new Prometheus exporter:
+    - **By creating a new job**: The following example shows how you can
+      enable a Prometheus receiver by creating a new job named `my-new-job`:
       ```yaml {15-18}
       receivers:
         otlp:
@@ -190,20 +191,20 @@ You can follow the below steps:
 1. [Install ClickHouse client][7]
 
 2. Connect to the ClickHouse container
-  ```bash
-  docker exec -it clickhouse-setup_clickhouse_1 bash
-  ```
+  ````bash
+  docker exec -it signoz-clickhouse bash
+  ````
 3. Run the clickhouse-client command to connect to the database service
-  ```bash
+  ````bash
   clickhouse client --host <SigNoz IP>  --port 9000
-  ```
+  ````
 4. Run the query to list metrics
-  ```SQL
-  select DISTINCT(JSONExtractString(time_series.labels,'__name__')) as metrics from signoz_metrics.time_series
-  ```
+  ````bash
+  select DISTINCT(JSONExtractString(time_series_v2.labels,'__name__')) as metrics from signoz_metrics.distributed_time_series_v2
+  ````
 5. If needed, dump in a csv file and parse it locally
-  ```SQL
-  select DISTINCT(labels) from signoz_metrics.time_series INTO OUTFILE 'output.csv' 
+  ```bash
+  select DISTINCT(labels) from signoz_metrics.distributed_time_series_v2 INTO OUTFILE 'output.csv'
   ```
 
 You can use this metrics to plot in the [Dashboard][8] section.
@@ -213,25 +214,25 @@ You can use this metrics to plot in the [Dashboard][8] section.
 Metrics which are available if hostmetrics is enabled. This is enabled in
 SigNoz default installation.
 
-| Metrics | Description |
-| --- | ----- |
-| `system_filesystem_usage_total` | |
-| `system_network_dropped_total` | |
-| `system_cpu_time_total` | |
-| `system_disk_merged_total` | |
-| `system_disk_io_time_total` | |
-| `system_disk_operations_total` | |
-| `system_network_errors_total` | |
-| `system_network_io_total` | |
-| `system_disk_weighted_io_time_total` | |
-| `system_network_packets_total` | |
-| `system_disk_operation_time_total` | |
-| `system_cpu_load_average_5m` | |
-| `system_memory_usage_total` | |
-| `system_disk_pending_operations_total` | |
-| `system_disk_io_total` | |
-| `system_cpu_load_average_15m` | |
-| `system_cpu_load_average_1m` | |
+| Metrics                                | Description |
+| -------------------------------------- | ----------- |
+| `system_filesystem_usage_total`        |             |
+| `system_network_dropped_total`         |             |
+| `system_cpu_time_total`                |             |
+| `system_disk_merged_total`             |             |
+| `system_disk_io_time_total`            |             |
+| `system_disk_operations_total`         |             |
+| `system_network_errors_total`          |             |
+| `system_network_io_total`              |             |
+| `system_disk_weighted_io_time_total`   |             |
+| `system_network_packets_total`         |             |
+| `system_disk_operation_time_total`     |             |
+| `system_cpu_load_average_5m`           |             |
+| `system_memory_usage_total`            |             |
+| `system_disk_pending_operations_total` |             |
+| `system_disk_io_total`                 |             |
+| `system_cpu_load_average_15m`          |             |
+| `system_cpu_load_average_1m`           |             |
 
 ## Related Videos
 

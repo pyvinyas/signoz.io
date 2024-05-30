@@ -1,7 +1,7 @@
 ---
-title: Choosing an OpenTelemetry backend - Things to keep in mind
+title: Choosing an OpenTelemetry backend - Things To Keep In Mind
 slug: opentelemetry-backend
-date: 2022-12-04
+date: 2024-05-16
 tags: [OpenTelemetry]
 authors: [ankit_anand]
 description: Confused about choosing a backend analysis tool for OpenTelemetry? Here’s a guide on what factors you should consider while choosing a backend to store and visualize the telemetry data collected by OpenTelemetry...
@@ -25,7 +25,7 @@ keywords:
 
 import SignUps from '../docs/shared/sign-ups.md'
 
-OpenTelemetry is a Cloud Native Computing Foundation(<a href = "https://www.cncf.io/" rel="noopener noreferrer nofollow" target="_blank">CNCF</a>) incubating project aimed at standardizing the way we instrument applications for generating telemetry data(logs, metrics, and traces). However, OpenTelemetry does not provide storage and visualization for the collected telemetry data. And that’s where an OpenTelemetry backend is needed.
+OpenTelemetry is a Cloud Native Computing Foundation(<a href = "https://www.cncf.io/" rel="noopener noreferrer nofollow" target="_blank">CNCF</a>) incubating project aimed at standardizing the way we [instrument applications](https://signoz.io/docs/instrumentation/) for generating telemetry data(logs, metrics, and traces). However, OpenTelemetry does not provide storage and visualization for the collected telemetry data. And that’s where an OpenTelemetry backend is needed.
 
 <!--truncate-->
 
@@ -53,7 +53,7 @@ The specification is designed into distinct types of telemetry known as signals.
 - Metrics, and
 - Traces
 
-Together these three signals form the three pillars of observability. OpenTelemetry is the bedrock for setting up an observability framework. The application code is instrumented using OpenTelemetry client libraries, which enables the generation of telemetry data. Once the telemetry data is generated and collected, OpenTelemetry needs a backend analysis tool to which it can send the data.
+Together these three signals form the [three pillars of observability](https://signoz.io/blog/three-pillars-of-observability/). OpenTelemetry is the bedrock for setting up an observability framework. The application code is instrumented using OpenTelemetry client libraries, which enables the generation of telemetry data. Once the telemetry data is generated and collected, OpenTelemetry needs a backend analysis tool to which it can send the data.
 
 ## Why does OpenTelemetry need a backend?
 
@@ -106,7 +106,7 @@ Below is the list of factors that should be taken into consideration before sele
   | http.target | The full request target as passed in an HTTP request line or equivalent | /blog/june/ |
   | http.scheme | The URI scheme that identifies the used protocol | http; https |
         
-  An OpenTelemetry backend should have native support to store data with OpenTelemetry semantic conventions. Existing observability vendors usually transform the data collected using OpenTelemetry semantic conventions into their propriety formats. But OpenTelemetry has a <a href = "https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/semantic_conventions/README.md" rel="noopener noreferrer nofollow" target="_blank">huge list</a> of semantic conventions which might not be fully utilized in such scenarios.
+  An OpenTelemetry backend should have native support to store data with OpenTelemetry semantic conventions. Existing observability vendors usually transform the data collected using OpenTelemetry semantic conventions into their propriety formats. But OpenTelemetry has a <a href = "https://github.com/open-telemetry/semantic-conventions" rel="noopener noreferrer nofollow" target="_blank">huge list</a> of semantic conventions which might not be fully utilized in such scenarios.
     
 - **Should allow aggregates on trace data**<br></br>
   Running aggregates on trace data enables you to create service-centric views. OpenTelemetry also provides you the ability to create custom tags. Combined with custom tags and aggregated trace data gives you a powerful magnifying glass to surface performance issues in your services. For example, you can get the error rate and 99th percentile latency of `customer_type: gold` or `deployment_version: v2` or `external_call: paypal`
@@ -117,6 +117,107 @@ Below is the list of factors that should be taken into consideration before sele
   But having an open source OpenTelemetry backend can enable you to have a full-stack open source solution. Open source solutions have more flexibility, and if you self-host, you don’t need to worry about things like data privacy.
 
 Nearly all observability vendors now claim to be 100% compatible with OpenTelemetry. But it’s difficult to move away from legacy systems. A solution built natively for OpenTelemetry can be a good choice for an OpenTelemetry backend. And that’s where [SigNoz](https://signoz.io/) comes into the picture.
+
+## Top OpenTelemetry Backends
+Choosing the right backend for OpenTelemetry is important for efficiently collecting, storing, and analyzing your observability data. Below are some of the top OpenTelemetry backends to consider:
+
+### SigNoz
+
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2023/10/signoz_tracing_flamegraphs.webp" alt="SigNoz dashboard showing trace data"/>
+    <figcaption><i>Spans of a trace visualized with the help of flamegraphs and gantt charts in SigNoz dashboard</i></figcaption>
+</figure>
+<br/>
+
+[SigNoz](https://signoz.io/) is a full-stack open-source APM tool built to support OpenTelemetry natively. It serves as a backend for storing telemetry data (logs, metrics, and traces), provides metrics monitoring, distributed tracing, and logs management under a single pane of glass, and leverages the power of ClickHouse, a columnar database, for highly effective log analytics.
+
+SigNoz is a very good choice for distributed tracing based on OpenTelemetry. With SigNoz, you can do the following:
+
+- Visualise Traces, Metrics, and Logs in a [single pane of glass](https://signoz.io/blog/single-pane-of-glass-monitoring/)
+- Monitor application metrics like p99 latency, error rates for your services, external API calls, and individual endpoints.
+- Find the root cause of the problem by going to the exact traces that are causing the problem and see detailed [flamegraphs](https://signoz.io/blog/flamegraphs/) of individual request traces.
+- Run aggregates on trace data to get business-relevant metrics
+- Filter and query logs, build dashboards and alerts based on attributes in logs
+- Monitor infrastructure metrics such as CPU utilization or memory usage
+- Record exceptions automatically in Python, Java, Ruby, and Javascript
+- Easy to set alerts with DIY query builder
+
+### Jaeger
+
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2023/10/jaeger.webp" alt="Jaeger dashboard showing trace data"/>
+    <figcaption><i>Jaeger UI</i></figcaption>
+</figure>
+<br/>
+
+**[Jaeger](https://www.jaegertracing.io/)** is an open-source distributed tracing tool developed at Uber, later donated to the Cloud Native Computing Foundation(CNCF). It is used to monitor and troubleshoot applications based on microservices architecture.
+
+Jaeger is used to store, analyze, and visualize tracing data but it does not support logs and metrics.
+
+Some of its key features include:
+
+- Distributed context propagation
+- Distributed transaction monitoring
+- Root cause analysis
+- Service dependency analysis
+- Performance/latency optimization
+
+Jaeger supports two popular open-source NoSQL databases as trace storage backends: Cassandra and Elasticsearch. Jaeger's UI can be used to see individual traces. You can also filter the traces based on service, duration, and tags. However, Jaeger's UI is a bit limited for users looking to do more sophisticated data analysis.
+
+### Prometheus
+
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2023/10/prometheus_dashboard.webp" alt="Grafana dashboard showing metrics data from Prometheus"/>
+    <figcaption><i>Grafana used for visualization with Prometheus (Source: Prometheus website)</i></figcaption>
+</figure>
+<br/>
+
+Prometheus is an open-source metrics monitoring and alerting toolkit designed to monitor the performance and health of various components in a distributed system. It excels at collecting time-series data, making it particularly effective for tracking metrics and trends over time. Prometheus employs a pull-based model, where it scrapes data from instrumented applications and services at regular intervals.
+
+If you want to do just [OpenTelemetry metrics](https://signoz.io/blog/introduction-to-opentelemetry-metrics/), then Prometheus can be a good choice.
+
+Some of the key features of Prometheus are:
+
+- Multi-dimensional data model
+- A query language called PromQL to query the metrics data collected
+- Pull model data collection over HTTP
+- An alert manager to handle alerts
+
+The only challenge with Prometheus is its basic visualization layer. You must combine it with a tool like Grafana to get better metrics visualization.
+
+### Honeycomb
+
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2023/10/honeycomb-distributed-tracing.webp" alt="Honeycomb tracing dashboard"/>
+    <figcaption><i>Honeycomb distributed tracing dashboard (Source: Honeycomb website)</i></figcaption>
+</figure>
+<br/>
+
+[Honeycomb](https://www.honeycomb.io/) is a full-stack cloud-based observability tool with support for events, logs, and traces. Honeycomb seamlessly integrates with OpenTelemetry, allowing for the collection of telemetry data for storage, visualization, and analysis.
+
+Some of the key features of the Honeycomb include:
+
+- Quickly diagnose bottlenecks and optimize performance with a waterfall view to understand how your system is processing service requests
+- Advanced querying capabilities and visualization tools
+- Full-text search over trace spans and toggle to collapse and expand sections of trace waterfalls
+- Provides Honeycomb beelines to automatically define key pieces of trace data like serviceName, name, timestamp, duration, traceID, etc.
+
+### Grafana Tempo
+
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2023/10/dt_tools_grafana_tempo.webp" alt="Grafana Tempo dashboard"/>
+    <figcaption><i>Grafana Tempo dashboard</i></figcaption>
+</figure>
+<br/>
+
+**[Grafana Tempo](https://grafana.com/docs/tempo/latest/)** is an open-source distributed tracing backend. It is designed to be a scalable and efficient solution for storing and querying traces. It integrates seamlessly with OpenTelemetry to collect and analyze trace data, and with Grafana for visualization of trace data.
+
+Some of the key features of Grafana Tempo include:
+
+- compatible with popular open-source tracing protocols like Zipkin and Jaeger
+- Supported by Grafana as a separate data source for trace visualizations
+- Available as self-hosted and cloud version
+- Provides service graph
 
 ## Trying out an OpenTelemetry Backend
 
@@ -134,7 +235,7 @@ cd signoz/deploy/
 
 You can visit our documentation for instructions on how to install SigNoz using Docker Swarm and Helm Charts.
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=opentelemetry_backend)
+[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/)
 
 Once your application is instrumented with OpenTelemetry client libraries, the data can be sent to the SigNoz backend by specifying a specific port on the machine where SigNoz is installed.
 
@@ -159,7 +260,7 @@ The tracing signal from OpenTelemetry instrumentation helps you correlate events
 SigNoz also lets you run aggregates on your tracing data. Running aggregates on tracing data enables you to create service-centric views, providing insights to debug applications at the service level. It also makes sense for engineering teams as they own specific microservices.
 
 <figure data-zoomable align='center'>
-    <img src="/img/blog/2022/06/otel_backend_running_aggregates.png" alt="Running aggregates on trace data"/>
+    <img src="/img/blog/2022/06/otel_backend_running_aggregates.webp" alt="Running aggregates on trace data"/>
     <figcaption><i>Running aggregates on your tracing data enables you to create service-centric views</i></figcaption>
 </figure>
 

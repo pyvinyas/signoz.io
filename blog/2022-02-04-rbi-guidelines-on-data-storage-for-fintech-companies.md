@@ -1,12 +1,12 @@
 ---
 title: Challenges in Choosing an APM tool for Fintech Companies in India due to RBI Guidelines
 slug: challenges-in-choosing-a-monitoring-tool-for-fintech-companies-in-india
-date: 2022-02-04
+date: 2023-04-24
 tags: [APM, Security]
 authors: [ankit_anand]
 description: RBI has issued guidelines on storing payment system data of Indian users for fintech companies in India. All user data needs to be stored in India. This also applies to all third-party tools they use, including monitoring tools..
-image: /img/blog/2022/02/rbi_guideline_cover_pic.webp
-hide_table_of_contents: true
+image: /img/blog/2023/04/challenges_in_choosing_APM_tool_cover-min.jpg
+hide_table_of_contents: false
 keywords:
   - application performance monitoring
   - apm tool
@@ -15,6 +15,7 @@ keywords:
   - data storage
   - signoz
 ---
+
 <head>
   <link rel="canonical" href="https://signoz.io/blog/challenges-in-choosing-a-monitoring-tool-for-fintech-companies-in-india/"/>
 </head>
@@ -23,7 +24,7 @@ As the growth lead of an open-source APM tool, I keep interacting with developer
 
 <!--truncate-->
 
-![Cover Image](/img/blog/2022/02/rbi_guideline_cover_pic.webp)
+![Cover Image](/img/blog/2023/04/challenges_in_choosing_APM_tool_cover.webp)
 
 The reason?
 
@@ -31,7 +32,7 @@ The reason?
 
 But what does RBI has to do with the monitoring tools of fintech firms? I was intrigued, so I dug further.
 
-The fintech space in India has been one of the leading forerunners in the story of driving innovation for new-age India. And, it is not just payments, fintech companies are innovating in every space such as credit, loan, insurance, investment, etc. Moreover, while nascent, Crypto is growing rapidly among tech-savvy young Indians. In a nutshell, all financial products and services are available at the fingertips of Indian customers.
+The fintech space in India has been one of the leading forerunners in the story of driving innovation for new-age India. And, it is not just payments, fintech companies are innovating in every space such as credit, loan, insurance, investment, etc. In a nutshell, all financial products and services are available at the fingertips of Indian customers.
 
 The user demand for simplified financial services has also skyrocketed, leading to many players in the market who are vying for customers' trust to deal with their money. Apps in this domain need to take care of critical user flows where any technical issue can **cause mistrust and anxiety**.
 
@@ -55,13 +56,15 @@ In April 2018, the Reserve Bank of India issued a guideline ordering all payment
 
 import Screenshot from "@theme/Screenshot"
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
    alt="RBI guidelines on the storage of payment system data - a snapshot"
-   height={500}
+   
    src="/img/blog/2022/02/rbi_notification.webp"
-   title="RBI guidelines on the storage of payment system data"
-   width={700}
-/>
+   />
+<figcaption><i>RBI guidelines on the storage of payment system data</i></figcaption>
+</figure>
+<br/>
 
 ### Entities that come under the guideline
 
@@ -72,7 +75,6 @@ The circular is applicable to the following entities:
 - System participants, service providers, intermediaries, payment gateways, third-party vendors, and other entities, whatever name they are referred to in the payment ecosystem
 
 > Note: The subtle mention of `other entities whatever name they are referred`. A fintech company should be careful in the selection of its third-party services.
-> 
 
 :::caution
 💡 What happens in case of non-compliance?<br></br>
@@ -87,23 +89,24 @@ And according to the circular, the following data needs to be stored in India:
 
 - End-to-end transaction details
 - Data related to payment or settlement transaction that is gathered/transmitted/processed as part of the payment message/instruction. This might include:
-    - Customer Data (name, mobile number, email, Aadhar number, PAN number, etc. as applicable)
-    - Payment sensitive data (customer and beneficiary account details)
-    - Payment credentials (OTP, pin, passwords, etc.)
-    - Transaction data (originating and destination system information, transaction reference, timestamp, amount, etc.)
+  - Customer Data (name, mobile number, email, Aadhar number, PAN number, etc. as applicable)
+  - Payment sensitive data (customer and beneficiary account details)
+  - Payment credentials (OTP, pin, passwords, etc.)
+  - Transaction data (originating and destination system information, transaction reference, timestamp, amount, etc.)
 
-:::note    
+:::note  
 The list can get updated by RBI, and the definition of payment systems data might evolve.
 :::
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
    alt="Snippet of original notification from RBI. Their wordings indicate that they can identify and classify new data under this purview"
-   height={500}
+   
    src="/img/blog/2022/02/user_data.webp"
-   title="Snippet of original notification from RBI. Their wordings indicate that they can identify and classify new data under this purview"
-   width={700}
-/> 
-    
+   />
+<figcaption><i>Snippet of original notification from RBI. Their wordings indicate that they can identify and classify new data under this purview</i></figcaption>
+</figure>
+<br/>
 
 ### About System Audit Report
 
@@ -142,13 +145,15 @@ An APM tool has become critical to ensure the health of your application. But be
 
 DataDog, a popular APM tool, gives you the option to select between four data centers with no options for India, as shown in the pic below.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
    alt="DataDog has no data centers in India"
-   height={380}
+   
    src="/img/blog/2022/02/datadog_choose_region.webp"
-   title="DataDog has no data centers in India"
-   width={550}
-/>
+   />
+<figcaption><i>DataDog has no data centers in India</i></figcaption>
+</figure>
+<br/>
 
 Can you still send data outside? Is removing all PII data an option?
 
@@ -176,7 +181,6 @@ Most of these tools solve a particular use-case, e.g., Prometheus is used for me
    width={700}
 />](https://www.reddit.com/r/devops/comments/o56csn/why_use_datadog_when_it_is_so_expensive/)
 
-
 [<Screenshot
    alt="Complexity of maintaining popular open-source tools increases with scale"
    height={500}
@@ -201,4 +205,4 @@ You can try out SigNoz by visiting its GitHub repo 👇
 
 If you have any questions or need any help in setting things up, join our slack community and ping us in`#support` channel.
 
-[![SigNoz Slack community](/img/blog/common/join_slack_cta.png)](https://signoz.io/slack)
+[![SigNoz Slack community](/img/blog/common/join_slack_cta.webp)](https://signoz.io/slack)

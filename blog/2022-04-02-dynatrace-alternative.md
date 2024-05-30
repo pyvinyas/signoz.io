@@ -1,7 +1,7 @@
 ---
 title: SigNoz - Open-source alternative to Dynatrace
 slug: dynatrace-alternative
-date: 2023-02-08
+date: 2023-10-15
 tags: [SigNoz, Open Source]
 authors: ankit_anand
 description: If you're looking for an open-source alternative to Dynatrace, then you're at the right place. SigNoz is a perfect open-source alternative to Dynatrace. SigNoz provides a unified UI for metrics, traces and logs with advanced tagging and filtering capabilities...
@@ -18,7 +18,7 @@ keywords:
   <link rel="canonical" href="https://signoz.io/blog/dynatrace-alternative/"/>
 </head>
 
-import SignUps from '../docs/shared/sign-ups.md'
+import GetStartedSigNoz from '../docs/shared/get-started-signoz.md';
 
 If you're looking for an open-source alternative to Dynatrace, then you're at the right place. SigNoz is a perfect open-source alternative to Dynatrace. SigNoz provides a unified UI for metrics, traces and logs with advanced tagging and filtering capabilities.
 
@@ -32,24 +32,22 @@ Dynatrace is a great SaaS tool when it comes to application performance monitori
 
 Some of the challenges with tools like Dynatrace includes:
 
-<!-- - It is cloud-only, so not suitable for companies that have concerns with sending data outside their infra -->
 - For any small feature, you are dependent on their roadmap. We think this is an unnecessary restriction for a product which developers use. A product used by developers should be extendible.
 
-- Too costly. Thier full-stack monitoring plan starts at $74/month for 8GB per host. Pricing plans of enterprise tools can also sometimes leave you in a lurch with frequent changes.
+- Too costly. Thier full-stack monitoring plan starts at $0.08 per hour for 8GB per host. Host-based pricing does not make sense for microservices-based application.
 
-A relatively newer concept in the field of application performance monitoring is observability. Making a system observable is the pursuit of achieving a state of proactiveness to solve unknown issues. Logs, metrics, and traces are usually considered the three pillars of observability.
 
 Some of the key features of good observability tools are:
 
-- Logs, metrics, and traces under a single pane of glass
+- Logs, metrics, and traces under a [single pane of glass](https://signoz.io/blog/single-pane-of-glass-monitoring/)
 - Out of the box application metrics
 - Way to go from metrics to traces to find why some issues are happening
-- Seamless flow between metrics, traces & logs — the three pillars of observability
+- Seamless flow between metrics, traces & logs — the [three pillars of observability](https://signoz.io/blog/three-pillars-of-observability/)
 - Filtering of traces based on different tags and filters
 - Ability to set dynamic thresholds for alerts
 - Transparency in pricing
 
-<SignUps />
+[Compare SigNoz with Dynatrace.](https://signoz.io/comparisons/signoz-vs-dynatrace/)
 
 
 ## Why choose an open-Source alternative to Dynatrace?
@@ -80,16 +78,14 @@ And that's where SigNoz shines. It is very simple to get started, supports multi
 
 Some of our key features which makes SigNoz vastly superior to current open-source products and a great alternative to Dynatrace are:
 
-- Metrics, traces, and logs under a single pane of glass
-- Correlation of telemetry signals
-- Out of the box application metrics
-- Seamless flow between metrics & traces
-- Filtering based on tags
-- Custom aggregates on filtered traces
-- Detailed Flamegraphs & Gantt charts
-- Infrastructure dashboards
-- Exceptions monitoring
-- Transparent usage Data
+- Visualise Traces, Metrics, and Logs in a single pane of glass
+- Monitor application metrics like p99 latency, error rates for your services, external API calls, and individual endpoints.
+- Find the root cause of the problem by going to the exact traces which are causing the problem and see detailed [flamegraphs](https://signoz.io/blog/flamegraphs/) of individual request traces.
+- Run aggregates on trace data to get business-relevant metrics
+- Filter and query logs, build dashboards and alerts based on attributes in logs
+- Monitor infrastructure metrics such as CPU utilization or memory usage
+- Record exceptions automatically in Python, Java, Ruby, and Javascript
+- Easy to set alerts with DIY query builder
 
 ### Out of box application metrics
 
@@ -100,12 +96,12 @@ Get p90, p99 latencies, RPS, Error rates, and top endpoints for a service out of
     <figcaption><i>SigNoz UI showing application overview metrics like RPS, 50th/90th/99th Percentile latencies, and Error Rate</i></figcaption>
 </figure>
 
-### Seamless flow between metrics & traces
+### Seamless flow between application metrics & traces
 
-Found something suspicious in a metric, just click that point in the graph & get details of traces that may be causing the issues. Seamless, Intuitive.
+Found something suspicious in application metrics, just click that point in the graph & get details of traces that may be causing the issues. Seamless, Intuitive.
 
 <figure data-zoomable align='center'>
-    <img src="/img/blog/2022/04/metrics_to_traces.webp" alt="Seamless flow between metrics and traces"/>
+    <img src="/img/blog/common/application_metrics_to_traces.webp" alt="Seamless flow between metrics and traces"/>
     <figcaption><i>Move from metrics to traces at any point of time which needs more analysis</i></figcaption>
 </figure>
 
@@ -113,13 +109,15 @@ Found something suspicious in a metric, just click that point in the graph & get
 
 For example, you can find latency experienced by customers who have customer_type set as `premium`.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Filtering based on tags"
-    height={500}
+    
     src="/img/blog/2021/08/tags_based_filtering_signoz-min.webp"
-    title="Filter traces for a specific user group using tags"
-    width={700}
-/> -->
+    />
+<figcaption><i>Filter traces for a specific user group using tags"
+    </figure>
+<br/> -->
 
 ### Advanced filters on trace data
 
@@ -128,7 +126,7 @@ Under our traces tab, you can analyze the traces data using filters based on tag
 Using tags, you can find latency experienced by customers who have customer_type set as `premium`.
 
 <figure data-zoomable align='center'>
-    <img src="/img/blog/2022/04/powerful_filters_on_traces_data.webp" alt="Filters on trace data"/>
+    <img src="/img/blog/common/filters_trace_data.webp" alt="Filters on trace data"/>
     <figcaption><i>Use advanced filters to analyze your trace data</i></figcaption>
 </figure>
 
@@ -137,7 +135,7 @@ Using tags, you can find latency experienced by customers who have customer_type
 Create custom metrics from filtered traces to find metrics of any type of request. Want to find p99 latency of customer_type: premium who are seeing status_code:400. Just set the filters, and you have the graph.
 
 <figure data-zoomable align='center'>
-    <img src="/img/blog/2022/04/custom_aggregates_filtered_data.webp" alt="Custom aggregates on filtered traces"/>
+    <img src="/img/blog/common/traces_custom_aggregates.webp" alt="Custom aggregates on filtered traces"/>
     <figcaption><i>Find custom aggregates on filtered traces</i></figcaption>
 </figure>
 
@@ -166,7 +164,7 @@ SigNoz provides Logs management with advanced log query builder. You can also mo
 You can drill down details of how many events is each application sending or at what granularity so that you can adjust your sampling rate as needed and not get a shock at the end of the month (case with SaaS vendors many times)
 
 <figure data-zoomable align='center'>
-    <img src="/img/blog/2022/04/transparent_usage_data.webp" alt="Transparent usage data"/>
+    <img src="/img/blog/common/signoz_usage_explorer.webp" alt="Transparent usage data"/>
     <figcaption><i>SigNoz provides usage explorer so that you are always informed about your usage</i></figcaption>
 </figure>
 
@@ -182,37 +180,17 @@ Some of the key advantages of using OpenTelemetry are:
 - Backed by technology giants like Google, Microsoft, and other big cloud vendors.
 - No vendor lock-in. Freedom to switch to new backend analysis tools by using relevant exporters
 
-
 ## Getting started with SigNoz
 
-You can get started with SigNoz using just three commands at your terminal.
-
-```jsx
-git clone -b main https://github.com/SigNoz/signoz.git
-cd signoz/deploy/
-./install.sh
-```
-<br></br>
-
-For detailed instructions, you can visit our documentation.
-
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=dynatrace_alternative)
-
-If you liked what you read, then check out our GitHub repo 👇
-
-[![SigNoz GitHub repo](/img/blog/common/signoz_github.webp)](https://github.com/SigNoz/signoz)
-
-Our slack community is a great place to get your queries solved instantly and get community support for SigNoz. Link to join 👇
-
-[SigNoz slack community](https://signoz.io/slack)
+<GetStartedSigNoz />
 
 ---
 
 #### **Related Content**
 
-**[DataDog Alternative](https://signoz.io/blog/open-source-datadog-alternative/)**<br></br>
-**[New Relic Alternative](https://signoz.io/blog/open-source-newrelic-alternative/)**<br></br>
-**[AppDynamics Alternative](https://signoz.io/blog/appdynamics-alternative/)**<br></br>
+**[Dynatrace vs New Relic](https://signoz.io/comparisons/dynatrace-vs-newrelic/)**<br></br>
+**[SigNoz vs Dynatrace](https://signoz.io/comparisons/signoz-vs-dynatrace/)**<br></br>
+**[Top 9 Dynatrace Alternatives](https://signoz.io/blog/dynatrace-alternatives/)**<br></br>
 
 
 

@@ -6,7 +6,7 @@ tags: [OpenTelemetry, Distributed Tracing]
 authors: adnan
 description: In this tutorial, you will learn how to instrument your nginx web servers with OpenTelemetry. Steps to instrument nginx web server with OpenTelemetry....
 image: /img/blog/2023/02/opentelemetry_nginx_cover-min.jpg
-hide_table_of_contents: true
+hide_table_of_contents: false
 keywords:
   - opentelemetry
   - opentelemetry nginx
@@ -49,7 +49,7 @@ At the end of the tutorial, setup will be able to track the request from nginx t
 
 We will install SigNoz by [deploying it with Helm charts](https://signoz.io/docs/install/kubernetes/others/).
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=opentelemetry_nginx)
+[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/)
 
 Pre-requisites:
 
@@ -90,8 +90,6 @@ signoz-frontend-57bb96c66f-ch22x                    1/1     Running   0         
 ```
 
 Now let's see how to build the nginx container image with the OpenTelemetry module.
-
-If you are interested in how to create a kubernetes cluster with a multipass and k3s, checkout this [blog post](https://qdnqn.com/deploying-k3s-with-multipass-and-cloud-init/).
 
 ## Building nginx with the OpenTelemetry module
 
@@ -175,7 +173,7 @@ After deploying both nginx and go backend we can inspect the traces directly on 
 Since Kubernetes is using multipass and k3s for the running cluster itself additional tweak is needed to expose the SigNoz frontend.
 
 ```jsx
-➜  ~ multipass list 
+➜  ~ multipass list
 Name                    State             IPv4             Image
 k3s                     Running           10.117.145.50    Ubuntu 22.04 LTS
                                           172.17.0.1
@@ -201,7 +199,7 @@ As you can see on the SigNoz UI we have two services:
 So SigNoz was able to detect those services great. Let's hit the endpoint to get entry 1.
 
 ```jsx
-➜  ~ multipass list     
+➜  ~ multipass list
 Name                    State             IPv4             Image
 k3s                     Running           10.117.145.50    Ubuntu 22.04 LTS
                                           172.17.0.1
@@ -240,7 +238,7 @@ If we’re hitting the right endpoint, the `http_status_code` shows 200.
 
 <br></br>
 
-Traces give you a detailed view of how requests are performing across each 
+Traces give you a detailed view of how requests are performing across each
 
 As you can see you can easily navigate and find your traces in the UI to inspect the outcome of the steps you have an interest in.
 
@@ -254,6 +252,6 @@ Also, there is no vendor lock-in. You can send the collected data to an observab
 
 **Related Posts**
 
-**[SigNoz - An open source OpenTelemetry APM](https://signoz.io/blog/opentelemetry-apm/)** 
+**[SigNoz - An open source OpenTelemetry APM](https://signoz.io/blog/opentelemetry-apm/)**
 
 **[OpenTelemetry Collector Complete Guide](https://signoz.io/blog/opentelemetry-collector-complete-guide/)**

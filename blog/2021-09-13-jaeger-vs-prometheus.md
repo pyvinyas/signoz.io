@@ -1,11 +1,11 @@
 ---
-title: Jaeger vs Prometheus - Key differences, use-cases and alternatives
+title: Jaeger vs Prometheus - Side by Side Comparison [Updated for 2024]
 slug: jaeger-vs-prometheus
-date: 2021-09-13
+date: 2023-10-18
 tags: [Tools Comparison, Jaeger, Prometheus]
 authors: ankit_anand
 description: Both Jaeger and Prometheus are popular open-source application performance monitoring tools. While Jaeger is an end-to-end distributed tracing tool, Prometheus is used as a time-series database for monitoring metrics. Let's dive in to explore their key features and differences.
-image: /img/blog/2021/09/jaeger_vs_prometheus_cover-min.webp
+image: /img/blog/2023/10/jaeger-vs-prometheus-cover-min.jpg
 keywords:
   - jaeger
   - prometheus
@@ -18,11 +18,13 @@ keywords:
   <link rel="canonical" href="https://signoz.io/blog/jaeger-vs-prometheus/"/>
 </head>
 
+import GetStartedSigNoz from '../docs/shared/get-started-signoz.md';
+
 Both Jaeger and Prometheus are popular open-source application performance monitoring tools. While Jaeger is an end-to-end distributed tracing tool, Prometheus is used as a time-series database for monitoring metrics. Let's dive in to explore their key features and differences.
 
 <!--truncate-->
 
-![Cover Image](/img/blog/2021/09/jaeger_vs_prometheus_cover-min.webp)
+![Cover Image](/img/blog/2023/10/jaeger-vs-prometheus-cover.webp)
 
 
 Application performance monitoring is the key to keep your system's health in check. In today's digital economy, no business can afford to have failed or delayed completion of user requests. Latencies of a few milliseconds can lead to lost business opportunities running in millions.
@@ -41,7 +43,7 @@ Jaeger was originally built by teams at Uber and then open-sourced. It is used f
   One of the challenges of distributed systems is to have a standard format for passing context across process boundaries and services. Jaeger provides client libraries that support code instrumentation in multiple languages to propagate context across services
 
 - **Distributed transaction monitoring**<br></br>
-  Jaeger comes with a web UI written in Javascript. The dashboard can be used to see traces and spans across services.
+  Jaeger comes with a web UI written in Javascript. The dashboard can be used to see traces and [spans](https://signoz.io/blog/distributed-tracing-span/) across services.
 
 - **Root Cause Analysis**<br></br>
   Using traces you can drill down to services causing latency in particular user request.
@@ -54,13 +56,15 @@ Jaeger was originally built by teams at Uber and then open-sourced. It is used f
 
 import Screenshot from "@theme/Screenshot"
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Jaeger UI"
-    height={500}
+    
     src="/img/blog/2021/08/jaeger_ui-min.webp"
-    title="Jaeger UI showing services and corresponding traces"
-    width={700}
-/>
+    />
+<figcaption><i>Jaeger UI showing services and corresponding traces</i></figcaption>
+    </figure>
+<br/>
 
 ## Key features of Prometheus
 Prometheus was initially developed at SoundCloud in 2012 before being released as an open-source project. It got accepted into the CloudNative Computing Foundation in 2016 and was the second project to graduate from the foundation, following Kubernetes.
@@ -84,16 +88,66 @@ Prometheus enables you to capture time-series data as metrics. These metrics can
 - **Graphing and dashboarding support**<br></br>
   For visualization, Prometheus has three options: Prometheus Expression Browser, Grafana, and Prometheus Console Templates. Grafana is a popular data visualization tool, and it supports querying Prometheus. Although it requires time and effort to set up custom Prometheus metrics with Grafana, it can give you some solid visualization.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Prometheus metrics visualized with Grafana"
-    height={500}
+    
     src="/img/blog/2021/09/jaeger_vs_prometheus_grafana dashboard-min.webp"
-    title="Prometheus metrics data visualization using Grafana"
-    width={700}
-/>
+    />
+<figcaption><i>Prometheus metrics data visualization using Grafana</i></figcaption>
+    </figure>
+<br/>
 
 ## Comparing Jaeger and Prometheus
-From the description above, you might have a good idea about the differences between Jaeger and Prometheus. The major difference between the two is that Jaeger is specifically meant for distributed tracing, and Prometheus is specifically meant for monitoring metrics.
+
+### Getting Started
+
+**Prometheus:**<br></br>
+Easily installed in clusters using Helm charts or precompiled binaries from GitHub releases.
+
+**Jaeger:**<br></br>
+Requires a more intricate setup involving clients, agents, and collectors. Application code may need refactoring to generate traces.
+
+
+### Features
+
+**Prometheus:**
+- Uses a multi-dimensional data model with time series identified by key-value pairs.
+- Offers a flexible query language, PromQL, for data analysis.
+- Provides a pull-based data collection model, scraping metrics from HTTP endpoints.
+- Integrates with Grafana for enhanced data visualization.
+
+**Jaeger:**
+- Focuses on distributed context propagation, allowing for the tracking of user requests across different services.
+- Offers a web UI for visualizing traces, spans, and service dependencies.
+- Enables root cause analysis by drilling down into services causing latency.
+- Supports performance and latency optimization.
+
+### Ease of Use
+**Prometheus:**
+- Relatively straightforward to set up for basic monitoring.
+- Offers limited visualization capabilities in its native web UI. However, integration with Grafana provides richer insights.
+
+**Jaeger:**
+- More complex due to its architecture involving multiple components.
+- Provides a comprehensive web UI with trace data visualization and service dependency diagrams out of the box.
+
+### Datastore
+
+**Prometheus:**<br></br>
+Uses a local on-disk time-series database without support for pluggable databases.
+
+**Jaeger:**<br></br>
+Offers pluggable storage backends, including Cassandra and Elasticsearch.
+
+
+### When to Use Which?
+While both tools are invaluable in the monitoring space, their applications differ. Prometheus excels at monitoring metrics like resource usage, making it ideal for tracking system health. Jaeger, on the other hand, is tailored for distributed tracing, making it perfect for understanding user requests across microservices.
+
+For a holistic monitoring framework, integrating both tools can be beneficial. Prometheus can detect infrastructure anomalies, while Jaeger can help pinpoint application-level issues.
+
+
+<!-- From the description above, you might have a good idea about the differences between Jaeger and Prometheus. The major difference between the two is that Jaeger is specifically meant for distributed tracing, and Prometheus is specifically meant for monitoring metrics.
 
 Summarizing the key differences between Jaeger and Prometheus:
 
@@ -105,42 +159,40 @@ Summarizing the key differences between Jaeger and Prometheus:
 
 - Jaeger supports pluggable storage backends for trace data. Cassandra and Elasticsearch are the primarily supported storage backends by Jaeger. Prometheus includes a local on-disk time-series database, but it does not provide any pluggable database.
 
-- Jaeger has a scalable architecture by design. On the other hand, Prometheus is designed for a single machine. It **cannot be scaled horizontally.**
+- Jaeger has a scalable architecture by design. On the other hand, Prometheus is designed for a single machine. It **cannot be scaled horizontally.** -->
 
-The issue with both tools is that they are limited to particular use-cases of distributed tracing and metrics monitoring. But for a robust monitoring framework, you need both metrics and traces. Engineering teams need to resolve issues fast, and they need access to a unified view of metrics and traces. That's where [SigNoz](https://signoz.io/?utm_source=blog&utm_medium=jaeger_vs_prometheus) comes into the picture.
+
+
+The issue with both tools is that they are limited to particular use-cases of distributed tracing and metrics monitoring. But for a robust monitoring framework, you need both metrics and traces. Engineering teams need to resolve issues fast, and they need access to a unified view of metrics and traces. That's where [SigNoz](https://signoz.io/) comes into the picture.
 
 ## Alternative to Jaeger and Prometheus - SigNoz
-SigNoz is a full-stack open-source application performance monitoring and observability tool which can be used in place of Jaeger and Prometheus. It provides advanced distributed tracing capabilities along with metrics under a single dashboard.
+SigNoz is a full-stack open-source application performance monitoring and observability tool which can be used in place of Jaeger and Prometheus. It provides logs, metrics, and traces under a single pane of glass.
 
-SigNoz is built to support OpenTelemetry natively. [OpenTelemetry](https://opentelemetry.io/) is becoming the world standard for generating and managing telemetry data (Logs, metrics and traces). It provides a fast OLAP datastore, ClickHouse as the storage backend.
-
-<Screenshot
-    alt="Architecture of SigNoz with OpenTelemetry and ClickHouse"
-    height={500}
-    src="/img/blog/2021/09/SigNoz_architecture_clickhouse.webp"
-    title="Architecture of SigNoz with ClickHouse as storage backend and OpenTelemetry for code instrumentatiion"
-    width={700}
-/>
+SigNoz is built to support OpenTelemetry natively. <a href = "https://opentelemetry.io/" rel="noopener noreferrer nofollow" target="_blank" ><b>OpenTelemetry</b></a> is becoming the world standard for generating and managing telemetry data (Logs, metrics and traces). It provides a fast OLAP datastore, ClickHouse as the storage backend.
 
 SigNoz comes with out of box visualization of things like RED metrics.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="SigNoz UI showing the popular RED metrics"
-    height={500}
+    
     src="/img/blog/common/signoz_charts_application_metrics.webp"
-    title="SigNoz UI showing application overview metrics like RPS, 50th/90th/99th Percentile latencies, and Error Rate"
-    width={700}
-/>
+    />
+<figcaption><i>SigNoz UI showing application overview metrics like RPS, 50th/90th/99th Percentile latencies, and Error Rate</i></figcaption>
+    </figure>
+<br/>
 
-You can also use flamegraphs to visualize spans from your trace data. All of this comes out of the box with SigNoz.
+You can also use [flamegraphs](https://signoz.io/blog/flamegraphs/) to visualize spans from your trace data. All of this comes out of the box with SigNoz.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Flamegraphs used to visualize spans of distributed tracing in SigNoz UI"
-    height={500}
+    
     src="/img/blog/common/signoz_flamegraphs.webp"
-    title="Flamegraphs showing exact duration taken by each spans - a concept of distributed tracing"
-    width={700}
-/>
+    />
+<figcaption><i>Flamegraphs showing exact duration taken by each spans - a concept of distributed tracing</i></figcaption>
+    </figure>
+<br/>
 
 
 Some of the things SigNoz can help you track:
@@ -154,22 +206,7 @@ Some of the things SigNoz can help you track:
 
 ## Getting started with SigNoz
 
-You can get started with SigNoz using just three commands at your terminal.
-
-```jsx
-git clone -b main https://github.com/SigNoz/signoz.git
-cd signoz/deploy/
-./install.sh
-```
-<br></br>
-
-For detailed instructions, you can visit our documentation.
-
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=jaeger_vs_prometheus)
-
-You can check out SigNoz's GitHub repo here 👇
-
-[![SigNoz GitHub repo](/img/blog/common/signoz_github.webp)](https://github.com/SigNoz/signoz)
+<GetStartedSigNoz />
 
 ___
 

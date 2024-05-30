@@ -1,17 +1,21 @@
 ---
 title: DataDog vs Cloudwatch - Which tool to choose?
 slug: datadog-vs-cloudwatch
-date: 2021-10-12
+date: 2024-02-05
 tags: [Tools Comparison]
 authors: ankit_anand
 description: DataDog is a paid SaaS tool that provides a range of products for monitoring applications and tech infrastructure. While CloudWatch is an Amazon Web Services product that monitors applications running on AWS infrastructure and using AWS services....
-image: /img/blog/2021/10/datadog_vs_cloudwatch_cover-min.webp
+image: /img/blog/2023/03/datadog_vs_cloudwatch_cover.webp
 keywords:
   - datadog
   - cloudwatch
   - apm tools
   - application performance monitoring
 ---
+
+import GetStartedSigNoz from '../docs/shared/get-started-signoz.md';
+
+
 <head>
   <title>DataDog vs Cloudwatch | Which tool to choose?</title>
   <link rel="canonical" href="https://signoz.io/blog/datadog-vs-cloudwatch/"/>
@@ -21,9 +25,25 @@ DataDog is a paid SaaS tool that provides a range of products for monitoring app
 
 <!--truncate-->
 
-![Cover Image](/img/blog/2021/10/datadog_vs_cloudwatch_cover-min.webp)
+![Cover Image](/img/blog/2023/03/datadog_vs_cloudwatch_cover-min.jpg)
 
 import Screenshot from "@theme/Screenshot"
+
+
+## Datadog vs Cloudwatch: Use-Case Based Decision Guide
+
+Which tool to use for the following use-cases:
+
+- **Cloudwatch** for Basic cloud monitoring and management in AWS
+- **Datadog** for Advanced analytics and log management
+- **Datadog** for Multi-cloud and hybrid cloud environments
+- **Datadog** for Real-time application performance monitoring (APM)
+- **Cloudwatch** for Cost management for AWS services
+- **Datadog** for Third-party integrations
+
+
+Before we take a deep dive into key differences between each tool, let's have a brief overview of each tool.
+
 
 ## What is CloudWatch?
 
@@ -54,13 +74,11 @@ Differences between DataDog and CloudWatch can be summarized below:
 - **Feature set**<br></br>
   DataDog is an enterprise-level monitoring tool that offers a gamut of products to take care of monitoring use-cases. As such, it has some features that are not available in CloudWatch. For example, continuous code profiler. DataDog provides Continuous Code Profiling to identify code snippets and methods inefficient under production load.
 
-<Screenshot
-    alt="DataDog continuous code profiler"
-    height={500}
-    src="/img/blog/2021/10/datadog_vs_cloudwatch_datadog_continuous_profiler-min.webp"
-    title="DataDog's continuous code profiler (Source: DataDog website)"
-    width={700}
-/>
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2023/12/new-relic-alternatives-datadog.webp" alt="Datadog vs Cloudwatch - Datadog dashboard"/>
+    <figcaption><i>Datadog APM (source: Datadog website)</i></figcaption>
+</figure>
+<br/>
 
 - **Pricing**<br></br>
   Both DataDog and CloudWatch are paid tools.
@@ -68,7 +86,7 @@ Differences between DataDog and CloudWatch can be summarized below:
   **CloudWatch pricing details:**<br></br>
   CloudWatch provides a free tier that you can explore. CloudWatch's paid tier called EC2 detailed monitoring starts at $2.10 per instance per month(assuming 7 metrics per instance). The cost also depends on the number of metrics sent and is divided into multiple tiers. The first 10k metrics are charged at $0.30 per metric per month.
 
-  **DataDog pricing details:**<br></br>
+  **[DataDog pricing](https://signoz.io/blog/datadog-pricing/) details:**<br></br>
   DataDog is an expensive enterprise monitoring tool with many different pricing tiers that vary on your use cases. For example, infrastructure enterprise monitoring starts at $23 per host per month while its APM sand continuous profiler starts at $40 per host per month.
 
 ## Key Features of DataDog
@@ -113,114 +131,95 @@ Some of the key features of CloudWatch includes:
     - Graph metrics and log data side by side
     - Graphs for cloud resources and applications in a unified view
 
-<Screenshot
-    alt="CloudWatch dashboard"
-    height={500}
-    src="/img/blog/2021/10/datadog_vs_cloudwatch_cloudwatch_dashboard-min.webp"
-    title="Home page view of CloudWatch dashboard (Source: CloudWatch dashboard)"
-    width={700}
-/>
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2024/02/cloudwatch-dashboard.webp" alt="Datadog vs Cloudwatch - CloudWatch dashboard"/>
+    <figcaption><i>CloudWatch dashboard (source: AWS Docs)</i></figcaption>
+</figure>
+<br/>
 
 - **Logs and metrics correlation**<br></br>
   Using CloudWatch, you can correlate log patterns to a specific metric and set alarms on it.
 
-- **Container monitoring, lambda monitoring, and anomaly detection**<br></br>
+- **[Container monitoring](https://signoz.io/blog/container-monitoring-tools/), lambda monitoring, and anomaly detection**<br></br>
   CloudWatch provides automatic dashboards for container and lambda insights. Using anomaly detection, you can create alarms to auto-adjust thresholds based on metrics patterns.
 
 The challenge with CloudWatch is that you can only monitor AWS services with it. So if your entire application architecture and infrastructure is using AWS services, then it is a great tool for monitoring. But in today's distributed systems, that is not the case. You might be using multiple cloud vendors and third-party services.
 
 So you need a tool that is platform-independent. You also need a universal way of generating telemetry data(logs, metrics, and traces). A single set of rules and standards to generate and collect telemetry data is the first step in creating a robust monitoring framework.
 
-And that's where [SigNoz](https://signoz.io/?utm_source=blog&utm_medium=article) comes into the picture - an open-source APM tool.
+And that's where [SigNoz](https://signoz.io/) comes into the picture - an open-source APM tool.
 
 If you are only using AWS services, then you can go with CloudWatch, but if you are using multiple cloud vendors and third-party services, DataDog might be a better option.
 
 ## An alternative to DataDog and CloudWatch - SigNoz
 
-**[SigNoz](https://signoz.io/?utm_source=blog&utm_medium=article)** is a full-stack open-source application performance monitoring and observability tool which can be used in place of DataDog and Grafana. SigNoz is built to give SaaS like user experience combined with the perks of open-source software. Developer tools should be developer first, and SigNoz was built by developers to address the gap between SaaS vendors and open-source software.
+**[SigNoz](https://signoz.io/)** is a full-stack open-source application performance monitoring and observability tool which can be used in place of DataDog and Grafana. It can act as your one-stop observability solution. You can monitor logs, metrics, and traces and correlate signals for better insights into application performance.
 
-Key architecture features:
+<!-- Key architecture features:
 
 - **Native OpenTelemetry support**<br></br>
   SigNoz is built to support <a href = "https://opentelemetry.io/" rel="noopener noreferrer nofollow" target="_blank" ><b>OpenTelemetry</b></a> natively, which is quietly becoming the world standard to generate and manage telemetry data.
 
 - **Flexible and scalable Database storage**<br></br>
-  SigNoz provides users flexibility in terms of storage. You can choose between ClickHouse or Kafka + Druid as your backend storage while installing SigNoz.
+  SigNoz provides users flexibility in terms of storage. You can choose between ClickHouse or Kafka + Druid as your backend storage while installing SigNoz. -->
 
+With SigNoz, you can do the following:
 
-<Screenshot
-    alt="Architecture of SigNoz with OpenTelemetry and ClickHouse"
-    height={500}
-    src="/img/blog/2021/09/SigNoz_architecture_clickhouse.webp"
-    title="Architecture of SigNoz with ClickHouse as storage backend and OpenTelemetry for code instrumentatiion"
-    width={700}
-/>
+- Visualise Traces, Metrics, and Logs in a [single pane of glass](https://signoz.io/blog/single-pane-of-glass-monitoring/)
+- Monitor application metrics like p99 latency, error rates for your services, external API calls, and individual endpoints.
+- Find the root cause of the problem by going to the exact traces which are causing the problem and see detailed [flamegraphs](https://signoz.io/blog/flamegraphs/) of individual request traces.
+- Run aggregates on trace data to get business-relevant metrics
+- Filter and query logs, build dashboards and alerts based on attributes in logs
+- Monitor infrastructure metrics such as CPU utilization or memory usage
+- Record exceptions automatically in Python, Java, Ruby, and Javascript
+- Easy to set alerts with DIY query builder
+
 
 SigNoz comes with out of box visualization of things like RED metrics.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="SigNoz UI showing the popular RED metrics"
-    height={500}
+    
     src="/img/blog/common/signoz_charts_application_metrics.webp"
-    title="SigNoz UI showing application overview metrics like RPS, 50th/90th/99th Percentile latencies, and Error Rate"
-    width={700}
-/>
+    />
+<figcaption><i>SigNoz UI showing application overview metrics like RPS, 50th/90th/99th Percentile latencies, and Error Rate</i></figcaption>
+</figure>
+<br/>
 
-You can also use flamegraphs to visualize spans from your trace data. All of this comes out of the box with SigNoz.
+You can also use flamegraphs to visualize [spans](https://signoz.io/blog/distributed-tracing-span/) from your trace data. All of this comes out of the box with SigNoz.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Flamegraphs used to visualize spans of distributed tracing in SigNoz UI"
-    height={500}
+    
     src="/img/blog/common/signoz_flamegraphs.webp"
-    title="Flamegraphs showing exact duration taken by each spans - a concept of distributed tracing"
-    width={700}
-/>
+    />
+<figcaption><i>Flamegraphs showing exact duration taken by each spans - a concept of distributed tracing</i></figcaption>
+</figure>
+<br/>
 
 You can also build custom metrics dashboard for your infrastructure.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="SigNoz custom metrics dashboard"
-    height={500}
-    src="/img/blog/2021/10/signoz_custom_dashboard-min.webp"
-    title="You can also build a custom metrics dashboard for your infrastructure"
-    width={700}
-/>
-
-
-Some of the things SigNoz can help you track:
-
-- Application overview metrics like RPS, 50th/90th/99th Percentile latencies, and Error Rate
-- Slowest endpoints in your application
-- See exact request trace to figure out issues in downstream services, slow DB queries, call to 3rd party services like payment gateways, etc
-- Filter traces by service name, operation, latency, error, tags/annotations.
-- Run aggregates on trace data
-- Unified UI for both metrics and traces
-
+    
+    src="/img/blog/common/signoz_custom_dashboard-min.webp"
+    />
+<figcaption><i>You can also build a custom metrics dashboard for your infrastructure</i></figcaption>
+</figure>
+<br/>
 
 ## Getting started with SigNoz
 
-You can get started with SigNoz using just three commands at your terminal.
-
-```jsx
-git clone -b main https://github.com/SigNoz/signoz.git
-cd signoz/deploy/
-./install.sh
-```
-<br></br>
-
-For detailed instructions, you can visit our documentation.
-
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=dd_vs_cloudwatch)
-
-You can check out SigNoz's GitHub repo here 👇
-
-[![SigNoz GitHub repo](/img/blog/common/signoz_github.webp)](https://github.com/SigNoz/signoz)
+<GetStartedSigNoz />
 
 ___
 
 #### **Related Content**
 
-**[DataDog vs Prometheus](https://signoz.io/blog/datadog-vs-prometheus/)**<br></br>
+**[SigNoz vs Datadog](https://signoz.io/comparisons/signoz-vs-datadog/)**<br></br>
 **[DataDog vs Grafana](https://signoz.io/blog/datadog-vs-grafana/)**<br></br>
 **[Monitor Spring Boot App with SigNoz and OpenTelemetry](https://signoz.io/blog/opentelemetry-spring-boot/)**<br></br>
 

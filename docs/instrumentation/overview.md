@@ -31,6 +31,7 @@ SigNoz currently provides simple ways to instrument NodeJS, Java, Python and Gol
 7. [OpenTelemetry Ruby on Rails Instrumentation](/docs/instrumentation/ruby-on-rails/)
 8. [OpenTelemetry Elixir Instrumentation](/docs/instrumentation/elixir/)
 9. [OpenTelemetry Rust Instrumentation](/docs/instrumentation/rust/)
+10. [OpenTelemetry Swift Instrumentation](/docs/instrumentation/swift/)
 
 
 
@@ -38,5 +39,5 @@ SigNoz currently provides simple ways to instrument NodeJS, Java, Python and Gol
 
 If you have any questions or need any help in setting things up, join our slack community and ping us in `#help` channel.
 
-[![SigNoz Slack community](/img/blog/common/join_slack_cta.png)](https://signoz.io/slack)
+[![SigNoz Slack community](/img/blog/common/join_slack_cta.webp)](https://signoz.io/slack)
 

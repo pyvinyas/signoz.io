@@ -4,6 +4,8 @@ title: Configuration
 description: Learn how to configure SigNoz
 ---
 
+import APITable from "@theme/APITable"
+
 You can configure for SigNoz with different options.
 
 If no configuration for an option is set, then the default value as described is applied.
@@ -24,6 +26,12 @@ Here is a comprehensive list of all of them. However, for general use, you most 
 | `GODEBUG` | Go runtime name resolver (one of `netdns=go` or `netdns=cgo`). [More info](https://pkg.go.dev/net#hdr-Name_Resolution). | `netdns=go` |
 | `ALERTMANAGER_API_PREFIX` | Endpoint of alertmanager with API prefix. | `http://alertmanager:9093/api/` |
 | `ClickHouseUrl`| ClickHouse database endpoint with TCP port | `tcp://localhost:9000` |
+| `SMTP_ENABLED` | Enable SMTP for sending email invitations | `false` |
+| `SMTP_FROM` | SMTP from address | `nil` |
+| `SMTP_HOST` | SMTP server host | `nil` |
+| `SMTP_PORT` | SMTP server port | `nil` |
+| `SMTP_USERNAME` | SMTP username of the account | `nil` |
+| `SMTP_PASSWORD` | SMTP password of the account | `nil` |
 
 </APITable>
 
@@ -36,14 +44,6 @@ You can find the complete otel collector configuration in the [OpenTelemetry doc
 By default, SigNoz runs with [this default Otel Collector configuration](https://github.com/SigNoz/signoz/blob/main/deploy/docker/clickhouse-setup/otel-collector-config.yaml).
 
 For any configuration changes in **Docker**, you would have to update `/deploy/docker/clickhouse-setup/otel-collector-config.yaml` and bring up Otel Collector.
-
-### Otel Collector Metrics
-
-Otel Collector Metrics uses same image and binary as that of the Otel Collector.
-Hence, you will find the configuration similarities of that of [Otel Collector](/docs/operate/configuration#otel-collector).
-
-By default, SigNoz runs with [this default Otel Collector Metrics configuration](https://github.com/SigNoz/signoz/blob/main/deploy/docker/clickhouse-setup/otel-collector-metrics-config.yaml).
-For any configuration changes in **Docker**, you would have to update `/deploy/docker/clickhouse-setup/otel-collector-metrics-config.yaml` and bring up Otel Collector.
 
 <p>&nbsp;</p>
 

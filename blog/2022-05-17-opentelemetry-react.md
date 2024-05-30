@@ -1,11 +1,11 @@
 ---
 title: Implementing OpenTelemetry in React applications
 slug: opentelemetry-react
-date: 2022-05-17
+date: 2023-03-30
 tags: [OpenTelemetry Instrumentation, JavaScript]
 authors: [palash, ankit_anand]
 description: It is essential to monitor your React frontend apps for performance issues. OpenTelemetry can help instrument React apps and provide you with frontend monitoring. In this guide, we will demonstrate how to implement the OpenTelemetry Web library.....
-image: /img/blog/2022/05/opentelemetry_react_cover.webp
+image: /img/blog/2023/03/opentelemetry_react_cover-min.jpg
 keywords:
   - opentelemetry
   - react
@@ -31,7 +31,7 @@ OpenTelemetry can be used to trace React applications for performance issues and
 
 <!--truncate-->
 
-![Cover Image](/img/blog/2022/05/opentelemetry_react_cover.webp)
+![Cover Image](/img/blog/2023/03/opentelemetry_react_cover.webp)
 
 React (also known as React.js or ReactJS) is a free and open-source frontend JavaScript library for building user interfaces based on UI components. It is maintained by Meta (formerly Facebook) and a community of individual developers and companies. React can be used as a base for developing single-page, mobile, or server-rendered applications with frameworks like Next.js.
 
@@ -82,7 +82,7 @@ cd signoz/deploy/
 
 You can visit our documentation for instructions on how to install SigNoz using Docker Swarm and Helm Charts.
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=opentelemetry_react)
+[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/)
 
 When you are done installing SigNoz, you can access the UI at [http://localhost:3301](http://localhost:3301/application)
 
@@ -125,7 +125,7 @@ http:
 ```
 
 <figure data-zoomable align='center'>
-    <img src="/img/blog/2022/05/opentelemetry_react_update_frontend_port.webp" alt="Setting frontend UI port number"/>
+    <img src="/img/blog/2023/03/enable_cors.webp" alt="Setting frontend UI port number"/>
 </figure>
 
 <br></br>
@@ -133,14 +133,19 @@ http:
 Once you make the changes, you need to restart the Docker containers.
 
 **To stop SigNoz cluster:**
-```
-sudo docker-compose -f docker/clickhouse-setup/docker-compose.yaml stop
-```
 
-**To start/resumen SigNoz cluster:**
+Run it under `/signoz/deploy` folder at your terminal:
 
 ```
-sudo docker-compose -f docker/clickhouse-setup/docker-compose.yaml up
+sudo docker compose -f docker/clickhouse-setup/docker-compose.yaml stop
+```
+
+**To start/resume SigNoz cluster:**
+
+Run it under `/signoz/deploy` folder at your terminal:
+
+```
+sudo docker compose -f docker/clickhouse-setup/docker-compose.yaml up
 ```
 
 
@@ -155,10 +160,11 @@ _*Note: The stopped SigNoz cluster should resume and mount to the existing docke
 To instrument the React app with OpenTelemetry, we need to install the OpenTelemetry dependencies.
 
 ```bash
-yarn add -D @opentelemetry/api@1.0.3 @opentelemetry/context-zone@1.0.0 @opentelemetry/exporter-collector@0.25.0@opentelemetry/instrumentation-fetch@0.25.0
+yarn add -D @opentelemetry/api @opentelemetry/context-zone @opentelemetry/exporter-trace-otlp-http @opentelemetry/instrumentation-fetch
 ```
 
 **Step 5: Update Service Name and CollectorTrace Exporter**
+
 The file is located at `src/helpers/tracing/index.ts`, in the sample react app codebase.  
 
 ```jsx
@@ -242,7 +248,7 @@ If you are someone who understands more from video, then you can watch the our v
 
 If you have any questions or need any help in setting things up, join our slack community and ping us in `#support` channel.
 
-[![SigNoz Slack community](/img/blog/common/join_slack_cta.png)](https://signoz.io/slack)
+[![SigNoz Slack community](/img/blog/common/join_slack_cta.webp)](https://signoz.io/slack)
 
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: An open source OpenTelemetry APM | SigNoz
 slug: opentelemetry-apm
-date: 2023-01-09
+date: 2023-09-14
 tags: [OpenTelemetry, SigNoz]
 authors: [ankit_anand]
 description: SigNoz is an open source APM built to support OpenTelemetry natively. In this article, we will talk about things to be kept in mind while selecting an OpenTelemetry APM. We will also see how SigNoz can help you in setting up full-stack observability....
@@ -35,7 +35,7 @@ OpenTelemetry is a Cloud Native Computing Foundation(<a href = "https://www.cncf
 
 APM stands for Application Performance Monitoring or Application Performance Management. APM tools help engineering teams effectively monitor their applications by monitoring key metrics for application performance. With time, the way applications are built and deployed has changed. With containerization technologies, software systems have become distributed and are more dynamic than ever in production environments.
 
-APM tools have also evolved to newer ways of reporting metrics for container-based applications. For newer age architectures like microservices and serverless, it’s difficult for engineering teams to have a central overview of how their applications are performing. But monitoring technology also evolved and gave birth to distributed tracing. With distributed tracing, you can trace user requests across services and protocols. 
+APM tools have also evolved to newer ways of reporting metrics for container-based applications. For newer age architectures like microservices and serverless, it’s difficult for engineering teams to have a central overview of how their applications are performing. But monitoring technology also evolved and gave birth to [distributed tracing](https://signoz.io/blog/distributed-tracing-in-microservices/). With distributed tracing, you can trace user requests across services and protocols. 
 
 But setting up a robust monitoring and observability stack is challenging in distributed applications. The first step for setting up observability is to instrument your applications for generating telemetry data. OpenTelemetry provides a consistent instrumentation layer for your entire application stack, including open source frameworks and libraries. Let’s learn more about OpenTelemetry.
 
@@ -53,7 +53,7 @@ The specification is designed into distinct types of telemetry known as signals.
 - Metrics and
 - Traces
 
-Together these three signals form the three pillars of observability. OpenTelemetry is the bedrock for setting up an observability framework. The application code is instrumented using OpenTelemetry client libraries, which enables the generation of telemetry data. Once the telemetry data is generated and collected, OpenTelemetry needs a backend analysis tool to which it can send the data. 
+Together these three signals form the [three pillars of observability](https://signoz.io/blog/three-pillars-of-observability/). OpenTelemetry is the bedrock for setting up an observability framework. The application code is instrumented using OpenTelemetry client libraries, which enables the generation of telemetry data. Once the telemetry data is generated and collected, OpenTelemetry needs a backend analysis tool to which it can send the data. 
 
 OpenTelemetry can send to multiple backends. You can use different backends for each signal in OpenTelemetry. But managing different tools is not recommended. Engineering teams also need to correlate all signals for effective analysis. And that’s where an APM tool is needed.
 
@@ -75,7 +75,7 @@ Below is the list of factors that should be taken into consideration before sele
   | http.target | The full request target as passed in an HTTP request line or equivalent | /blog/june/ |
   | http.scheme | The URI scheme that identifies the used protocol | http; https |
         
-  An OpenTelemetry APM should have native support to store data with OpenTelemetry semantic conventions. Existing observability vendors usually transform the data collected using OpenTelemetry semantic conventions into their propriety formats. But OpenTelemetry has a <a href = "https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/semantic_conventions/README.md" rel="noopener noreferrer nofollow" target="_blank">huge list</a> of semantic conventions which might not be fully utilized in such scenarios.
+  An OpenTelemetry APM should have native support to store data with OpenTelemetry semantic conventions. Existing observability vendors usually transform the data collected using OpenTelemetry semantic conventions into their propriety formats. But OpenTelemetry has a <a href = "https://github.com/open-telemetry/semantic-conventions" rel="noopener noreferrer nofollow" target="_blank">huge list</a> of semantic conventions which might not be fully utilized in such scenarios.
     
 - **Should allow aggregates on trace data**<br></br>
   Running aggregates on trace data enables you to create service-centric views. OpenTelemetry also provides you the ability to create custom tags. Combined with custom tags and aggregated trace data gives you a powerful magnifying glass to surface performance issues in your services. For example, you can get the error rate and 99th percentile latency of `customer_type: gold` or `deployment_version: v2` or `external_call: paypal`
@@ -91,11 +91,11 @@ Most SaaS APMs now claim to be 100% compatible with OpenTelemetry. But it’s di
 
 SigNoz is a full-stack open source APM built natively to support OpenTelemetry. At SigNoz, we believe that OpenTelemetry is going to be the world standard for instrumenting cloud-native applications. 
 
-SigNoz supports OpenTelemetry semantic conventions and provides visualization for all three distinct types of signals(log management is under active development) supported by OpenTelemetry.
+SigNoz supports OpenTelemetry semantic conventions and provides visualization for all three distinct types of signals supported by OpenTelemetry.
 
 The steps to send telemetry data to SigNoz involves:
 
-- Instrument application code with language-specific OpenTelemetry libraries
+- [Instrument application](https://signoz.io/docs/instrumentation/) code with language-specific OpenTelemetry libraries
 - Configure OpenTelemetry Exporters to send data to SigNoz
 - Visualize and analyze telemetry data using SigNoz dashboards
 
@@ -108,19 +108,21 @@ Here’s a picture depicting how OpenTelemetry fits within an application and Si
 
 <br></br>
 
-It is easy to get started with SigNoz. It can be installed on macOS or Linux computers in just three steps by using a simple installation script.
+SigNoz cloud is the easiest way to run SigNoz. You can sign up [here](https://signoz.io/teams/) for a free account and get 30 days of unlimited access to all features.
 
-The install script automatically installs Docker Engine on Linux. However, you must manually install [Docker Engine](https://docs.docker.com/engine/install/) on macOS before running the install script.
+You can also install and self-host SigNoz yourself. It can be installed on macOS or Linux computers in just three steps by using a simple install script.
 
-```jsx
+The install script automatically installs Docker Engine on Linux. However, on macOS, you must manually install <a href = "https://docs.docker.com/engine/install/" rel="noopener noreferrer nofollow" target="_blank" >Docker Engine</a> before running the install script.
+
+```bash
 git clone -b main https://github.com/SigNoz/signoz.git
 cd signoz/deploy/
 ./install.sh
 ```
 
-You can visit our documentation for instructions on how to install SigNoz using Docker Swarm and Helm Charts.
+You can visit our documentation for more installation option.
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=opentelemetry_apm)
+[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/)
 
 
 Once your application is instrumented with OpenTelemetry client libraries, the data can be sent to SigNoz by specifying a specific port on the machine where SigNoz is installed.
@@ -134,7 +136,7 @@ You can then use Signoz to monitor application metrics with out-of-box charts an
 
 <br></br>
 
-The tracing signal from OpenTelemetry instrumentation helps you correlate events across services. With SigNoz, you can visualize your tracing data using Flamegraphs and Gantt charts. It shows you a complete breakdown of the request along with every bit of data collected with OpenTelemetry semantic conventions.
+The tracing signal from OpenTelemetry instrumentation helps you correlate events across services. With SigNoz, you can visualize your tracing data using [Flamegraphs and Gantt charts](https://signoz.io/blog/flamegraphs/). It shows you a complete breakdown of the request along with every bit of data collected with OpenTelemetry semantic conventions.
 
 <figure data-zoomable align='center'>
     <img src="/img/blog/common/signoz_flamegraphs.webp" alt="Detailed Flamegraphs & Gantt charts"/>
@@ -146,7 +148,7 @@ The tracing signal from OpenTelemetry instrumentation helps you correlate events
 SigNoz also lets you run aggregates on your tracing data. Running aggregates on tracing data enables you to create service-centric views, providing insights to debug applications at the service level. It also makes sense for engineering teams as they own specific microservices.
 
 <figure data-zoomable align='center'>
-    <img src="/img/blog/2022/06/otel_backend_running_aggregates.png" alt="Running aggregates on trace data"/>
+    <img src="/img/blog/2022/06/otel_backend_running_aggregates.webp" alt="Running aggregates on trace data"/>
     <figcaption><i>Running aggregates on your tracing data enables you to create service-centric views</i></figcaption>
 </figure>
 

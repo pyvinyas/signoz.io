@@ -1,11 +1,11 @@
 ---
 title: Set up application monitoring for your Node JS app in 20 mins with open source - SigNoz
 slug: nodejs-opensource-application-monitoring
-date: 2022-09-24
+date: 2023-04-08
 tags: [OpenTelemetry Instrumentation, JavaScript]
 authors: ankit_anand
 description: In this article, learn how to setup application monitoring for Node.js apps with our open-source solution, SigNoz.
-image: /img/blog/2021/05/nodejs_with_signoz_cover.webp
+image: /img/blog/2023/04/nodejs_application_monitoring_cover-min.jpg
 keywords:
   - SigNoz Product Update
   - Open Source community
@@ -14,11 +14,13 @@ keywords:
   - DataDog alternative
 ---
 
+import VersionPin from '../docs/shared/nodejs-version-pin.md'
+
 In this article, learn how to setup application monitoring for Node.js apps with our open-source solution, SigNoz.
 
 <!--truncate-->
 
-![Cover Image](/img/blog/2021/05/nodejs_with_signoz_cover.webp)
+![Cover Image](/img/blog/2023/04/nodejs_application_monitoring_cover.webp)
 
 Node.js tops the list of most widely used frameworks by developers. Powered by Google's V8 javascript engine, its performance is incredible. Ryan Dahl, the creator of Node.js, wanted to create real-time websites with push capability. On Nov 8, 2009, Node.js was first demonstrated by Dahl at the inaugural European JSconf. Node.js has now become a critical component in the technology stack of large-scale enterprises. But like any technology, it has its own set of limitations.
 
@@ -26,7 +28,7 @@ Node.js is a dynamically typed single-threaded programming language. There is a 
 
 [![SigNoz GitHub repo](/img/blog/common/signoz_github.webp)](https://github.com/SigNoz/signoz)
 
-[SigNoz](https://signoz.io/?utm_source=blog&utm_medium=article) is an open-source application monitoring and observability platform which can be installed within your infra. There's no need to go through any sales team or complex onboarding process to start monitoring your application with SigNoz. In this article, let's take a look at how it can be deployed with Docker in a sample Node.js application.
+[SigNoz](https://signoz.io/) is an open-source application monitoring and observability platform which can be installed within your infra. There's no need to go through any sales team or complex onboarding process to start monitoring your application with SigNoz. In this article, let's take a look at how it can be deployed with Docker in a sample Node.js application.
 
 Let's divide this tutorial in 2 parts:
 
@@ -47,19 +49,23 @@ cd signoz/deploy/
 
 For detailed instructions, you can visit our documentation.
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=opentelemetry_nodejs)
+[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/)
 
 When you are done installing SigNoz, you can access the UI at: [http://localhost:3301](http://localhost:3301)
 
 The application list shown in the dashboard is from a sample app called HOT R.O.D that comes bundled with the SigNoz installation package.
 
-<Screenshot
+import Screenshot from "@theme/Screenshot"
+
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
   alt="SigNoz dashboard"
-  height={500}
-  src="/img/blog/common/signoz_dashboard_homepage.png"
-  title="SigNoz dashboard"
-  width={700}
-/>
+  
+  src="/img/blog/common/signoz_dashboard_homepage.webp"
+  />
+<figcaption><i>SigNoz dashboard</i></figcaption>
+  </figure>
+<br/>
 
 Now comes the part where you can instrument your own sample app and get the metrics reported through SigNoz.
 
@@ -140,6 +146,8 @@ Steps to get the app set up and running:
     
     `@opentelemetry/exporter-trace-otlp-http` - This module provides the exporter to be used with OTLP (`http/json`) compatible receivers.<br></br>
 
+    <VersionPin />
+
 
 2. **Create `tracing.js` file**<br></br>
    Instantiate tracing by creating a `tracing.js` file and using the below code.
@@ -171,8 +179,6 @@ Steps to get the app set up and running:
    // this enables the API to record telemetry
    
    sdk.start()
-   .then(() => console.log('Tracing initialized'))
-   .catch((error) => console.log('Error initializing tracing', error));
    
    // gracefully shut down the SDK on process exit
    process.on('SIGTERM', () => {
@@ -184,7 +190,7 @@ Steps to get the app set up and running:
    
    ```
    
-   OpenTelemetry Node SDK currently does not detect the `OTEL_RESOURCE_ATTRIBUTES` from `.env` files as of today. That’s why we need to include the variables in the `tracing.js` file itself.
+   [OpenTelemetry Node](https://signoz.io/opentelemetry/nodejs/) SDK currently does not detect the `OTEL_RESOURCE_ATTRIBUTES` from `.env` files as of today. That’s why we need to include the variables in the `tracing.js` file itself.
 
    About environment variables:
 
@@ -213,13 +219,15 @@ Steps to get the app set up and running:
 And, congratulations! You have instrumented your sample Node.js app. You can now access the SigNoz dashboard at [http://localhost:3301](http://localhost:3301) to monitor your app for performance metrics.
 
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
   alt="Sample nodejs app in the applications monitored"
-  height={500}
+  
   src="/img/blog/2022/01/node_sample_app.webp"
-  title="Sample_app in the list of applications monitored"
-  width={700}
-/>
+  />
+<figcaption><i>Sample_app in the list of applications monitored</i></figcaption>
+  </figure>
+<br/>
 
 ## Identifying events causing high latency in your app
 

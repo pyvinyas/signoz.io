@@ -6,7 +6,7 @@ tags: [OpenTelemetry Instrumentation, Python, Prometheus]
 authors: ankit_nayan
 description: In this blog, let's see how to set up Prometheus and Grafana in EKS and how to monitor Python based applications using Prometheus.
 image: /img/blog/2019/08/Python-Prometheus-2.webp
-hide_table_of_contents: true
+hide_table_of_contents: false
 keywords:
   - Prometheus
   - Grafana
@@ -30,7 +30,7 @@ Create cluster and the command is:
 
 ### _Setup Prometheus and Grafana using Helm_
 
-Follow this [link](https://eksworkshop.com/monitoring/) to set up prometheus and grafana in EKS cluster
+Follow this [link](https://catalog.workshops.aws/running-batch-on-eks/en-US/exercises/calculate-pi/setup-prometheus-grafana) to set up prometheus and grafana in EKS cluster
 
 also add `--set server.global.scrape_interval="10s"` while installing prometheus from helm using the above link. The default scrape interval is 1m. This may test your patience to see metrics reflected in your Prometheus expression browser.
 
@@ -107,7 +107,8 @@ Instead of Prometheus scraping our Python web application directly, we will let 
 
 **Multi Process Mode of python client**[Link](https://github.com/prometheus/client_python#multiprocess-mode-gunicorn)
 The prometheus python client has a multi-processing mode which essentially creates a shared prometheus registry and shares it among all the processes and hence the [aggregation](https://github.com/prometheus/client_python/blob/master/prometheus_client/multiprocess.py) happens at the application level. When, prometheus scrapes the application instance, no matter which worker responds to the scraping request, the metrics reported back describes the application’s behaviour, rather than the worker responding.
-This [blog](blog) from MetricFire  explains how to set up native python client for _nginx + uwsgi + Flask_ apps
+
+<!-- This [blog](blog) from MetricFire  explains how to set up native python client for _nginx + uwsgi + Flask_ apps -->
 
 **Django Prometheus** library [Link](https://github.com/korfuri/django-prometheus)
 The Django prometheus client adopts an approach where you basically have each [worker listening](https://github.com/korfuri/django-prometheus/blob/master/documentation/exports.md) on a unique port for prometheus’s scraping requests. Thus, for prometheus, each of these workers are different targets as if they were running on different instances of the application.
@@ -295,6 +296,7 @@ For any Prometheus related query reach me out on [Twitter](https://twitter.com/a
 #### Below blogs were helpful in understanding and implementing the concepts:
 
 - <a href = "https://blog.codeship.com/monitoring-your-synchronous-python-web-applications-using-prometheus/" rel="noopener noreferrer nofollow" target="_blank" >Monitoring synchronous Python web app using Prometheus</a>
+
 - <a href = "https://echorand.me/posts/python-prometheus-monitoring-options/#option-3-the-django-way" rel="noopener noreferrer nofollow" target="_blank" >Python Prometheus Monitoring</a>
-- <a href = "https://www.metricfire.com/prometheus-tutorials/monitoring-python-web-app" rel="noopener noreferrer nofollow" target="_blank" >Metric Fire - Prometheus Tutorial</a>
+
 - <a href = "https://github.com/amitsaha/python-monitoring-talk/blob/master/slides/Django-monitoring-with-prometheus.pdf" rel="noopener noreferrer nofollow" target="_blank" >Django Monitoring with Prometheus</a>

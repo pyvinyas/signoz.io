@@ -1,43 +1,33 @@
 ////////////////
-// 
+//
 // Using Framer?
 // See https://www.framer.com/learn/code-components/ for more info
 //
 ////////////////
-  
-  
-  
+
 import React, { useState } from "react";
+import styles from "./styles.module.css";
+
+const DOMAIN = "app.loops.so";
 
 const INIT = "INIT";
 const SUBMITTING = "SUBMITTING";
 const ERROR = "ERROR";
 const SUCCESS = "SUCCESS";
-const formStates = [INIT, SUBMITTING, ERROR, SUCCESS] as const;
-const formStyles = {
-  "id": "cl8osdvv7459609la3ahy4uzo",
-  "name": "Default",
-  "formStyle": "inline",
-  "placeholderText": "you@example.com",
-  "formFont": "Roboto",
-  "formFontColor": "#000000",
-  "formFontSizePx": "16",
-  "buttonText": "Subscribe to our newsletter",
-  "buttonFont": "Inter",
-  "buttonFontColor": "#ffffff",
-  "buttonColor": "#b65037",
-  "buttonFontSizePx": "16",
-  "successMessage": "Thanks! We'll be in touch!",
-  "successFont": "Inter",
-  "successFontColor": "#e8e1e1",
-  "successFontSizePx": "16",
-  "userGroup": ""
-}
-const domain = "app.loops.so"
 
-export default function SignUpFormReact() {
+const formStates = [INIT, SUBMITTING, ERROR, SUCCESS] as const;
+
+const formStyles = {
+  id: "cl8osdvv7459609la3ahy4uzo",
+  placeholderText: "you@example.com",
+  buttonText: "Subscribe",
+  successMessage: "Thanks! We'll be in touch!",
+  userGroup: "",
+};
+
+export default function SignUpFormReact({ className }) {
   const [email, setEmail] = useState("");
-  const [formState, setFormState] = useState<typeof formStates[number]>(INIT);
+  const [formState, setFormState] = useState<(typeof formStates)[number]>(INIT);
   const [errorMessage, setErrorMessage] = useState("");
 
   const resetForm = () => {
@@ -89,7 +79,7 @@ export default function SignUpFormReact() {
     )}&email=${encodeURIComponent(email)}`;
 
     // API request to add user to newsletter
-    fetch(`https://${domain}/api/newsletter-form/${formStyles.id}`, {
+    fetch(`https://${DOMAIN}/api/newsletter-form/${formStyles.id}`, {
       method: "POST",
       body: formBody,
       headers: {
@@ -113,15 +103,15 @@ export default function SignUpFormReact() {
         setFormState(ERROR);
         // check for cloudflare error
         if (error.message === "Failed to fetch") {
-          setErrorMessage("Too many signups, please try again in a little while");
+          setErrorMessage(
+            "Too many signups, please try again in a little while"
+          );
         } else if (error.message) {
           setErrorMessage(error.message);
         }
         localStorage.setItem("loops-form-timestamp", "");
       });
   };
-
-  const isInline = formStyles.formStyle === "inline";
 
   switch (formState) {
     case SUCCESS:
@@ -134,22 +124,16 @@ export default function SignUpFormReact() {
             width: "100%",
           }}
         >
-          <p
-            style={{
-              fontFamily: `'${formStyles.successFont}', sans-serif`,
-              color: formStyles.successFontColor,
-              fontSize: `${formStyles.successFontSizePx}px`,
-            }}
-          >
-            {formStyles.successMessage}
-          </p>
+          <p className={styles.successMessage}>{formStyles.successMessage}</p>
         </div>
       );
     case ERROR:
       return (
         <>
-          <SignUpFormError />
-          <BackButton />
+          <div className="flex justify-between items-center">
+            <SignUpFormError />
+            <BackButton />
+          </div>
         </>
       );
     default:
@@ -157,36 +141,16 @@ export default function SignUpFormReact() {
         <>
           <form
             onSubmit={handleSubmit}
-            style={{
-              display: "flex",
-              flexDirection: isInline ? "row" : "column",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "100%",
-            }}
+            className={`h-10 flex flex-nowrap rounded-sm overflow-hidden gap-0 w-full sm:w-1/2 md:w-full ${className}`}
           >
             <input
               type="text"
               name="email"
-              placeholder={formStyles.placeholderText}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required={true}
-              style={{
-                color: formStyles.formFontColor,
-                fontFamily: `'${formStyles.formFont}', sans-serif`,
-                fontSize: `${formStyles.formFontSizePx}px`,
-                margin: isInline ? "0px 10px 0px 0px" : "0px 0px 10px",
-                width: "100%",
-                maxWidth: "300px",
-                minWidth: "100px",
-                background: "#FFFFFF",
-                border: "1px solid #D1D5DB",
-                boxSizing: "border-box",
-                boxShadow: "rgba(0, 0, 0, 0.05) 0px 1px 2px",
-                borderRadius: "6px",
-                padding: "8px 12px",
-              }}
+              placeholder="Type your email to sign up"
+              className="h-10 placeholder:text-gray-400 text-gray-900 text-sm px-2 pr-1 font-normal leading-loose bg-white rounded-none border-none subscribe-input w-8/12"
             />
             <SignUpFormButton />
           </form>
@@ -196,43 +160,18 @@ export default function SignUpFormReact() {
 
   function SignUpFormError() {
     return (
-      <div
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-        }}
-      >
-        <p
-          style={{
-            fontFamily: "Inter, sans-serif",
-            color: "rgb(185, 28, 28)",
-            fontSize: "14px",
-          }}
-        >
-          {errorMessage || "Oops! Something went wrong, please try again"}
-        </p>
-      </div>
+      <p className={"text-red-400 text-sm m-0"}>
+        {errorMessage || "Oops! Something went wrong, please try again"}
+      </p>
     );
   }
 
   function BackButton() {
-    const [isHovered, setIsHovered] = useState(false);
-
     return (
       <button
-        style={{
-          color: "#6b7280",
-          font: "14px, Inter, sans-serif",
-          margin: "10px auto",
-          textAlign: "center",
-          background: "transparent",
-          border: "none",
-          cursor: "pointer",
-          textDecoration: isHovered ? "underline" : "none",
-        }}
-        onMouseOut={() => setIsHovered(false)}
-        onMouseOver={() => setIsHovered(true)}
+        className={
+          "text-gray-400 text-sm bg-transparent outline-none border-none cursor-pointer"
+        }
         onClick={resetForm}
       >
         &larr; Back
@@ -244,28 +183,7 @@ export default function SignUpFormReact() {
     return (
       <button
         type="submit"
-        style={{
-          background: formStyles.buttonColor,
-          fontSize: `${formStyles.buttonFontSizePx}px`,
-          color: formStyles.buttonFontColor,
-          fontFamily: `'${formStyles.buttonFont}', sans-serif`,
-          width: isInline ? "min-content" : "100%",
-          maxWidth: "300px",
-          whiteSpace: isInline ? "nowrap" : "normal",
-          height: "38px",
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: "row",
-          padding: "9px 17px",
-          boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.05)",
-          borderRadius: "6px",
-          textAlign: "center",
-          fontStyle: "normal",
-          fontWeight: 500,
-          lineHeight: "20px",
-          border: "none",
-          cursor: "pointer",
-        }}
+        className="h-10 border-none outline-none text-sm rounded-none bg-primary-500 hover:bg-primary-600 cursor-pointer w-4/12"
       >
         {formState === SUBMITTING ? "Please wait..." : formStyles.buttonText}
       </button>

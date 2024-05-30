@@ -1,11 +1,11 @@
 ---
 title: Implementing Distributed Tracing in a Golang application
 slug: distributed-tracing-golang
-date: 2023-02-01
+date: 2023-08-01
 tags: [OpenTelemetry Instrumentation, Go / Golang]
 authors: [naman]
 description: Distributed tracing provides insights into how a particular service is performing as part of the whole in a distributed system. In this article, we will implement distributed tracing for a Golang application based on microservices architecture with OpenTelemetry, and visualize the collected data with SigNoz...
-image: /img/blog/2022/05/distributed_tracing_golang_cover.webp
+image: /img/blog/2023/04/distributed_tracing_golang_cover-min.jpg
 hide_table_of_contents: false
 keywords:
   - distributed tracing
@@ -16,7 +16,6 @@ keywords:
   - opentelemetry golang
   - traces
   - open source
-  - signoz
 ---
 
 import { LiteYoutubeEmbed } from "react-lite-yt-embed";
@@ -29,17 +28,17 @@ In this article, we will implement distributed tracing for a Golang application 
 
 <!--truncate-->
 
-![Cover Image](/img/blog/2022/05/distributed_tracing_golang_cover.webp)
+![Cover Image](/img/blog/2023/04/distributed_tracing_golang_cover.webp)
 
 ## What is distributed tracing?
 
-Modern application architecture using cloud-native, containerization, and microservices is a very complex distributed system. A typical web-search example will illustrate some of the challenges such a system needs to address. 
+Modern application architecture using cloud-native, containerization, and microservices is a very complex distributed system. A typical web-search example will illustrate some of the challenges such a system needs to address.
 
-A front-end service may distribute a web query to many hundreds of query servers. The query may also be sent to a number of other sub-systems that may process advertisements or look for specialized results like images, news, etc. This might involve database access, cache lookup, network call, etc. In total, thousands of machines and many different services might be needed to process one search query. 
+A front-end service may distribute a web query to many hundreds of query servers. The query may also be sent to a number of other sub-systems that may process advertisements or look for specialized results like images, news, etc. This might involve database access, cache lookup, network call, etc. In total, thousands of machines and many different services might be needed to process one search query.
 
 Moreover, web-search users are sensitive to delays, which can be caused by poor performance in any sub-system. An engineer looking only at the overall latency may know there is a problem but may not be able to guess which service is at fault nor why it is behaving poorly. And such services are also not written and managed by a single team. Also, day by day, new components might get added to the system. Distributed tracing provides insights into the inner workings of such a complex system. Tracing such complex systems enables engineering teams to set up an observability framework.
 
-Distributed tracing gives insights into how a particular service is performing as part of the whole in a distributed software system. It involves passing a trace context with each user request which is then passed across hosts, services, and protocols to track the user request.
+Distributed tracing gives insights into how a particular service is performing as part of the whole in a distributed software system. It involves passing a [trace context](https://signoz.io/blog/context-propagation-in-distributed-tracing/) with each user request which is then passed across hosts, services, and protocols to track the user request.
 
 In this article, we will use OpenTelemetry and SigNoz to enable distributed tracing in a sample Golang application with microservices. But before we deep dive into the implementation steps, let us give you a brief context on OpenTelemetry and SigNoz.
 
@@ -47,9 +46,11 @@ In this article, we will use OpenTelemetry and SigNoz to enable distributed trac
 
 <a href = "https://opentelemetry.io/" rel="noopener noreferrer nofollow" target="_blank">OpenTelemetry</a> is a vendor-agnostic set of tools, APIs, and SDKs used to instrument applications to create and manage telemetry data(logs, metrics, and traces). It aims to make telemetry data a built-in feature of cloud-native software applications.
 
+<br></br>
+
 OpenTelemetry provides the instrumentation layer to generate and export your telemetry data to a backend. Then, you need to choose a backend tool that will provide the data storage and visualization for your telemetry data. That’s where SigNoz comes into the picture.
 
-[SigNoz](https://signoz.io/) is a full-stack open-source APM tool that provides metrics monitoring and distributed tracing.
+[SigNoz](https://signoz.io/) is a full-stack open-source observability tool that provides logs, metrics, and traces under a single pane of glass.
 
 OpenTelemetry is the way forward for cloud-native application owners who want to set up a robust observability framework. It also provides you the freedom to choose any backend analysis tool. SigNoz is built to support OpenTelemetry natively, thus making a great combo.
 
@@ -64,10 +65,10 @@ We will demonstrate implementing distributed tracing in a Golang application in 
 ## Prerequisites
 
 - Go (version ≥ 1.16)
-    - For installation see [getting started](https://go.dev/doc/install)
+  - For installation see [getting started](https://go.dev/doc/install)
 - MySQL 8
-    - Download the MySQL community version from [here](https://dev.mysql.com/downloads/mysql/)
-    - If your MySQL is configured with a password, update it here:
+  - Download the MySQL community version from [here](https://dev.mysql.com/downloads/mysql/)
+  - If your MySQL is configured with a password, update it here:
     [https://github.com/SigNoz/distributed-tracing-golang-sample/blob/master/.env](https://github.com/SigNoz/distributed-tracing-golang-sample/blob/master/.env)
 - `serve` for frontend. For installation see: [https://www.npmjs.com/package/serve](https://www.npmjs.com/package/serve)
 - SigNoz - For instructions, please refer to [Installing SigNoz](#installing-signoz) section.
@@ -88,7 +89,7 @@ cd signoz/deploy/
 
 You can visit our documentation for instructions on how to install SigNoz using Docker Swarm and Helm Charts.
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=distributed_tracing_golang)
+[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/)
 
 When you are done installing SigNoz, you can access the UI at [http://localhost:3301](http://localhost:3301/application).
 
@@ -166,37 +167,33 @@ We also initialized the `tracer` which is later used to create custom spans.
 Let’s now understand what does `Init` function in `config/config.go` does.
 
 1. **Initialize exporter:**<br></br>
-   The exporter in SDK is responsible for exporting the telemetry signal (trace) out of the application to a remote backend, logging to a file, etc. 
+   The exporter in SDK is responsible for exporting the telemetry signal (trace) out of the application to a remote backend, logging to a file, etc.
    In this demo, we are creating a gRPC exporter to send out traces to an OpenTelemetry Collector backend running at collectorURL (SigNoz). It also supports TLS and application auth using headers.
-    
-    ```go
-    secureOption := otlptracegrpc.WithTLSCredentials(credentials.NewClientTLSFromCert(nil, "")) // config can be passed to configure TLS
-    if len(insecure) > 0 {
-    	secureOption = otlptracegrpc.WithInsecure()
-    }
-    exporter, err := otlptrace.New(
-    	context.Background(),
-    	otlptracegrpc.NewClient(
-    		secureOption,
-    		otlptracegrpc.WithEndpoint(collectorURL),
-    		otlptracegrpc.WithHeaders(headers),
-    	),
-    )
-    ```
-    
+   ```go
+   secureOption := otlptracegrpc.WithTLSCredentials(credentials.NewClientTLSFromCert(nil, "")) // config can be passed to configure TLS
+   if len(insecure) > 0 {
+   	secureOption = otlptracegrpc.WithInsecure()
+   }
+   exporter, err := otlptrace.New(
+   	context.Background(),
+   	otlptracegrpc.NewClient(
+   		secureOption,
+   		otlptracegrpc.WithEndpoint(collectorURL),
+   		otlptracegrpc.WithHeaders(headers),
+   	),
+   )
+   ```
 2. **Construct trace provider:**<br></br>
    TracerProvider provides access to instrumentation Tracers. We configure it to sample all the traces and send the traces in batches to the collector. The resource describes the object that generated the telemetry signals. Essentially, it must be the name of the service or application. We set it to `serviceName`:
-    
-    ```go
-    traceProvider := sdktrace.NewTracerProvider(
-    	sdktrace.WithSampler(sdktrace.AlwaysSample()),
-    	sdktrace.WithSpanProcessor(sdktrace.NewBatchSpanProcessor(exporter)),
-    	sdktrace.WithResource(resource.NewWithAttributes(semconv.SchemaURL, semconv.ServiceNameKey.String(serviceName))),
-    )
-    ```
-    
+   ```go
+   traceProvider := sdktrace.NewTracerProvider(
+   	sdktrace.WithSampler(sdktrace.AlwaysSample()),
+   	sdktrace.WithSpanProcessor(sdktrace.NewBatchSpanProcessor(exporter)),
+   	sdktrace.WithResource(resource.NewWithAttributes(semconv.SchemaURL, semconv.ServiceNameKey.String(serviceName))),
+   )
+   ```
 
-Now, we are ready to configure various components in our application. 
+Now, we are ready to configure various components in our application.
 
 **Step 4:** **Instrument HTTP handler with OpenTelemetry**
 
@@ -244,7 +241,9 @@ We can also attach attributes, events, etc. to this span. Please refer to the [d
 Database lies in the hot path for most of the applications and any insights into its performance are valuable. We instrument it with the help of [github.com/XSAM/otelsql](http://github.com/XSAM/otelsql). And while making any DB call, we pass on the context.
 
 ```go
-db, err = otelsql.Open("mysql", datasourceName(username, password, host, dbName))
+db, err = otelsql.Open("mysql", datasourceName(username, password, host, dbName), otelsql.WithAttributes(
+		semconv.DBSystemMySQL,
+	))
 ....
 ....
 res, err := stmt.ExecContext(ctx, p.Vars...)
@@ -264,13 +263,11 @@ If you have installed SigNoz on your local machine, then your endpoint is `127.
 
 If you have installed SigNoz on some domain, then your endpoint is `test.com:4317`
 
-
 :::info
 
-Do not use `http` or `https` in the IP address. 
+Do not use `http` or `https` in the IP address.
 
 :::
-
 
 Configuration for the following can be set up in `.env`
 
@@ -290,8 +287,6 @@ SQL_DB=signoz
 OTEL_EXPORTER_OTLP_ENDPOINT=localhost:4317
 INSECURE_MODE=true
 ```
-
-
 
 **Step 2: Run the microservices**
 
@@ -345,7 +340,6 @@ Now go to the app frontend running at [localhost:5000](http://localhost:5000). P
     <img src="/img/blog/2022/05/dt_golang_transfer_fund.webp" alt="Transfer Funds using UI"/>
     </figure>
     <br></br>
-    
 
 3. Place an order:<br></br>
    Place an order by selecting a product from the dropdown.
@@ -354,7 +348,6 @@ Now go to the app frontend running at [localhost:5000](http://localhost:5000). P
     <img src="/img/blog/2022/05/dt_golang_place_order.webp" alt="Place orders using UI"/>
     </figure>
     <br></br>
-    
 
 Now go to the SigNoz dashboard (running on [http://localhost:3301/](http://localhost:3301/) by default), wait for some time, and refresh the dashboard. You will notice the list of service names that we configured:
 
@@ -434,7 +427,7 @@ If you are someone who understands more from video, then you can watch the below
 
 If you have any questions or need any help in setting things up, join our slack community and ping us in `#support` channel
 
-[![SigNoz Slack community](/img/blog/common/join_slack_cta.png)](https://signoz.io/slack)
+[![SigNoz Slack community](/img/blog/common/join_slack_cta.webp)](https://signoz.io/slack)
 
 If you want to know more about distributed tracing or SigNoz, feel free to follow these links:
 

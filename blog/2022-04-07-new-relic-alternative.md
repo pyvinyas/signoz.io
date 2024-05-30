@@ -1,7 +1,7 @@
 ---
 title: SigNoz - Open-source alternative to New Relic
 slug: open-source-newrelic-alternative
-date: 2023-02-07
+date: 2023-12-20
 tags: [SigNoz, Open Source]
 authors: ankit_anand
 description: If you're looking for an open-source alternative to New Relic, then you're at the right place. SigNoz is a perfect open-source alternative to New Relic. SigNoz provides a unified UI for metrics, traces and logs with advanced tagging and filtering capabilities...
@@ -18,7 +18,7 @@ keywords:
   <link rel="canonical" href="https://signoz.io/blog/open-source-newrelic-alternative/"/>
 </head>
 
-import SignUps from '../docs/shared/sign-ups.md'
+import GetStartedSigNoz from '../docs/shared/get-started-signoz.md';
 
 If you're looking for an open-source alternative to New Relic, then you're at the right place. SigNoz is a perfect open-source alternative to New Relic. SigNoz provides a unified UI for metrics, traces and logs with advanced tagging and filtering capabilities.
 
@@ -40,13 +40,15 @@ Some of the challenges with tools like New Relic includes:
 
 import Screenshot from "@theme/Screenshot"
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Reddit post discussing issues about pricing model of New Relic"
-    height={500}
+    
     src="/img/blog/2021/09/issue_with_newrelic-min.webp"
-    title="What's the catch with New Relic? (Source: Reddit)"
-    width={700}
-/>
+    />
+<figcaption><i>What's the catch with New Relic? (Source: Reddit)</i></figcaption>
+</figure>
+<br/>
 
 
 A relatively newer concept in the field of application performance monitoring is observability. Making a system observable is the pursuit of achieving a state of proactiveness to solve unknown issues. Logs, metrics, and traces are usually considered the three pillars of observability.
@@ -60,8 +62,6 @@ Some of the key features of good observability tools are:
 - Filtering of traces based on different tags and filters
 - Ability to set dynamic thresholds for alerts
 - Transparency in pricing
-
-<SignUps />
 
 ## Why choose an open-source alternative to New Relic?
 APM and observability tools are critical tools in a developer's kit. These tools improve developer efficiency, save bandwidth by resolving issues quickly, and increase developer productivity.
@@ -91,16 +91,14 @@ And that's where SigNoz shines. It is very simple to get started, supports multi
 
 Some of our key features which makes SigNoz vastly superior to current open-source products and a great alternative to New Relic are:
 
-- Metrics, traces, and logs under a single pane of glass
-- Correlation of telemetry signals
-- Out of the box application metrics
-- Seamless flow between metrics & traces
-- Filtering based on tags
-- Custom aggregates on filtered traces
-- Detailed Flamegraphs & Gantt charts
-- Infrastructure dashboards
-- Exceptions monitoring
-- Transparent usage Data
+- Visualise Traces, Metrics, and Logs in a single pane of glass
+- Monitor application metrics like p99 latency, error rates for your services, external API calls, and individual endpoints.
+- Find the root cause of the problem by going to the exact traces which are causing the problem and see detailed [flamegraphs](https://signoz.io/blog/flamegraphs/) of individual request traces.
+- Run aggregates on trace data to get business-relevant metrics
+- Filter and query logs, build dashboards and alerts based on attributes in logs
+- Monitor infrastructure metrics such as CPU utilization or memory usage
+- Record exceptions automatically in Python, Java, Ruby, and Javascript
+- Easy to set alerts with DIY query builder
 
 
 ### Application metrics
@@ -112,20 +110,22 @@ Get p90, p99 latencies, RPS, Error rates, and top endpoints for a service out of
     <figcaption><i>SigNoz UI showing application overview metrics like RPS, 50th/90th/99th Percentile latencies, and Error Rate</i></figcaption>
 </figure>
 
-### Seamless flow between metrics & traces
+### Seamless flow between application metrics & traces
 
 Found something suspicious in a metric, just click that point in the graph & get details of traces that may be causing the issues. Seamless, Intuitive.
 
-<!-- <Screenshot
+<!-- <figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Seamless flow between metrics and traces"
-    height={500}
+    
     src="/img/blog/2021/08/metrics_to_traces_signoz-min.webp"
-    title="Move from metrics to traces at any point of time which needs more analysis"
-    width={700}
-/> -->
+    />
+<figcaption><i>Move from metrics to traces at any point of time which needs more analysis"
+    </figure>
+<br/> -->
 
 <figure data-zoomable align='center'>
-    <img src="/img/blog/2022/04/metrics_to_traces.webp" alt="Seamless flow between metrics and traces"/>
+    <img src="/img/blog/common/application_metrics_to_traces.webp" alt="Seamless flow between metrics and traces"/>
     <figcaption><i>Move from metrics to traces at any point of time which needs more analysis</i></figcaption>
 </figure>
 
@@ -133,13 +133,15 @@ Found something suspicious in a metric, just click that point in the graph & get
 
 For example, you can find latency experienced by customers who have customer_type set as `premium`.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Filtering based on tags"
-    height={500}
+    
     src="/img/blog/2021/08/tags_based_filtering_signoz-min.webp"
-    title="Filter traces for a specific user group using tags"
-    width={700}
-/> -->
+    />
+<figcaption><i>Filter traces for a specific user group using tags"
+    </figure>
+<br/> -->
 
 ### Advanced filters on trace data
 
@@ -148,7 +150,7 @@ Under our traces tab, you can analyze the traces data using filters based on tag
 Using tags, you can find latency experienced by customers who have customer_type set as `premium`.
 
 <figure data-zoomable align='center'>
-    <img src="/img/blog/2022/04/powerful_filters_on_traces_data.webp" alt="Filters on trace data"/>
+    <img src="/img/blog/common/filters_trace_data.webp" alt="Filters on trace data"/>
     <figcaption><i>Use advanced filters to analyze your trace data</i></figcaption>
 </figure>
 
@@ -157,7 +159,7 @@ Using tags, you can find latency experienced by customers who have customer_type
 Create custom metrics from filtered traces to find metrics of any type of request. Want to find p99 latency of customer_type: premium who are seeing status_code:400. Just set the filters, and you have the graph.
 
 <figure data-zoomable align='center'>
-    <img src="/img/blog/2022/04/custom_aggregates_filtered_data.webp" alt="Custom aggregates on filtered traces"/>
+    <img src="/img/blog/common/traces_custom_aggregates.webp" alt="Custom aggregates on filtered traces"/>
     <figcaption><i>Find custom aggregates on filtered traces</i></figcaption>
 </figure>
 
@@ -184,7 +186,7 @@ SigNoz provides Logs management with advanced log query builder. You can also mo
 You can drill down details of how many events is each application sending or at what granularity so that you can adjust your sampling rate as needed and not get a shock at the end of the month (case with SaaS vendors many times)
 
 <figure data-zoomable align='center'>
-    <img src="/img/blog/2022/04/transparent_usage_data.webp" alt="Transparent usage data"/>
+    <img src="/img/blog/common/signoz_usage_explorer.webp" alt="Transparent usage data"/>
     <figcaption><i>SigNoz provides usage explorer so that you are always informed about your usage</i></figcaption>
 </figure>
 
@@ -203,32 +205,16 @@ Some of the key advantages of using OpenTelemetry are:
 
 ## Getting started with SigNoz
 
-You can get started with SigNoz using just three commands at your terminal.
+<GetStartedSigNoz />
 
-```jsx
-git clone -b main https://github.com/SigNoz/signoz.git
-cd signoz/deploy/
-./install.sh
-```
-<br></br>
-
-For detailed instructions, you can visit our documentation.
-
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=newrelic_alternative)
-
-If you liked what you read, then check out our GitHub repo 👇
-
-[![SigNoz GitHub repo](/img/blog/common/signoz_github.webp)](https://github.com/SigNoz/signoz)
-
-Our slack community is a great place to get your queries solved instantly and get community support for SigNoz. Link to join 👇
-
-[SigNoz slack community](https://signoz.io/slack)
 
 ---
 
 #### **Related Content**
 
-**[DataDog Alternative](https://signoz.io/blog/open-source-datadog-alternative/)**<br></br>
-**[Dynatrace Alternative](https://signoz.io/blog/dynatrace-alternative/)**<br></br>
-**[AppDynamics Alternative](https://signoz.io/blog/appdynamics-alternative/)**<br></br>
+**[Top 11 New Relic Alternatives](https://signoz.io/blog/new-relic-alternatives/)**
+
+**[Dynatrace vs New Relic](https://signoz.io/comparisons/dynatrace-vs-newrelic/)**
+
+**[SigNoz vs New Relic](https://signoz.io/comparisons/signoz-vs-newrelic/)**
 

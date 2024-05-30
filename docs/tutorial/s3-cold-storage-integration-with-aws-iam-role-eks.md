@@ -37,6 +37,7 @@ clickhouse:
          annotations:
             eks.amazonaws.com/role-arn: arn:aws:iam::*********:role/********
 ```
+`endpoint` would look something like `https://BUCKET_NAME.s3.REGION.amazonaws.com/data/`
 
 However, just adding the AWS role arn will not complete the integration,
 because here we need to associate the given IAM role with a Kubernetes
@@ -51,7 +52,7 @@ IAM Roles and service accounts.
 
 1. Go to EKS cluster and copy the OIDC provider URL.(inside green rectangle)
    
-   ![AWS OIDC URL](../../static/img/docs/s3-cold-storage/aws-eks-oidc-url.png)
+   ![AWS OIDC URL](../../static/img/docs/s3-cold-storage/aws-eks-oidc-url.webp)
 
 2. Go to AWS IAM and check if there are any IAM OIDC providers in AWS
    IAM for the given _"CLUSTER"_.
@@ -60,17 +61,17 @@ IAM Roles and service accounts.
    Below are the steps to create an IAM OIDC provider:
 
    a. Go to IAM --> Click on the Identity Provider --> Click On Add provider.
-   ![IAM OIDC PROVIDER](../../static/img/docs/s3-cold-storage/aws-iam-oidc-provider.png)
+   ![IAM OIDC PROVIDER](../../static/img/docs/s3-cold-storage/aws-iam-oidc-provider.webp)
 
    b. Choose **openid connect** --> Copy EKS OIDC url into **Provider URL** and
    click on *Get Thumbprint** --> Enter **sts.amazonaws.com** into the **Audience**
    text box --> click on **Add Provider**.
-   ![ADD OIDC PROVIDER](../../static/img/docs/s3-cold-storage/add-iam-oidc-provider.png)
+   ![ADD OIDC PROVIDER](../../static/img/docs/s3-cold-storage/add-iam-oidc-provider.webp)
 
 4. Create AWS S3 bucket for SigNoz cold storage.
 
    a. Go to AWS S3 console --> click on the **Create bucket**.
-   ![AWS S3](../../static/img/docs/s3-cold-storage/aws-s3-create.png)
+   ![AWS S3](../../static/img/docs/s3-cold-storage/aws-s3-create.webp)
 
    b. Fill all the details like bucket name **(demo-cold-storage)**, choose
    region and create the bucket. You can refer the
@@ -104,18 +105,18 @@ IAM Roles and service accounts.
 6. Create an IAM role for SigNoz service accounts: `clickhouse-instance`.
 
    a. Go to AWS IAM --> Roles --> Create Role.
-   ![AWS IAM ROLE](../../static/img/docs/s3-cold-storage/aws-iam-role.png)
+   ![AWS IAM ROLE](../../static/img/docs/s3-cold-storage/aws-iam-role.webp)
 
    b. Choose **web identity** --> Select the above created OIDC provider
    from Identity provider drop down ---> Choose **sts.amazonaws.com**
    from audience drop down --> Click on Next.
-   ![AWS WEB IDENTITY](../../static/img/docs/s3-cold-storage/aws-web-identity.png)
+   ![AWS WEB IDENTITY](../../static/img/docs/s3-cold-storage/aws-web-identity.webp)
 
    c. Choose the IAM S3 policy created above and click on the next button.
-   ![AWS IAM POLICY](../../static/img/docs/s3-cold-storage/aws-iam-policy.png)
+   ![AWS IAM POLICY](../../static/img/docs/s3-cold-storage/aws-iam-policy.webp)
 
    d. Enter the role name **demo-cold-storage-role**, description and tags and create the role.
-   ![AWS ADD ROLE](../../static/img/docs/s3-cold-storage/aws-add-role.png)
+   ![AWS ADD ROLE](../../static/img/docs/s3-cold-storage/aws-add-role.webp)
 
 7. Update the `overwrite-values.yaml` with relevent bucket name and IAM role annotation.
 
@@ -126,11 +127,11 @@ clickhouse:
    coldStorage:
       enabled: true
       defaultKeepFreeSpaceBytes: "10485760"
-      endpoint: https://demo-cold-storage.s3.amazonaws.com/data/
+      endpoint: https://demo-cold-storage.s3.us-east-2.amazonaws.com/data/
       role:
          enabled: true
          annotations:
-            eks.amazonaws.com/role-arn:arn:aws:iam::1234056789:role/demo-cold-storage-role
+            eks.amazonaws.com/role-arn: arn:aws:iam::1234056789:role/demo-cold-storage-role
 ```
 8. Upgrade the helm deployment.
 

@@ -1,4 +1,5 @@
 // @ts-check
+require("dotenv").config();
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -10,31 +11,48 @@ const config = {
   trailingSlash: true,
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
+  customFields: {
+    AIRTABLE_KEY: process.env.AIRTABLE_KEY,
+    AIRTABLE_BASE_URL: process.env.AIRTABLE_BASE_URL,
+  },
   organizationName: "SigNoz", // Usually your GitHub org/user name.
   projectName: "signoz", // Usually your repo name.
   themeConfig: {
+    // announcementBar: {
+    //   id: "funding",
+    //   content:
+    //     '🚀 SigNoz Launch Week 1.0 is live. <a target="_blank" rel="noopener noreferrer" href="/newsroom/launch-week-1/">Read more</a>',
+    //   backgroundColor: "#FAF9F6",
+    //   textColor: "#091E42",
+    //   isCloseable: false,
+    // },
+    colorMode: {
+      defaultMode: "dark",
+      disableSwitch: true,
+      respectPrefersColorScheme: false,
+    },
     algolia: {
       // The application ID provided by Algolia
-      appId: 'E88QYIQ6K4',
+      appId: "E88QYIQ6K4",
 
       // Public API key: it is safe to commit it
-      apiKey: '1061c173ae001d5f5aaa4f0354e373a0',
-      indexName: 'signoz',
+      apiKey: "1061c173ae001d5f5aaa4f0354e373a0",
+      indexName: "signoz",
     },
     prism: {
       // Supported languages are:
       // https://prismjs.com/index.html#supported-languages
-      additionalLanguages: ["ruby", "csharp", "php", "java"],
+      additionalLanguages: ["ruby", "csharp", "php", "java", "scala", "kotlin"],
     },
     zoom: {
-      selector: 'figure[data-zoomable] > img',
+      selector: "figure[data-zoomable] > img",
       config: {
         // options you can specify via https://github.com/francoischalifour/medium-zoom#usage
         background: {
-          light: 'rgb(255, 255, 255)',
-          dark: 'rgb(50, 50, 50)'
-        }
-      }
+          light: "rgb(255, 255, 255)",
+          dark: "rgb(50, 50, 50)",
+        },
+      },
     },
     // googleAnalytics: {
     //   trackingID: 'UA-152867655-1',
@@ -50,17 +68,12 @@ const config = {
     //   textColor: "#eeeeee", // Defaults to `#000`.
     //   isCloseable: false, // Defaults to `true`.
     // },
-    
     // posthog: {
     //   apiKey: "H-htDCae7CR3RV57gUzmol6IAKtm5IMCvbcm_fwnL-w",
     //   appUrl: "https://app.posthog.com", // optional
     //   enableInDevelopment: false, // optional
     // },
     image: "/img/signoz_website_hero_image.webp",
-    colorMode: {
-      // "light" | "dark"
-      defaultMode: "dark",
-    },
     navbar: {
       title: "SigNoz",
       logo: {
@@ -74,28 +87,68 @@ const config = {
           label: "Docs",
           position: "left",
         },
+        {
+          to: "pricing/",
+          activeBasePath: "pricing",
+          label: "Pricing",
+          position: "left",
+        },
         //docusaurus expects href elements to be full links
         //https://stackoverflow.com/questions/63268853/how-do-i-link-to-non-docusaurus-defined-routes-from-a-docusuarus-footer
         //{href: 'https://signoz.io/blog/', label: 'Blog', position: 'left'}
+        // {
+        //   to: "blog/",
+        //   activeBasePath: "blog",
+        //   label: "Blog",
+        //   position: "left",
+        // },
+        // {
+        //   to: "comparisons/",
+        //   activeBasePath: "comparisons",
+        //   label: "Comparisons",
+        //   position: "left",
+        // },
         {
-          to: "blog/",
-          activeBasePath: "blog",
-          label: "Blog",
-          position: "left",
+          // to: '/resources', // Path to your comparison section
+          label: "Resources", // Text for the link
+          position: "left", // Position on the navbar (left or right)
+          items: [
+            {
+              label: "Blog",
+              to: "/blog",
+            },
+            {
+              label: "OpenTelemetry",
+              to: "/opentelemetry",
+            },
+            // {
+            //   label: 'Documentation',
+            //   to: '/docs',
+            // },
+            {
+              label: "Comparisons",
+              to: "/comparisons",
+            },
+            {
+              label: "Customer Stories",
+              to: "case-study/",
+            },
+            // Add more article links here...
+          ],
         },
-        {
-          to: "opentelemetry/",
-          activeBasePath: "opentelemetry",
-          label: "OpenTelemetry",
-          position: "left",
-        },
-        {
-          to: "case-study/",
-          activeBasePath: "case-study/",
-          label: "Customer Stories",
-          position: "right",
-        },
-      
+        // {
+        //   to: "opentelemetry/",
+        //   activeBasePath: "opentelemetry",
+        //   label: "OpenTelemetry",
+        //   position: "left",
+        // },
+        // {
+        //   to: "case-study/",
+        //   activeBasePath: "case-study/",
+        //   label: "Customer Stories",
+        //   position: "right",
+        // },
+
         // {
         //   href: "https://signoz.io/pricing/",
         //   label: "Try SigNoz Cloud",
@@ -112,12 +165,12 @@ const config = {
         //   label: "About",
         //   position: "right",
         // },
-        {
-          to: "pricing/",
-          activeBasePath: "pricing",
-          label: "Pricing",
-          position: "left",
-        },
+        // {
+        //   to: "pricing/",
+        //   activeBasePath: "pricing",
+        //   label: "Pricing",
+        //   position: "left",
+        // },
       ],
     },
     footer: {
@@ -133,6 +186,10 @@ const config = {
             {
               label: "Contributing",
               to: "docs/contributing",
+            },
+            {
+              label: "Knowledge Base",
+              href: "https://knowledgebase.signoz.io/kb",
             },
           ],
         },
@@ -160,6 +217,10 @@ const config = {
               to: "learn/",
             },
             {
+              label: "Technical Writer Program",
+              to: "technical-writer-program/",
+            },
+            {
               label: "Community Archive",
               href: "https://community-chat.signoz.io/",
             },
@@ -169,8 +230,24 @@ const config = {
           title: "More",
           items: [
             {
-              label: "Technical Writer Program",
-              to: "technical-writer-program/",
+              label: "SigNoz vs Datadog",
+              to: "comparisons/signoz-vs-datadog/",
+            },
+            {
+              label: "SigNoz vs New Relic",
+              to: "comparisons/signoz-vs-newrelic/",
+            },
+            {
+              label: "SigNoz vs Grafana",
+              to: "comparisons/signoz-vs-grafana/",
+            },
+            {
+              label: "SigNoz vs Dynatrace",
+              to: "comparisons/signoz-vs-dynatrace/",
+            },
+            {
+              label: "Careers",
+              to: "https://jobs.gem.com/signoz",
             },
             {
               label: "About",
@@ -206,6 +283,7 @@ const config = {
         },
         blog: {
           showReadingTime: true,
+          blogSidebarCount: 0,
           // Please change this to your repo.
           // editUrl:
           //   'https://github.com/facebook/docusaurus/edit/master/website/blog/',
@@ -218,21 +296,42 @@ const config = {
           priority: 0.5,
         },
         googleAnalytics: {
-          trackingID: 'UA-152867655-1',
+          trackingID: "UA-152867655-1",
         },
         //moving current UA property to google analytics and adding GA4 id to gtag
-        gtag: {
-          // You can also use your "G-" Measurement ID here.
-          trackingID: "G-6NFJ2Y6NQN",
-          // Optional fields.
-          // anonymizeIP: true, // Should IPs be anonymized?
+        // gtag: {
+        //   // You can also use your "G-" Measurement ID here.
+        //   trackingID: "G-6NFJ2Y6NQN",
+        //   // Optional fields.
+        //   // anonymizeIP: true, // Should IPs be anonymized?
+        // },
+        googleTagManager: {
+          containerId: "GTM-N9B6D4H",
+        },
+      },
+    ],
+    // Redocusaurus config
+    [
+      "redocusaurus",
+      {
+        // Plugin Options for loading OpenAPI files
+        specs: [
+          {
+            spec: "openapi/alerts.yaml",
+            route: "/api_reference",
+          },
+        ],
+        // Theme Options for modifying how redoc renders them
+        theme: {
+          // Change with your site colors
+          primaryColor: "#1890ff",
         },
       },
     ],
   ],
   // plugins: ["posthog-docusaurus"],
   plugins: [
-    require.resolve('docusaurus-plugin-image-zoom'),
+    require.resolve("docusaurus-plugin-image-zoom"),
     [
       "@docusaurus/plugin-content-blog",
       {
@@ -250,6 +349,27 @@ const config = {
          */
         path: "./opentelemetry",
         blogTitle: "OpenTelemetry",
+        blogSidebarCount: 0,
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-blog",
+      {
+        /**
+         * Required for any multi-instance plugin
+         */
+        id: "comparisons",
+        /**
+         * URL route for the blog section of your site.
+         * *DO NOT* include a trailing slash.
+         */
+        routeBasePath: "comparisons",
+        /**
+         * Path to data on filesystem relative to site dir.
+         */
+        path: "./comparisons",
+        blogTitle: "Comparisons",
+        blogSidebarCount: 0,
       },
     ],
     [
@@ -284,7 +404,7 @@ const config = {
           {
             tagName: "link",
             rel: "icon",
-            href: "/img/icons/icon-512x512.png",
+            href: "/img/icons/icon-512x512.webp",
           },
           {
             tagName: "link",
@@ -299,6 +419,17 @@ const config = {
         ],
       },
     ],
+    async function myPlugin(context, options) {
+      return {
+        name: "docusaurus-tailwindcss",
+        configurePostCss(postcssOptions) {
+          // Appends TailwindCSS and AutoPrefixer.
+          postcssOptions.plugins.push(require("tailwindcss"));
+          postcssOptions.plugins.push(require("autoprefixer"));
+          return postcssOptions;
+        },
+      };
+    },
   ],
 
   // plugins: ['@docusaurus/plugin-google-gtag'],

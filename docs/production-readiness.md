@@ -2,11 +2,9 @@
 id: production-readiness
 title: Best Practices for Production
 ---
-<p align="center">
+import SigNozCloud from './shared/signoz-cloud.md'
 
-[![Book meeting](/img/docs/ZoomCTA-production.png)](https://calendly.com/pranay-signoz/signoz-production-readiness)
-
-</p>
+<SigNozCloud />
 
 # Best Practices to follow to run SigNoz in production
 
