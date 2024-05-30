@@ -194,12 +194,12 @@ To enable a Prometheus receiver, follow the steps below:
       # This file was truncated for brevity.
       ```
     Note that all the jobs are scraped in parallel, and all targets inside a job are scraped serially. For more details about configuring jobs and targets, see the following sections of the Prometheus documentation:
-      - [<Scrape_config>](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config)
+      - [<scrape_config>](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config)
       - [Jobs and Instances](https://prometheus.io/docs/concepts/jobs_instances/)
 
 ## Find Metrics available in SigNoz
 
-You can use this metrics to plot in the [Dashboard](/docs/userguide/manage-dashboards) section
+You can use this metrics to plot in the [Dashboard](/docs/userguide/manage-dashboards) section.
 
 ## Related Videos
 

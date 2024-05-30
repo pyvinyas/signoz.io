@@ -176,14 +176,14 @@ To enable a Prometheus receiver, follow the steps below:
     Note that all the jobs are scraped in parallel, and all targets inside a job are
     scraped serially. For more details about configuring jobs and targets, see the
     following sections of the Prometheus documentation:
-      - [<Scrape_config>][5]
+      - [<scrape_config>][5]
       - [Jobs and Instances][6]
 3. <SaveChangesRestart />
 
 ## Find Metrics available in SigNoz
 
-You can connect to SigNoz'a clickhouse instance and find the metrics SigNoz is storing.
-As of now this is bit of manual process, we are bringing capbilities to auto-suggest
+You can connect to SigNoz's ClickHouse instance and find the metrics SigNoz is storing.
+As of now this is bit of manual process, we are bringing capabilities to auto-suggest
 available metrics soon.
 
 You can follow the below steps:
