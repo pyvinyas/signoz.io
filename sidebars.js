@@ -400,6 +400,11 @@ module.exports = {
                 'userguide/logstash_to_signoz',
               ],
             },
+            {
+              type: 'doc',
+              label: 'Tomcat access and garbage collector logs',
+              id: 'logs-management/send-logs-to-signoz/collect-tomcat-access-and-garbage-collector-logs'
+            },
           ],
         },
         {
