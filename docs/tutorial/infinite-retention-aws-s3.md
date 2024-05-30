@@ -14,8 +14,9 @@ retain the OpenTelemetry data as long as we need.
 
 - Data in AWS S3 is inaccessible in SigNoz UI
 - Need to use third-party tool like **Amazon Athena** to query data
-- Manual task for adding prefixes for different types of signals like logs,
-  metrics, traces
+- Due to limitation of AWS S3 Exporter, you won't be able differentiate
+  different signals like logs, metrics, and traces - hence the need of
+  including different prefixes
 
 :::info
 If you want to query data stored in AWS S3 using **SigNoz** and do not
