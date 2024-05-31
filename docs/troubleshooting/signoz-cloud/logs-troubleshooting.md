@@ -7,8 +7,9 @@ These are instructions for logs troubleshooting for SigNoz Cloud.
 
 ### Q. In java my mdc attributes are not visible in SigNoz
 
-It’s present in this [documentation](https://signoz.io/docs/userguide/collecting_application_logs_otel_sdk_java) 
-`otel.instrumentation.logback-appender.experimental.capture-mdc-attributes=*`  for **logback** and `otel.instrumentation.log4j-appender.experimental.capture-mdc-attributes=*` for **log4j**
+You can get your mdc attributes by using the [appender settings](https://signoz.io/docs/userguide/collecting_application_logs_otel_sdk_java#settings-for-appender-instrumentation-based-on-the-logging-library) and passing it as `-D<property>=<value>` format.
+
+For example, for **logback** you can use `otel.instrumentation.logback-appender.experimental.capture-mdc-attributes=*` and for **log4j** you can use `otel.instrumentation.log4j-appender.experimental.capture-mdc-attributes=*`. Checkout [this documentation](`otel.instrumentation.log4j-appender.experimental.capture-mdc-attributes=*`) for more system properties.
 
 ### Q. I want to extract trace_id and span_id from my log line
 
