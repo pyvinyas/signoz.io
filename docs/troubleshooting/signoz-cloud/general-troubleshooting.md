@@ -5,7 +5,26 @@ id: general-troubleshooting
 
 These are instructions for general troubleshooting for SigNoz Cloud.
 
+### Q. How to setup SigNoz across different environments?
+You can ingest data from across your environments just by adding `deployment.environment` resource attribute
 
+On SDK level you can add it though environment variable
+`OTEL_EXPORTER_OTLP_HEADERS=deployment.environment=prod`
+
+On collector level you can add it through a [resource](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/processor/resourceprocessor/README.md) processor.
+```yaml
+processors:
+  resource/env:
+    attributes:
+    - key: deployment.environment
+      value: prod
+      action: upsert
+...
+service:
+  pipelines:
+    logs:
+      processors: [resource/env, batch]
+```
 
 ### Q. I can't find my Ingestion Key and Region. Where is it ?
 To find the details about the Ingestion Key and Region, you can follow this flow in the SigNoz interface
