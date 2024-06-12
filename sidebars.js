@@ -790,6 +790,11 @@ module.exports = {
               type: 'doc',
               id: 'azure-monitoring/app-service/logging',
               label: 'Logging',
+            },
+            {
+              type: 'doc',
+              id: 'azure-monitoring/app-service/tracing',
+              label: 'Tracing',
             }
           ]
         },
@@ -816,6 +821,11 @@ module.exports = {
               type: 'doc',
               id: 'azure-monitoring/az-fns/logging',
               label: 'Logging',
+            },
+            {
+              type: 'doc',
+              id: 'azure-monitoring/az-fns/tracing',
+              label: 'Tracing',
             }
           ]
         },
@@ -837,6 +847,11 @@ module.exports = {
               type: 'doc',
               id: 'azure-monitoring/az-container-apps/logging',
               label: 'Logging',
+            },
+            {
+              type: 'doc',
+              id: 'azure-monitoring/az-container-apps/tracing',
+              label: 'Tracing',
             }
           ]
         },
