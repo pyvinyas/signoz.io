@@ -1,4 +1,4 @@
-Note: SigNoz website is now at this [Github repo](https://github.com/SigNoz/signoz-web). Make any new PRs to that repo.
+# Note: SigNoz website is now at this [Github repo](https://github.com/SigNoz/signoz-web). Make any new Issues & PRs to that repo.
 
 
 
