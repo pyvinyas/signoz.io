@@ -19,13 +19,16 @@ Moreover, it’s not trivial to get application metrics with Prometheus. SigNoz 
 
 Our goal is to provide an integrated UI between all telemetry signals - metrics, traces, and logs - similar to what SaaS vendors like Datadog provide.
 
+### What is the difference between `signoz/alertmanager` and `prometheus/alertmanager`?
+
+`prometheus/alertmanager` mostly works via config and needs to restart for every change. The SigNoz team forked and created APIs to create, test and manage channels dynamically along with other functionalities like muting, inhibiting, etc
+
 ### How does SigNoz compare to Grafana stack ( Prometheus, Loki, Tempo)?
 
 The advantages of SigNoz are powered by the choice of columnar database underlying it. Running aggregates on traces and logs would be much more efficient when doing in a columnar db. So, if you use Tempo you won't be able to get sum/rate/count/percentile on spans filtered by tags/labels. Similarly, for Loki if you look into their open issues on performance, you will find issues in running fast aggregations on millions of log lines.
 Moreover, running 3 stacks for metrics, traces and logs would prove to be more cumbersome for millions of events.
 
 Using a single underlying datastore helps us in switching context from metrics to traces. Say, you see a spike in latency or error % of external calls or db calls from a service, SigNoz can take you to relevant traces on the click of a button which may not be as simple in Grafana (as far as we know).
-
 
 #### To Summarise
 
@@ -62,11 +65,6 @@ Trace data is also visualized with Flamegraphs and Gantt charts.
 
 With SigNoz, you get metrics, traces and logs in a single application unlike Jaeger which primarily focuses on distributed tracing.
 
-### What will be your paid plan like?
-
-SigNoz will be always open-source and free to self-host for smaller
-teams. You can find more details about our pricing plans [here](https://signoz.io/pricing/).
-
 
 ### What is unique about SigNoz as an observability tool?
 
@@ -91,7 +89,7 @@ So, it depends on the use cases you are trying to solve - whether SigNoz will fi
 
 ### Can I run SigNoz as a service in AWS?
 
-Yes, you can run SigNoz in an AWS instance using Docker-Compose or Docker Swarm. You can also use our helm chart to deploy SigNoz in EKS.
+Yes, you can run SigNoz in an AWS instance using Docker Compose or Docker Swarm. You can also use our helm chart to deploy SigNoz in EKS.
 
 Refer here: [https://signoz.io/docs/install/](https://signoz.io/docs/install/)
 
@@ -107,11 +105,11 @@ Yes, it is possible to remove the sample app. Refer [here](https://signoz.io/doc
 
 We currently do not support Windows because we are a small team. At first, we are focussing on MAC and Linux users.
 
-Try SigNoz on your macOS or Linux system, and use the [install script](https://signoz.io/docs/install/docker/#install-signoz-using-the-install-script) for easy setup.
+Try SigNoz on your macOS or Linux system, and use the [install script](https://signoz.io/docs/install/#install-signoz-using-the-install-script) for easy setup.
 
 Supported Linux Disto - Ubuntu | Debian | OpenSuse | CentOS | SUSE Linux Enterprise Server (SLES)
 
-If you're using a different Linux distribution, see the [Install SigNoz Using Docker Compose](https://signoz.io/docs/install/docker/#install-signoz-using-docker-compose) section.
+If you're using a different Linux distribution, see the [Install SigNoz Using Docker Compose](https://signoz.io/docs/install/#install-signoz-using-docker-compose) section.
 
 
 

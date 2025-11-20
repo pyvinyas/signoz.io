@@ -160,7 +160,7 @@ cd signoz/deploy/
 
 You can visit our documentation for instructions on how to install SigNoz using Docker Swarm and Helm Charts.
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=opentelemetry_distributed_tracing)
+[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/)
 
 When you are done installing SigNoz, you can access the UI at [http://localhost:3301](http://localhost:3301/application)
 
@@ -324,7 +324,7 @@ Below are the steps to run the sample Java application with OpenTelemetry:
    
    <figure data-zoomable align='center'>
     <img src="/img/blog/2022/03/confirm_table_creation.webp" alt="Checking creation of tables"/>
-    <figcaption>Checking creation of tables after running microservices</figcaption>
+    <figcaption><i>Checking creation of tables after running microservices</i></figcaption>
     </figure>
     
     <br></br>
@@ -345,7 +345,7 @@ serve -l 5000 u
 ```
 
 <figure data-zoomable align='center'>
-    <img src="/img/blog/2022/03/serve_ui_port.png" alt="Running sample app UI"/>
+    <img src="/img/blog/2022/03/serve_ui_port.webp" alt="Running sample app UI"/>
     <figcaption><i>Running sample app UI</i></figcaption>
 </figure>
 
@@ -408,7 +408,7 @@ You can also see these aggregates in more granular detail by grouping them by se
 
 <figure data-zoomable align='center'>
     <img src="/img/blog/2022/03/group_aggregates.webp" alt="Group Aggregates"/>
-    <figcaption>Group aggregates across a list of dimensions</figcaption>
+    <figcaption><i>Group aggregates across a list of dimensions</i></figcaption>
     </figure>
     
     <br></br>
@@ -439,13 +439,13 @@ You will be able to see the Flamegraph of the selected span which shows how the 
 
 <figure data-zoomable align='center'>
     <img src="/img/blog/2022/03/db_traces.webp" alt="Database traces"/>
-    <figcaption>Databases traces which show semantics related to mysql db and query details</figcaption>
+    <figcaption><i>Databases traces which show semantics related to mysql db and query details</i></figcaption>
 </figure>
 
 <br></br>
     
 
-SigNoz also provides a detailed view of common [semantic conventions](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/semantic_conventions/http.md) like HTTP, network, and other attributes. The end-to-end tracing of user requests can help you to identify latency issues quickly.
+SigNoz also provides a detailed view of common [semantic conventions](https://github.com/open-telemetry/semantic-conventions) like HTTP, network, and other attributes. The end-to-end tracing of user requests can help you to identify latency issues quickly.
     
 
 ## Conclusion
@@ -458,7 +458,7 @@ OpenTelemetry and SigNoz provide a great open-source solution to implement distr
 
 If you have any questions or need any help in setting things up, join our slack community and ping us in `#support` channel.
 
-[![SigNoz Slack community](/img/blog/common/join_slack_cta.png)](https://signoz.io/slack)
+[![SigNoz Slack community](/img/blog/common/join_slack_cta.webp)](https://signoz.io/slack)
 
 
 ---

@@ -31,9 +31,369 @@ Let’s understand how to download, install, and run OpenTelemetry in Python.
 
 ## Requirements
 
-- Python 3.6 or newer
+- Python 3.8 or newer
 
-## Send Traces Directly to SigNoz
+## Send Traces to SigNoz Cloud
+
+Based on your application environment, you can choose the setup below to send traces to SigNoz Cloud.
+
+<Tabs>
+<TabItem value="vm" label="VM" default>
+
+From VMs, there are two ways to send data to SigNoz Cloud.
+
+- [Send traces directly to SigNoz Cloud](#send-traces-directly-to-signoz-cloud)
+- [Send traces via OTel Collector binary](#send-traces-via-otel-collector-binary) (recommended)
+
+#### **Send traces directly to SigNoz Cloud**
+
+Step 1. Create a virtual environment<br></br>
+    
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+Step 2. Install the OpenTelemetry dependencies
+
+```bash
+pip install opentelemetry-distro==0.43b0
+pip install opentelemetry-exporter-otlp==1.22.0
+```
+
+Step 3. Add automatic instrumentation
+
+```bash
+opentelemetry-bootstrap --action=install
+```
+
+Step 4. Run your application
+
+```bash
+OTEL_RESOURCE_ATTRIBUTES=service.name=<service_name> \
+OTEL_EXPORTER_OTLP_ENDPOINT="https://ingest.{region}.signoz.cloud:443" \
+OTEL_EXPORTER_OTLP_HEADERS="signoz-access-token=SIGNOZ_INGESTION_KEY" \
+OTEL_EXPORTER_OTLP_PROTOCOL=grpc \
+opentelemetry-instrument <your_run_command>
+```
+
+- *`<service_name>`* is the name of the service you want
+- *`<your_run_command>`* can be `python3 app.py` or `flask run`
+- Replace `SIGNOZ_INGESTION_KEY` with the api token provided by SigNoz. You can find it in the email sent by SigNoz with your cloud account details.
+
+Depending on the choice of your region for SigNoz cloud, the ingest endpoint will vary according to this table.
+
+| Region | Endpoint |
+| --- | --- |
+| US |	ingest.us.signoz.cloud:443 |
+| IN |	ingest.in.signoz.cloud:443 |
+| EU | ingest.eu.signoz.cloud:443 |
+
+Step 5. Validate if your application is sending traces to SigNoz cloud by following the instructions [here](#validating-instrumentation-by-checking-for-traces).
+
+In case you encounter an issue where all applications do not get listed in the services section then please refer to the [troubleshooting section](#troubleshooting-your-signoz-installation).
+
+---
+
+#### **Send traces via OTel Collector binary**
+
+OTel Collector binary helps to collect logs, hostmetrics, resource and infra attributes. It is recommended to install Otel Collector binary to collect and send traces to SigNoz cloud. You can correlate signals and have rich contextual data through this way.
+
+You can find instructions to install OTel Collector binary [here](https://signoz.io/docs/tutorial/opentelemetry-binary-usage-in-virtual-machine/) in your VM. Once you are done setting up your OTel Collector binary, you can follow the below steps for instrumenting your Python application.
+
+Step 1. Install the OpenTelemetry dependencies
+
+```bash
+pip install opentelemetry-distro==0.43b0
+pip install opentelemetry-exporter-otlp==1.22.0
+```
+
+Step 2. Add automatic instrumentation
+
+```bash
+opentelemetry-bootstrap --action=install
+```
+
+Step 3. To run your application and send data to collector in same VM:
+
+```bash
+OTEL_RESOURCE_ATTRIBUTES=service.name=<service_name> \
+OTEL_EXPORTER_OTLP_ENDPOINT="http://localhost:4317" \
+OTEL_EXPORTER_OTLP_PROTOCOL=grpc \
+opentelemetry-instrument <your_run_command>
+```
+
+where,
+
+- *`<service_name>`* is the name of the service you want
+- *`<your_run_command>`* can be `python3 app.py` or `flask run`
+
+In case you have OtelCollector Agent in different VM, replace localhost:4317 with `<IP Address of the VM>:4317`.
+
+Step 4. You can validate if your application is sending traces to SigNoz cloud by following the instructions [here](#validating-instrumentation-by-checking-for-traces).
+
+In case you encounter an issue where all applications do not get listed in the services section then please refer to the [troubleshooting section](#troubleshooting-your-signoz-installation).
+
+</TabItem>
+<TabItem value="k8s" label="Kubernetes">
+
+For Python application deployed on Kubernetes, you need to install OTel Collector agent in your k8s infra to collect and send traces to SigNoz Cloud. You can find the instructions to install OTel Collector agent [here](https://signoz.io/docs/tutorial/kubernetes-infra-metrics/).
+
+Once you have set up OTel Collector agent, you can proceed with OpenTelemetry Python instrumentation by following the below steps:
+
+Step 1. Add OpenTelemetry dependencies
+
+In your `requirements.txt` file, add these two OpenTelemetry dependencies:
+
+```bash
+opentelemetry-distro==0.43b0
+opentelemetry-exporter-otlp==1.22.0
+
+```
+
+Step 2. Add automatic instrumentation
+
+```bash
+opentelemetry-bootstrap --action=install
+```
+
+Step 3. Run your application:
+
+```bash
+OTEL_RESOURCE_ATTRIBUTES=service.name=<service_name> \
+OTEL_EXPORTER_OTLP_ENDPOINT="http://localhost:4317" \
+OTEL_EXPORTER_OTLP_PROTOCOL=grpc \
+opentelemetry-instrument <your_run_command>
+```
+
+where,
+
+- *`<service_name>`* is the name of the service you want
+- *`<your_run_command>`* can be `python3 app.py` or `flask run`
+
+
+Step 4. Dockerize your application
+
+To dockerize your application, you **don't need to follow Step 2 and Step 3** mentioned above as they are part of the dockerfile.
+
+To make sure that you Dockerize your application along with the OpenTelemetry instructions, update your Dockerfile like below:
+
+```bash
+...
+
+# Install any needed packages specified in requirements.txt
+# And install OpenTelemetry packages
+RUN pip install --no-cache-dir -r requirements.txt 
+
+RUN opentelemetry-bootstrap --action=install
+
+# Make port 5000 available to the world outside this container
+EXPOSE 5000
+
+# Set environment variables for OpenTelemetry
+ENV OTEL_RESOURCE_ATTRIBUTES=service.name=<service-name>
+ENV OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
+ENV OTEL_EXPORTER_OTLP_HEADERS=signoz-access-token=<SIGNOZ-INGESTION-KEY>
+ENV OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+
+# Run app.py with OpenTelemetry instrumentation when the container launches
+CMD ["opentelemetry-instrument", "python", "app.py"]
+...
+
+```
+
+This updated Dockerfile instructions will install required packages from `requirements.txt`, including OpenTelemetry components. It sets the environment variable for OpenTelemetry configuration specifying the service name, OTLP exporter endpoint, and protocol. The container executes 'app.py' with OpenTelemetry tracing, exposing port 5000. 
+
+Once you are done updating your Dockerfile, you can build and run your docker image using the commands below:
+
+Build your docker image
+```bash
+docker build -t <your-image-name> .
+```
+
+Here's how you can run your docker container:
+
+```bash
+docker run -p 5000:5000 <your-image-name>
+
+```
+
+The Docker run command starts a container in detached mode (-d) and maps port 5000 of the host to port 5000 of the container. 
+
+- *`<service-name>`* is name of your service or application
+- *`<your-image-name>`* is the name of your docker image
+- Replace `<SIGNOZ_INGESTION_KEY>` with the ingestion key provided by SigNoz. You can find it in the email sent by SigNoz with your cloud account details.
+
+You can validate if your application is sending traces to SigNoz cloud by following the instructions [here](#validating-instrumentation-by-checking-for-traces).
+
+In case you encounter an issue where all applications do not get listed in the services section then please refer to the [troubleshooting section](#troubleshooting-your-signoz-installation).
+
+ 
+</TabItem>
+
+<TabItem value="Docker" label="Docker" default>
+
+There are two ways to send data to SigNoz Cloud. You can containerize the images in both the cases.
+
+- Send traces directly to SigNoz Cloud
+- Send traces via OTel Collector binary **(recommended)**
+
+#### **Send traces directly to SigNoz Cloud**
+
+Step 1. Add OpenTelemetry dependencies
+
+In your `requirements.txt` file, add these two OpenTelemetry dependencies:
+
+```bash
+opentelemetry-distro==0.43b0
+opentelemetry-exporter-otlp==1.22.0
+
+```
+
+Step 2. Dockerize and Build your application
+
+To make sure that you Dockerize your application along with the OpenTelemetry instructions, you can update/create your Dockerfile like below:
+
+```bash
+...
+
+# Install any needed packages specified in requirements.txt
+# And install OpenTelemetry packages
+RUN pip install --no-cache-dir -r requirements.txt 
+
+RUN opentelemetry-bootstrap --action=install
+
+# Make port 5000 available to the world outside this container
+EXPOSE 5000
+
+# Set environment variables for OpenTelemetry
+ENV OTEL_RESOURCE_ATTRIBUTES=service.name=<service-name>
+ENV OTEL_EXPORTER_OTLP_ENDPOINT=https://ingest.{REGION}.signoz.cloud:443
+ENV OTEL_EXPORTER_OTLP_HEADERS=signoz-access-token=<SIGNOZ-INGESTION-KEY>
+ENV OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+
+# Run app.py with OpenTelemetry instrumentation when the container launches
+CMD ["opentelemetry-instrument", "python", "app.py"]
+...
+```
+
+This updated Dockerfile instructions will install required packages from `requirements.txt`, including OpenTelemetry components. It sets the environment variable for OpenTelemetry configuration specifying the service name, OTLP exporter endpoint, and protocol. The container executes 'app.py' with OpenTelemetry tracing, exposing port 5000. 
+
+Once you are done updating your Dockerfile, you can build your docker image using the commands below:
+
+Build your docker image
+```bash
+docker build -t <your-image-name> .
+```
+
+- *`<service-name>`* is name of your service or application
+- *`<your-image-name>`* is the name of your docker image
+- Replace `<SIGNOZ_INGESTION_KEY>` with the ingestion key provided by SigNoz. You can find it in the email sent by SigNoz with your cloud account details.
+
+Depending on the choice of your region for SigNoz cloud, the ingest endpoint will vary according to this table.
+
+| Region | Endpoint |
+| --- | --- |
+| US |	ingest.us.signoz.cloud:443 |
+| IN |	ingest.in.signoz.cloud:443 |
+| EU | ingest.eu.signoz.cloud:443 |
+
+Step 3. Run your Docker container
+
+Here's how you can run your docker container:
+
+```bash
+docker run -d -p 5000:5000 <your-image-name>
+```
+
+The Docker run command starts a container in detached mode (-d) and maps port 5000 of the host to port 5000 of the container.
+
+
+Step 4. Validate if your application is sending traces to SigNoz cloud by following the instructions [here](#validating-instrumentation-by-checking-for-traces).
+
+In case you encounter an issue where all applications do not get listed in the services section then please refer to the [troubleshooting section](#troubleshooting-your-signoz-installation).
+
+---
+
+#### **Send traces via OTel Collector binary**
+
+OTel Collector binary helps to collect logs, hostmetrics, resource and infra attributes. It is recommended to install Otel Collector binary to collect and send traces to SigNoz cloud. You can correlate signals and have rich contextual data through this way.
+
+You can find instructions to install OTel Collector binary [here](https://signoz.io/docs/tutorial/opentelemetry-binary-usage-in-virtual-machine/). Once you are done setting up your OTel Collector binary, you can follow the below steps for instrumenting and dockerizing your Python application.
+
+Step 1. Add OpenTelemetry dependencies
+
+In your `requirements.txt` file, add these two OpenTelemetry dependencies:
+
+```bash
+opentelemetry-distro==0.43b0
+opentelemetry-exporter-otlp==1.22.0
+
+```
+
+Step 2. Dockerize and Build your application
+
+To dockerize your application, you **don't need to follow Step 2 and Step 3** mentioned above as they are part of the dockerfile.
+
+To make sure that you Dockerize your application along with the OpenTelemetry instructions, you can update/create your Dockerfile like below:
+
+```bash
+...
+
+# Install any needed packages specified in requirements.txt
+# And install OpenTelemetry packages
+RUN pip install --no-cache-dir -r requirements.txt 
+
+RUN opentelemetry-bootstrap --action=install
+
+# Make port 5000 available to the world outside this container
+EXPOSE 5000
+
+# Set environment variables for OpenTelemetry
+ENV OTEL_RESOURCE_ATTRIBUTES=service.name=<service-name>
+ENV OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317
+ENV OTEL_EXPORTER_OTLP_HEADERS=signoz-access-token=<SIGNOZ-INGESTION-KEY>
+ENV OTEL_EXPORTER_OTLP_PROTOCOL=grpc
+
+# Run app.py with OpenTelemetry instrumentation when the container launches
+CMD ["opentelemetry-instrument", "python", "app.py"]
+...
+```
+
+**NOTE:** In case you have OtelCollector Agent in different VM, replace `localhost:4317` with `<IP Address of the VM>:4317`.
+
+
+This updated Dockerfile instructions will install required packages from `requirements.txt`, including OpenTelemetry components. It sets the environment variable for OpenTelemetry configuration specifying the service name, OTLP exporter endpoint, and protocol. The container executes 'app.py' with OpenTelemetry tracing, exposing port 5000. 
+
+Once you are done updating your Dockerfile, you can build and run your docker image using the commands below:
+
+Build your docker image
+```bash
+docker build -t <your-image-name> .
+```
+
+- *`<service-name>`* is name of your service or application
+- *`<your-image-name>`* is the name of your docker image
+- Replace `<SIGNOZ_INGESTION_KEY>` with the ingestion key provided by SigNoz. You can find it in the email sent by SigNoz with your cloud account details.
+
+Step 3. Run your Docker container
+
+Here's how you can run your docker container:
+
+```bash
+docker run -d -p 5000:5000 <your-image-name>
+```
+
+The Docker run command starts a container in detached mode (-d) and maps port 5000 of the host to port 5000 of the container. 
+
+Step 4. You can validate if your application is sending traces to SigNoz cloud by following the instructions [here](#validating-instrumentation-by-checking-for-traces).
+
+In case you encounter an issue where all applications do not get listed in the services section then please refer to the [troubleshooting section](#troubleshooting-your-signoz-installation).
+
+</TabItem>
+</Tabs>
+
+## Send Traces to Self-Hosted SigNoz
 
 You can use OpenTelemetry Python to send your traces directly to SigNoz. OpenTelemetry provides a handy distro in Python that can help you get started with automatic instrumentation. We recommend using it to get started quickly.
 
@@ -49,30 +409,32 @@ You can use OpenTelemetry Python to send your traces directly to SigNoz. OpenTel
 1. **Create a virtual environment**<br></br>
     
     ```bash
-    python3 -m venv instrumentation_env
-    source instrumentation_env/bin/activate
+    python3 -m venv .venv
+    source .venv/bin/activate
     ```
-    
+
 2. **Install the OpenTelemetry dependencies**<br></br>
     
     ```bash
-    pip install opentelemetry-distro
-    pip install opentelemetry-exporter-otlp
+    pip install opentelemetry-distro==0.43b0
+    pip install opentelemetry-exporter-otlp==1.22.0
     ```
-    
+
     The dependencies included are briefly explained below:
 
     `opentelemetry-distro` - The distro provides a mechanism to automatically configure some of the more common options for users. It helps to get started with OpenTelemetry auto-instrumentation quickly. 
     
-    `opentelemetry-exporter-otlp` - This library provides a convenient way to install all supported OpenTelemetry Collector Exporters. You will need an exporter to send the data to SigNoz.
-    
+    `opentelemetry-exporter-otlp` - This library provides a way to install all OTLP exporters. You will need an exporter to send the data to SigNoz.
+
     :::note
-    💡 The `opentelemetry-exporter-otlp` is a convenient way to install all supported OpenTelemetry exporters. Currently, it installs:
+    💡 The `opentelemetry-exporter-otlp` is a convenience wrapper package to install all OTLP exporters. Currently, it installs:
     
     - opentelemetry-exporter-otlp-proto-http
     - opentelemetry-exporter-otlp-proto-grpc
+
+    - (soon) opentelemetry-exporter-otlp-json-http
     
-    We recommend using the http exporter for sending data to SigNoz.
+    The `opentelemetry-exporter-otlp-proto-grpc` package installs the gRPC exporter which depends on the `grpcio` package. The installation of `grpcio` may fail on some platforms for various reasons. If you run into such issues, or you don't want to use gRPC, you can install the HTTP exporter instead by installing the `opentelemetry-exporter-otlp-proto-http` package. You need to set the `OTEL_EXPORTER_OTLP_PROTOCOL` environment variable to `http/protobuf` to use the HTTP exporter.
     :::
     
 3. **Add automatic instrumentation**<br></br>
@@ -82,13 +444,11 @@ You can use OpenTelemetry Python to send your traces directly to SigNoz. OpenTel
     opentelemetry-bootstrap --action=install
     ```
 
+    :::note
+     Please make sure that you have installed all the dependencies of your application before running the above command. The command will not install instrumentation for the dependencies which are not installed.
+    :::
 
 4. **Run your application**<br></br>
-     In the final run command, you can configure environment variables and flags. Flags for exporters:<br></br>
-     HTTP: otlp_proto_http<br></br>
-     gRPC: otlp_proto_grpc<br></br>
-
-     We recommend using the `otlp_proto_http` exporter.
      
     :::note
      Don’t run app in reloader/hot-reload mode as it breaks instrumentation. For example, if you use `export FLASK_ENV=development`, it enables the reloader mode which breaks OpenTelemetry instrumentation.
@@ -98,27 +458,28 @@ You can use OpenTelemetry Python to send your traces directly to SigNoz. OpenTel
      To start sending data to SigNoz, use the following run command:
 
      ```bash
-     OTEL_RESOURCE_ATTRIBUTES=service.name=<service_name> OTEL_EXPORTER_OTLP_ENDPOINT="http://<IP of SigNoz Backend>:4318"  opentelemetry-instrument --traces_exporter otlp_proto_http --metrics_exporter otlp_proto_http <your run command>
+     OTEL_RESOURCE_ATTRIBUTES=service.name=<service_name> OTEL_EXPORTER_OTLP_ENDPOINT="http://<IP of SigNoz Backend>:4317" OTEL_EXPORTER_OTLP_PROTOCOL=grpc opentelemetry-instrument <your run command>
      ```
 
      *<service_name>* is the name of the service you want
 
      *<your_run_command>* can be `python3 app.py` or `flask run`
 
-     `IP of SigNoz backend` is the IP of the machine where you installed SigNoz. If you have installed SigNoz on `localhost`, the endpoint will be `http://localhost:4318`.
+     `IP of SigNoz backend` is the IP of the machine where you installed SigNoz. If you have installed SigNoz on `localhost`, the endpoint will be `http://localhost:4317` for gRPC exporter and `http://localhost:4318` for HTTP exporter.
 
      Replacing these environment variables, a sample final run command will look like this:
 
      ```bash
-     OTEL_RESOURCE_ATTRIBUTES=service.name=python_app OTEL_EXPORTER_OTLP_ENDPOINT="http://localhost:4318"  opentelemetry-instrument --traces_exporter otlp_proto_http --metrics_exporter otlp_proto_http python3 app.py
+     OTEL_RESOURCE_ATTRIBUTES=service.name=python_app OTEL_EXPORTER_OTLP_ENDPOINT="http://localhost:4317" OTEL_EXPORTER_OTLP_PROTOCOL=grpc opentelemetry-instrument python3 app.py
      ```
      
     :::note
      The port numbers are 4317 and 4318 for the gRPC and HTTP exporters respectively. Remember to allow incoming requests to port **4317**/**4318** of machine where SigNoz backend is hosted.
     :::
      
+    In case you encounter an issue where all applications do not get listed in the services section then please refer to the [troubleshooting section](#troubleshooting-your-signoz-installation).
 
-### Validating instrumentation by checking for traces
+## Validating instrumentation by checking for traces
 
 With your application running, you can verify that you’ve instrumented your application with OpenTelemetry correctly by confirming that tracing data is being reported to SigNoz.
 
@@ -136,32 +497,6 @@ You might see other dummy applications if you’re using SigNoz for the first ti
     <img src="/img/docs/opentelemetry_python_app_instrumented.webp" alt="Python Application in the list of services being monitored in SigNoz"/>
     <figcaption><i>Python Application in the list of services being monitored in SigNoz</i></figcaption></figure>
 <br></br>
-
-## Instrumenting different Python Frameworks
-
-The `opentelemetry-distro` package can initialize instrumentation for a lot of popular Python frameworks. You can find a complete list [here](https://github.com/open-telemetry/opentelemetry-python-contrib/tree/main/instrumentation). For popular Python frameworks too, the distro provides a quick way to get started with automatic instrumentation.
-
-### Django Instrumentation
-
-It is recommended to use the [opentelemetry distro](#steps-to-auto-instrument-python-app-for-traces) for instrumenting Django applications. Though for Django, you must define `DJANGO_SETTINGS_MODULE`correctly. If your project is called `mysite`, something like following should work:
-
-```jsx
-export DJANGO_SETTINGS_MODULE=mysite.settings
-```
-
-Please refer the official [Django docs](https://docs.djangoproject.com/en/1.10/topics/settings/#designating-the-settings) for more details.
-
-### Flask Instrumentation
-
-It is recommended to use the [opentelemetry distro](#steps-to-auto-instrument-python-app-for-traces) for instrumenting Flask applications.
-
-### FastAPI Instrumentation
-
-It is recommended to use the [opentelemetry distro](#steps-to-auto-instrument-python-app-for-traces) for instrumenting FastAPI applications.
-
-### Falcon Instrumentation
-
-It is recommended to use the [opentelemetry distro](#steps-to-auto-instrument-python-app-for-traces) for instrumenting Falcon applications.
 
 ## Database Instrumentation
 
@@ -206,18 +541,23 @@ For application servers which are based on pre fork model like Gunicorn, uWSGI y
 
 Check this [documentation](https://opentelemetry-python.readthedocs.io/en/latest/examples/fork-process-model/README.html) from OpenTelemetry on how to set it up.
 
-[Here's](https://github.com/SigNoz/opentelemetry-python/tree/main/docs/examples/fork-process-model) a working example where we have configured a gunicorn server with `post_fork` hook.
+[Here's](https://github.com/open-telemetry/opentelemetry-python/tree/main/docs/examples/fork-process-model) a working example configured with a gunicorn server with `post_fork` hook.
   
 <p>&nbsp;</p>
 
 
 ## Troubleshooting your SigNoz installation
 
+#### Application servers such as Uvicorn, Hypercorn, etc.
+
+- Uvicorn with `--workers` flag is not supported. The work around for this is to use `gunicorn` with uvicorn as the worker class `gunicorn -k uvicorn.workers.UvicornWorker`.
+- Hypercorn is not supported. There is no workaround for this. Please follow the issue https://github.com/pgjones/hypercorn/issues/215
+
 #### Spans are not being reported
 
-If spans are not being reported to SigNoz, try enabling debug exporter which writes the JSON formatted trace data to the console.
+If spans are not being reported to SigNoz, try enabling debug exporter which writes the JSON formatted trace data to the console by setting env var OTEL_TRACES_EXPORTER=console.
 
-`opentelemetry-instrument --traces_exporter otlp_proto_http,console --metrics_exporter otlp_proto_http,console <your run command>`:
+`OTEL_RESOURCE_ATTRIBUTES=service.name=python_app OTEL_TRACES_EXPORTER=console opentelemetry-instrument <your run command>`:
 
 ```json
 {

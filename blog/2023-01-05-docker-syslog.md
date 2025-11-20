@@ -1,7 +1,7 @@
 ---
 title: Configure your Docker Syslog Logging Driver
 slug: docker-syslog
-date: 2023-01-10
+date: 2024-05-16
 tags: [Tech Tutorial, Docker, Log Management]
 authors: [daniel]
 description: Logs are useful for troubleshooting and identifying issues in applications, as they provide a record of events and activities. However, managing log data can be challenging due to ...
@@ -23,11 +23,11 @@ Logs are useful for troubleshooting and identifying issues in applications, as t
 
 <!--truncate-->
 
-![docker_syslog_cover.png](/img/blog/2023/01/docker_syslog_cover.webp)
+![docker_syslog_cover.webp](/img/blog/2023/01/docker_syslog_cover.webp)
 
 Collecting logs from Docker can be challenging when running a large number of containers or running Docker on multiple hosts. These challenges include managing a large volume of logs, accessing logs from multiple hosts, ensuring the security of logs, and getting a comprehensive view of container and application behavior. A centralized logging system can help address these challenges by allowing you to store and manage all of your logs in a single location.
 
-Docker Syslog is a built-in logging system provided by Docker that allows you to centralize and manage the logs produced by your Docker containers. In this article, we will delve into the capabilities of Docker Syslog, discuss how to configure and use it as a centralized logging solution for your Docker containers and demonstrate how it can be utilized to effectively manage and analyze your Docker logs.
+Docker Syslog is a built-in logging system provided by Docker that allows you to centralize and manage the logs produced by your Docker containers. In this article, we will delve into the capabilities of Docker Syslog, discuss how to configure and use it as a centralized logging solution for your Docker containers and demonstrate how it can be utilized to effectively manage and analyze your [Docker logs](https://signoz.io/blog/docker-logs/).
 
 ## Understanding Syslog
 
@@ -139,9 +139,17 @@ docker run \\
 - The `syslog-facility` option is used to specify the Syslog facility value that should be associated with the container's log messages. The Syslog facility value is a numeric or symbolic value that identifies the source of the log message and is used to categorize and filter the log data. Sample values that can be used include `auth`, `cron`, `daemon`, `kern`, etc.
 - The `syslog-format` option is used to specify the format in which the container's log messages should be sent to the Syslog server. Examples of more formats that could be used in Docker include `json`, `rfc3164`, `rfc5424`, `text`, etc.
 
+## Limitations of Docker Syslog
+
+Using Docker with the syslog logging driver has several limitations that users should be aware of:
+
+- **No Built-in Log Rotation**: By default, the syslog driver does not handle log rotation on the Docker host. This can result in log files growing indefinitely, potentially consuming significant disk space over time.
+- **Decompression Overhead**: Reading log information from rotated and compressed log files requires decompression, temporarily increasing disk usage and CPU load. This can impact system performance, especially under heavy logging activities.
+- **Limited Metadata**: The syslog logging driver may include less metadata about the Docker containers compared to other logging drivers, such as the name, ID, or labels of the container. This can limit the ability to filter and search logs effectively.
+
 ## Final Thoughts
 
-In this article, we discussed Syslog, Docker Syslog as a logging driver, and how to set it up for Docker daemon and containers,
+In this article, we discussed Syslog, Docker Syslog as a logging driver, and how to set it up for Docker daemon and containers.
 
 <!-- Docker Syslog driver is a good option for centralizing logs, but it has its limits. The Syslog driver does not support logging to remote syslog servers over a Secure Sockets Layer (SSL) connection and with Transport Layer Security (TLS). If you need to transmit log data, you will need to use a different log driver. Also, Syslog servers may have limitations on the size and number of messages that they can handle. -->
 
@@ -195,7 +203,7 @@ cd signoz/deploy/
 
 You can visit our documentation for instructions on how to install SigNoz using Docker Swarm and Helm Charts.
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=docker_syslog)
+[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/)
 
 
 ---

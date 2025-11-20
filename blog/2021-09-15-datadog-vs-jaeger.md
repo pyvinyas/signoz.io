@@ -1,7 +1,7 @@
 ---
 title: DataDog vs Jaeger - key features, differences and alternatives
 slug: datadog-vs-jaeger
-date: 2021-09-15
+date: 2024-05-16
 tags: [Tools Comparison, Jaeger]
 authors: ankit_anand
 description: DataDog is an enterprise-level monitoring and security tool. On the other hand, Jaeger is an open-source tool focused on end-to-end distributed tracing for microservice architecture. DataDog is a full-stack paid APM tool, whereas Jaeger is free and open-source..
@@ -32,13 +32,15 @@ In the world of microservices, a user request travels through hundreds of servic
 
 import Screenshot from "@theme/Screenshot"
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Microservices architecture"
-    height={500}
+    
     src="/img/blog/2021/09/jaeger_vs_zipkin_microservices_architecture.webp"
-    title="Microservice architecture of a fictional e-commerce application"
-    width={700}
-/>
+    />
+<figcaption><i>Microservice architecture of a fictional e-commerce application</i></figcaption>
+    </figure>
+<br/>
 
 Distributed tracing gives you insight into how a particular service is performing as part of the whole in a distributed software system. There are two essential concepts involved in distributed tracing: **Spans** and **trace context**.
 
@@ -49,13 +51,24 @@ User requests are broken down into spans.
 
 A **trace context** is passed along when requests travel between services, which tracks a user request across services. Thus, you can see how a user request performs across services and identify what exactly needs your attention without manually shifting through multiple dashboards.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Trace context is passed to track user requests across services"
-    height={500}
+    
     src="/img/blog/2021/09/opentelemetry_distributed_tracing-min.webp"
-    title="A trace context is passed when user requests pass from one service to another"
-    width={700}
-/>
+    />
+<figcaption><i>A trace context is passed when user requests pass from one service to another</i></figcaption>
+    </figure>
+<br/>
+
+### Why do we need distributed tracing?
+
+Distributed tracing is essential for various reasons, here are some of them:
+
+- **Identification of root causes:** When issues occur, distributed tracing enables quick identification of the root cause by tracing the problem back through the chain of services and operations.
+- **Performance monitoring:** Distributed tracing helps in identifying bottlenecks in a request's lifecycle. This is important for optimizing the application's performance and improving user experience.
+- **Understand service interactions:** Distributed tracing maps how services communicate with each other. This visibility is crucial for managing dependencies and ensuring overall system health.
+- **Correlating Logs and Metrics:** Distributed tracing adds context to individual logs and metrics, enabling a holistic view of system behavior.
 
 ## Key Features of DataDog
 <a href = "https://www.datadoghq.com/" rel="noopener noreferrer nofollow" target="_blank" ><b>DataDog</b></a> offers an array of services in the monitoring domain. Some of the key areas in monitoring that it covers include:
@@ -81,21 +94,25 @@ DataDog gives code-level visibility to break down slow requests by time spent on
 - **Covers wide range of technology stack**<br></br>
 DataDog provides extensive integrations and libraries to monitor Java, .NET, PHP, Node.js, Ruby, Python, Go, or C++ applications.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="DataDog APM dashboard"
-    height={500}
+    
     src="/img/blog/2021/09/datadog_vs_jaeger_dd_dashbaord-min.webp"
-    title="DataDog APM tool showing infrastructure, metrics, logs, errors, processes, network and code hotspots under a single dashboard"
-    width={700}
-/>
+    />
+<figcaption><i>DataDog APM tool showing infrastructure, metrics, logs, errors, processes, network and code hotspots under a single dashboard</i></figcaption>
+    </figure>
+<br/>
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="DataDog provides code level visibility to identify issues quickly"
-    height={500}
+    
     src="/img/blog/2021/09/datadog_vs_jaeger_dd_rca-min.webp"
-    title="Find code hotspots using DataDog APM tool"
-    width={700}
-/>
+    />
+<figcaption><i>Find code hotspots using DataDog APM tool</i></figcaption>
+    </figure>
+<br/>
 
 ## Key features of Jaeger
 <a href = "https://www.jaegertracing.io/" rel="noopener noreferrer nofollow" target="_blank" ><b>Jaeger</b></a> was originally built by teams at Uber and then open-sourced. It is used for end-to-end distributed tracing for microservices. Some of the key features of Jaeger includes:
@@ -115,13 +132,15 @@ DataDog provides extensive integrations and libraries to monitor Java, .NET, PHP
 - **Performance/latency optimization**<br></br>
   Once you have identified, which service or query is creating latency, you can use the information to optimize it.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Jaeger UI"
-    height={500}
+    
     src="/img/blog/2021/08/jaeger_ui-min.webp"
-    title="Jaeger UI showing services and corresponding traces"
-    width={700}
-/>
+    />
+<figcaption><i>Jaeger UI showing services and corresponding traces</i></figcaption>
+    </figure>
+<br/>
 
 ## Comparing DataDog and Jaeger
 DataDog is one of the major SaaS vendors in the APM space. On the other hand, Jaeger is a popular open-source distributed tracing tool that graduated from Cloud Native Computing Foundation. The differences between the tools arise from this genesis.
@@ -144,51 +163,58 @@ The decision between DataDog and Jaeger comes down to whether your organization 
 
 The lack of great user experience in open-source tools has always been there. Also, what if there was an open-source tool that could provide the scope of experience of a great SaaS tool like DataDog.
 
-That's where [SigNoz](https://signoz.io/?utm_source=blog&utm_medium=dd_vs_jaeger) comes into the picture.
+That's where [SigNoz](https://signoz.io/) comes into the picture.
 
 ## Alternative to DataDog and Jaeger - SigNoz
-SigNoz is a full-stack open-source application performance monitoring and observability tool which can be used in place of DataDog and Jaeger. It provides advanced distributed tracing capabilities along with metrics under a single dashboard.
+SigNoz is a full-stack open-source application performance monitoring and observability tool which can be used in place of DataDog and Jaeger. It provides advanced distributed tracing capabilities along with metrics under a single dashboard. It provides metrics, traces, and logs under a single pane of glass.
 
  SigNoz is built to support OpenTelemetry natively. <a href = "https://opentelemetry.io/" rel="noopener noreferrer nofollow" target="_blank" ><b>OpenTelemetry</b></a> is becoming the world standard for generating and managing telemetry data (Logs, metrics, and traces). It also provides a fast OLAP datastore, ClickHouse as the storage backend.
 
 
- <Screenshot
+ <figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Architecture of SigNoz with OpenTelemetry and ClickHouse"
-    height={500}
+    
     src="/img/blog/2021/09/SigNoz_architecture_clickhouse.webp"
-    title="Architecture of SigNoz with ClickHouse as storage backend and OpenTelemetry for code instrumentatiion"
-    width={700}
-/>
+    />
+<figcaption><i>Architecture of SigNoz with ClickHouse as storage backend and OpenTelemetry for code instrumentatiion</i></figcaption>
+    </figure>
+<br/>
 
 SigNoz comes with out of box visualization of things like RED metrics.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="SigNoz UI showing the popular RED metrics"
-    height={500}
+    
     src="/img/blog/common/signoz_charts_application_metrics.webp"
-    title="SigNoz UI showing application overview metrics like RPS, 50th/90th/99th Percentile latencies, and Error Rate"
-    width={700}
-/>
+    />
+<figcaption><i>SigNoz UI showing application overview metrics like RPS, 50th/90th/99th Percentile latencies, and Error Rate</i></figcaption>
+    </figure>
+<br/>
 
 You can also use flamegraphs to visualize spans from your trace data. All of this comes out of the box with SigNoz.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Flamegraphs used to visualize spans of distributed tracing in SigNoz UI"
-    height={500}
+    
     src="/img/blog/common/signoz_flamegraphs.webp"
-    title="Flamegraphs showing exact duration taken by each spans - a concept of distributed tracing"
-    width={700}
-/>
+    />
+<figcaption><i>Flamegraphs showing exact duration taken by each spans - a concept of distributed tracing</i></figcaption>
+    </figure>
+<br/>
 
 
 Some of the things SigNoz can help you track:
 
-- Application overview metrics like RPS, 50th/90th/99th Percentile latencies, and Error Rate
-- Slowest endpoints in your application
-- See exact request trace to figure out issues in downstream services, slow DB queries, call to 3rd party services like payment gateways, etc
-- Filter traces by service name, operation, latency, error, tags/annotations.
-- Run aggregates on trace data
-- Unified UI for both metrics and traces
+- Out-of-the-box charts for application metrics like p90, p99, latency, error rates, request rates, etc.
+- Distributed tracing to get end-to-end visibility of your services
+- Monitor any metrics important to you, build dashboards for specific use-cases
+- Logs Management equipped with a powerful search and filter query builder
+- Exceptions monitoring to track exceptions in your application
+- Easy to set alerts with DIY query builder
+- Native support for OpenTelemetry native
 
 You can check out SigNoz's GitHub repo here 👇
 
@@ -198,8 +224,7 @@ ___
 
 #### **Related Content**
 
+**[SigNoz vs Datadog](https://signoz.io/comparisons/signoz-vs-datadog/)**<br></br>
 **[Jaeger vs Zipkin](https://signoz.io/blog/jaeger-vs-zipkin/)**<br></br>
 **[Jaeger vs SigNoz](https://signoz.io/blog/jaeger-vs-signoz/)**<br></br>
-**[Jaeger vs Prometheus](https://signoz.io/blog/jaeger-vs-prometheus/)**<br></br>
-**[Jaeger vs New Relic](https://signoz.io/blog/jaeger-vs-newrelic/)**<br></br>
 

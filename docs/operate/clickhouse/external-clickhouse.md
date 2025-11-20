@@ -3,6 +3,9 @@ id: external-clickhouse
 title: Using External ClickHouse
 sidebar_label: External ClickHouse
 ---
+import SigNozCloud from '../../shared/signoz-cloud.md'
+
+<SigNozCloud />
 
 It is recommended to use the ClickHouse instance that is deployed along with Signoz.
 However, if you want to use an external ClickHouse instance, you can do so by relevant
@@ -45,7 +48,6 @@ external ClickHouse.
 3. Replace `clickhouse:9000` with relavant ClickHouse endpoint and TCP port in the files below:
     - `docker-compose.yaml`
     - `otel-collector-config.yaml`
-    - `otel-collector-metrics-config.yaml`
     - `prometheus-config.yml`
 4. Start SigNoz using relevant instructions.
 

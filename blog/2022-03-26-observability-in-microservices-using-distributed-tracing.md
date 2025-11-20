@@ -18,6 +18,7 @@ keywords:
   - open source
   - signoz
 ---
+
 <head>
   <link rel="canonical" href="https://signoz.io/blog/microservices-observability-with-distributed-tracing/"/>
 </head>
@@ -39,9 +40,9 @@ Let’s have a brief overview of observability.
 Two major forces behind the rise of distributed systems like microservices are:
 
 - **Cloud computing**<br></br>
-Cloud providers now provide everything on-demand. Serverless and Lambda functions have become very popular among organizations to scale fast.
+  Cloud providers now provide everything on-demand. Serverless and Lambda functions have become very popular among organizations to scale fast.
 - **Containerization**<br></br>
-Containerization technologies like Docker and Kubernetes make it very easy to spin up new services and scale them on-demand.
+  Containerization technologies like Docker and Kubernetes make it very easy to spin up new services and scale them on-demand.
 
 Observability is a term from control theory, which states that a system is observable if the internal states of the system can be determined by examining its output.
 
@@ -83,7 +84,7 @@ All of these questions require contextual data that distributed tracing provides
 
 ## Distributed Tracing for Microservices Observability
 
-Distributed tracing reconstructs the whole path of a user request as it goes through different components in a microservices-based application. It does so by passing a context object along the execution path of a user request. 
+Distributed tracing reconstructs the whole path of a user request as it goes through different components in a microservices-based application. It does so by passing a context object along the execution path of a user request.
 
 The propagation of context correlates events in a sequential flow that depicts the causal relationship between the events in a single user request. The two important data points that distributed tracing captures for user requests are:
 
@@ -94,34 +95,36 @@ The propagation of context correlates events in a sequential flow that depicts t
 
 This creates a request-centric view of how the different components of a distributed system interact together to process a request. It enables us to answer questions about how our microservices are performing and helps us to identify the bottlenecks.
 
-Each logical part of the user request journey is broken down into its components and is represented by spans. A trace is made up of a single or multiple spans. The first span is known as the parent or root span which represents the end-to-end user request. The subsequent calls are known as child spans. The picture below represents a distributed trace with parent and child spans. 
+Each logical part of the user request journey is broken down into its components and is represented by spans. A trace is made up of a single or multiple spans. The first span is known as the parent or root span which represents the end-to-end user request. The subsequent calls are known as child spans. The picture below represents a distributed trace with parent and child spans.
 
 import Screenshot from "@theme/Screenshot"
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Distributed Tracing shown as Flamegraphs"
-    height={500}
+    
     src="/img/blog/2022/02/trace_spans.webp"
-    title="Distributed Tracing breaks down a user request into the components that it touches. The width of the bars is proportional to the time a given operation took."
-    width={700}
-/>
+    />
+<figcaption><i>Distributed Tracing breaks down a user request into the components that it touches. The width of the bars is proportional to the time a given operation took.</i></figcaption>
+</figure>
+<br/>
 
 The questions that we discussed in the previous section can be easily answered with the above representation of traces.
 
 - How much time did the request take to traverse each microservice?<br></br>
-The start and end time is recorded for each span, which can then be used to find out the time taken by the request to traverse each microservice.
+  The start and end time is recorded for each span, which can then be used to find out the time taken by the request to traverse each microservice.
 
 - What is the sequence of calls that were made during a user request?<br></br>
-The parent-child relationship shows a clear causal relationship between the calls that happened during a user request.
+  The parent-child relationship shows a clear causal relationship between the calls that happened during a user request.
 
 - What did each microservice do for completing a request?<br></br>
-The tracing infrastructure also records a lot of event attributes at various trace points in the code. The contextual data include things like the URL of the HTTP request, host name, method name, etc. This data can be used to identify exactly what’s going on in each microservice.
+  The tracing infrastructure also records a lot of event attributes at various trace points in the code. The contextual data include things like the URL of the HTTP request, host name, method name, etc. This data can be used to identify exactly what’s going on in each microservice.
 
 - Which component was the performance bottleneck?<br></br>
-You can identify easily where the request took maximum time and optimize it if there is a scope.
+  You can identify easily where the request took maximum time and optimize it if there is a scope.
 
 - What was the deviation from the normal behavior of the system?<br></br>
-Trace data can also be aggregated to see the average behavior of your microservices. You can use this data to identify the outliers for debugging.
+  Trace data can also be aggregated to see the average behavior of your microservices. You can use this data to identify the outliers for debugging.
 
 ## Getting started with Distributed Tracing for Microservices
 
@@ -133,24 +136,27 @@ You can then select a backend of your choice to store and visualize the tracing 
 
 SigNoz comes with out of box visualizations for your tracing data. The `Traces` dashboard of SigNoz provides you with powerful filters that can be used to analyze your tracing data.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Traces tab of SigNoz dashboard"
-    height={500}
+    
     src="/img/blog/2022/03/dt_traces_tab.webp"
-    title="The Traces tab of SigNoz provides powerful filters like service name, status, HTTP status code, operation, etc. to analyze your traces data quickly."
-    width={700}
-/>
+    />
+<figcaption><i>The Traces tab of SigNoz provides powerful filters like service name, status, HTTP status code, operation, etc. to analyze your traces data quickly.</i></figcaption>
+</figure>
+<br/>
 
 You can also view a selected span(a single logical unit of work that is a part of trace) as part of the entire request with the help of Flamegraphs and Gantt charts.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Flamegraphs and Gantt Charts"
-    height={500}
+    
     src="/img/blog/2022/03/dt_trace_details_tab.webp"
-    title="Flamegraphs and Gantt Charts visualizing the journey of a user request from a single trace data (SigNoz Dashboard)"
-    width={700}
-/>
-
+    />
+<figcaption><i>Flamegraphs and Gantt Charts visualizing the journey of a user request from a single trace data (SigNoz Dashboard)</i></figcaption>
+</figure>
+<br/>
 
 SigNoz can be installed on macOS or Linux computers in just three steps by using a simple install script.
 
@@ -164,7 +170,7 @@ cd signoz/deploy/
 
 You can visit our documentation for instructions on how to install SigNoz using Docker Swarm and Helm Charts.
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=observability_in_microservices)
+[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/)
 
 ## Further Reading
 

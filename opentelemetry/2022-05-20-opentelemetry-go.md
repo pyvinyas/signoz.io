@@ -1,11 +1,11 @@
 ---
 title: Complete guide to implementing OpenTelemetry in Go applications
 slug: go
-date: 2022-05-30
+date: 2023-09-08
 tags: [opentelemetry-tutorials]
 authors: [vishal, ankit_anand]
 description: Learn how to use the language-specific implementation of OpenTelemetry in Go. OpenTelemetry Go libraries can be used to generate telemetry data from your Go applications which can then be sent to an observability tool for storage and…
-image: /img/blog/2022/05/opentelemetry_go_cover.webp
+image: /img/blog/2023/07/opentelemetry_golang_cover-min.jpg
 keywords:
   - opentelemetry
   - opentelemetry golang
@@ -17,7 +17,7 @@ keywords:
   - signoz
 ---
 <head>
-  <link rel="canonical" href="https://signoz.io/blog/opentelemetry-react/"/>
+  <link rel="canonical" href="https://signoz.io/opentelemetry/go/"/>
 </head>
 
 import { LiteYoutubeEmbed } from "react-lite-yt-embed";
@@ -26,7 +26,7 @@ OpenTelemetry can be used to generate telemetry data from your Go applications. 
 
 <!--truncate-->
 
-![Cover Image](/img/blog/2022/05/opentelemetry_go_cover.webp)
+![Cover Image](/img/blog/2023/07/opentelemetry_golang_cover.webp)
 
 
 In this tutorial, we will use OpenTelemetry Go libraries to instrument a Go application and then visualize it using an open-source observability tool - [SigNoz](https://signoz.io/). 
@@ -54,7 +54,7 @@ cd signoz/deploy/
 
 You can visit our documentation for instructions on how to install SigNoz using Docker Swarm and Helm Charts.
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=opentelemetry_go)
+[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/)
 
 When you are done installing SigNoz, you can access the UI at [http://localhost:3301](http://localhost:3301/application)
 
@@ -68,6 +68,10 @@ When you are done installing SigNoz, you can access the UI at [http://localhost
 ## Instrumenting a Go application with OpenTelemetry
 
 **Step 1: Get sample Go app from GitHub**
+
+**Prerequisites:**
+You will SQLite to run the sample application.
+
 
 The [sample Go app repo](https://github.com/SigNoz/sample-golang-app) contains the boilerplate code that we will instrument.
 
@@ -83,12 +87,12 @@ go get go.opentelemetry.io/otel \
   go.opentelemetry.io/otel/sdk \
   go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin \
   go.opentelemetry.io/otel/exporters/otlp/otlptrace \
-  go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc \
+  go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc
 ```
 
 **Step 3: Declare environment variables for configuring OpenTelemetry**
 
-Declare the following variables in `main.go` which we will use to configure OpenTelemetry:
+Declare the following global variables in `main.go` which we will use to configure OpenTelemetry:
 
 ```go
 var (
@@ -159,7 +163,7 @@ func initTracer() func(context.Context) error {
 
 **Step 5:  Initialize the tracer in main.go**
 
-Modify the main function to initialise the tracer  in `main.go`
+Modify the main function to initialise the tracer  in `main.go`. Initiate the tracer at the very beginning of our main function.
 
 ```
 func main() {
@@ -192,7 +196,13 @@ func main() {
 
 **Step 7: Set environment variables and run your Go Gin application**
 
-Now that you have instrumented your Go Gin application with OpenTelemetry, you need to set some environment variables to send data to SigNoz backend:
+Now that you have instrumented your Go Gin application with OpenTelemetry, you need to set some environment variables to send data to SigNoz backend and run your application.
+
+```
+SERVICE_NAME=goApp INSECURE_MODE=true OTEL_EXPORTER_OTLP_ENDPOINT=<IP of SigNoz backend>:4317 go run main.go
+```
+
+IP os SigNoz backend should be **without http/https scheme.**
 
 `SERVICE_NAME`: goGinApp (you can name it whatever you want)
 
@@ -212,7 +222,7 @@ Hit the `/books` endpoint of the bookstore app at [http://localhost:8090/book
 
 ## Adding custom attributes and custom events to spans
 
-It’s also possible to set custom attributes or tags to a span. To add custom attributes and events follow the below steps:
+It’s also possible to set custom attributes or tags to a [span](https://signoz.io/blog/distributed-tracing-span/). To add custom attributes and events follow the below steps:
 
 **Step 1: Import trace and attribute libraries**
 
@@ -299,7 +309,7 @@ In the `Traces` tab of SigNoz, you can analyze the tracing data using filters ba
 
 <br></br>
 
-You can also visualize your tracing data with the help of flamegraphs and Gantt charts.
+You can also visualize your tracing data with the help of [flamegraphs and Gantt charts](https://signoz.io/blog/flamegraphs/).
 
 <figure data-zoomable align='center'>
     <img src="/img/blog/2022/04/gin_application_flamegraph.webp" alt="Visualize your tracing data with the help of flamegraphs and gantt charts"/>
@@ -325,8 +335,6 @@ If you are someone who understands more from video, then you can watch the our v
  <LiteYoutubeEmbed id="kTHW4VYnISQ" mute={false} />
 
  <p>&nbsp;</p>
-
-If you face any issues while trying out SigNoz, feel free to write to us at: support@signoz.io
 
 If you want to read more about SigNoz 👇<br></br>
 [Monitor your Spring Boot application with OpenTelemetry and SigNoz](https://signoz.io/blog/opentelemetry-spring-boot/)

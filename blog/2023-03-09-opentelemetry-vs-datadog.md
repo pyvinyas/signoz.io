@@ -32,16 +32,16 @@ So why do you need to use OpenTelemetry at all? DataDog provides agents to instr
 OpenTelemetry is quietly becoming the world standard for instrumenting cloud-native applications. Here are some reasons why people prefer OpenTelemetry over native vendor agents:
 
 - **Part of the CNCF landscape**<br></br>
-OpenTelemetry is part of the <a href = "https://www.cncf.io/" rel="noopener noreferrer nofollow" target="_blank" >Cloud Native Computing Foundation</a>, so it would work well with other tools in the CNCF landscape. It is the second most active project after Kubernetes.
+  OpenTelemetry is part of the <a href = "https://www.cncf.io/" rel="noopener noreferrer nofollow" target="_blank" >Cloud Native Computing Foundation</a>, so it would work well with other tools in the CNCF landscape. It is the second most active project after Kubernetes.
 
 - **No vendor lock-in**<br></br>
-If you use OpenTelemetry, you can avoid vendor lock-ins with SaaS services. The data collected by OpenTelemetry can be sent to multiple backends. Most observability vendors support the OTLP data format.
+  If you use OpenTelemetry, you can avoid vendor lock-ins with SaaS services. The data collected by OpenTelemetry can be sent to multiple backends. Most observability vendors support the OTLP data format.
 
 - **Future-proof instrumentation**<br></br>
-OpenTelemetry has a wide community working on it to support the instrumentation of a wide range of libraries, frameworks, and languages. If you use an instrumentation SDK from a vendor, you are susceptible to the vendor’s support of emerging technologies.
+  OpenTelemetry has a wide community working on it to support the instrumentation of a wide range of libraries, frameworks, and languages. If you use an instrumentation SDK from a vendor, you are susceptible to the vendor’s support of emerging technologies.
 
 - **Company knowledge base and easy onboarding**<br></br>
-Using OpenTelemetry, you can have a standard observability setup in place at your company. Over time, the knowledge base will improve, and it will be easier to onboard new members of the observability team. In case the team decides to switch the vendor, it is easy to make configuration changes for the backend.
+  Using OpenTelemetry, you can have a standard observability setup in place at your company. Over time, the knowledge base will improve, and it will be easier to onboard new members of the observability team. In case the team decides to switch the vendor, it is easy to make configuration changes for the backend.
 
 In an observability stack, the instrumentation layer is most tightly coupled with your application as it involves code changes. Using OpenTelemetry, you can have peace of mind about having standardized observability set up in place.
 
@@ -91,11 +91,14 @@ An OpenTelemetry native APM support OTLP data format natively and treats OTel da
 
 Some of the key reasons to choose SigNoz are:
 
-- SigNoz is open source and supports OTLP as its primary data format.
-- Metrics, Traces, and Logs in a single pane
-- Correlation across different signals
-- Powerful aggregation and aggregation capabilities on high cardinality data
-- It can be run within your own cloud
+- Out-of-the-box charts for application metrics like p90, p99, latency, error rates, request rates, etc.
+- Distributed tracing to get end-to-end visibility of your services
+- Monitor any metrics important to you, build dashboards for specific use-cases
+- Logs Management equipped with a powerful search and filter query builder
+- Exceptions monitoring to track exceptions in your application
+- Easy to set alerts with DIY query builder
+- Native support for OpenTelemetry native
+- It can be self-hosted
 
 ## Getting started with SigNoz
 
@@ -111,7 +114,7 @@ cd signoz/deploy/
 
 You can visit its documentation for instructions on how to install SigNoz using Docker Swarm and Helm Charts.
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=opentelemetry_vs_datadog)
+[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/)
 
 If you liked what you read, then check out our GitHub repo 👇
 
@@ -121,4 +124,6 @@ If you liked what you read, then check out our GitHub repo 👇
 
 **Related Posts**
 
-[SigNoz - an open source alternative to Datadog](https://signoz.io/blog/open-source-datadog-alternative)
+**[SigNoz vs Datadog](https://signoz.io/comparisons/signoz-vs-datadog/)**<br></br>
+
+**[SigNoz - an open source alternative to Datadog](https://signoz.io/blog/open-source-datadog-alternative)**<br></br>

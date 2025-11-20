@@ -1,7 +1,7 @@
 ---
 title: Kubectl Top Pod/Node | How to get & read resource utilization metrics of K8s?
 slug: kubectl-top
-date: 2023-03-08
+date: 2024-05-07
 tags: [Tech Tutorial]
 authors: [daniel, ankit_anand]
 description: Kubectl Top command can be used to retrieve snapshots of resource utilization of pods/nodes in your Kubernetes cluster. You can even retrieve metrics information about specific pods or nodes by specifying a namespace...
@@ -35,7 +35,7 @@ In this article, we will see how to use `kubectl Top` command to get and read me
 
 But before we get down to learn about Kubectl Top command, let’s have a brief overview of a few concepts in Kubernetes.
 
-<SignUps />
+[![Try SigNoz Cloud CTA](/img/blog/2024/01/kubectl-logs-try-signoz-cloud.webp)](https://signoz.io/teams/)
 
 ## What is kubectl?
 
@@ -91,6 +91,30 @@ Memory being used by that node
 - Memory%<br></br>
 It is also displayed only for nodes, and it stands for total memory usage percentage of that node.
 
+Running the `kubectl top node <node-name>`  command lists metrics for a specific node:
+
+```
+NAME                 CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%   
+kind-control-plane   338m         4%     1662Mi          10%
+```
+
+Running the `kubectl top node <node-name> -containers` command lists metrics for each container running on a specific node:
+
+```
+NAME                     CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%
+nginx-653c7b42sd-4g5ce   20m          12%    14Mi            18%
+nginx-653c7b42sd-7c9ae   15m          7%     12Mi            12%
+```
+
+Running the `kubectl top node <node-name> -containers -n namespace`  command lists metrics for each container running on a specific node in a specific namespace:
+
+```
+NAME                     CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%
+nginx-653c7b42sd-4g5ce   22m          12%    12Mi            19%
+nginx-653c7b42sd-7c9ae   16m          7%     10Mi            16%
+webserver-container      13m          5%     10Mi            15%
+```
+
 ## Using `kubectl top pod` command
 
 Running the `kubectl top pod` command displays the metrics about pods from the `default` namespace which looks like this:
@@ -145,6 +169,59 @@ my-release-signoz-query-service-0                           3m           57Mi
 my-release-zookeeper-0                                      4m           91Mi
 ```
 
+Running the `kubectl top pod -l <label-selector>`  command lists metrics for pods that match a specific label selector:
+
+```
+NAME                       CPU(Cores)   MEMORY(Bytes)
+webserver-1                3m           1Mi
+webserver-2                5m           3Mi
+```
+
+Running the `kubectl top pod <pod-name> -containers` command lists metrics for each container running in a specific pod:
+
+```
+NAME                     CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%
+nginx-653c7b42sd-4g5ce   20m          12%    14Mi            18%
+nginx-653c7b42sd-7c9ae   15m          7%     12Mi            12%
+```
+
+Running the `kubectl top pod -n <namespace> -containers` command lists metrics for each container running in pods in a specific namespace:
+
+```
+NAME                     CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%
+nginx-653c7b42sd-4g5ce   20m          12%    14Mi            18%
+nginx-653c7b42sd-7c9ae   15m          7%     12Mi            12%
+```
+
+Running the `kubectl top pod -l <label-selector> -containers` command lists metrics for each container running in pods that match a specific label selector:
+
+```
+NAME           CPU(cores)    CPU%   MEMORY(bytes)   MEMORY%
+webserver-1    50m           15%    40Mi            30%
+mwebserver-2   26m           8%     15Mi            16%
+```
+
+
+## Use Cases of `kubectl top pod/node` command
+
+Here are some use cases where `kubectl top pod` or `kubectl top node` command can be useful:
+
+Use cases of `kubectl top node` command:
+
+1. **Node Health Monitoring:** Monitoring the resource usage of nodes to ensure they are not overburdened, which is crucial for maintaining cluster health.
+
+2. **Load Balancing:** Identifying under-utilized or over-utilized nodes, which can inform decisions on workload distribution and node scaling.
+
+3. **Preventive Maintenance:** Detecting nodes with consistently high resource usage, potentially indicating the need for maintenance or upgrade.
+
+Use cases of `kubectl top pod` command:
+
+1. **Resource Optimization:** Identifying pods consuming excessive CPU or memory resources, enabling optimization of pod resource allocation.
+
+2. **Troubleshooting:** Helping diagnose issues in applications by monitoring pod resource usage, especially when pods are not performing as expected.
+
+3. **Capacity Planning:** Assisting in understanding current pod resource usage, facilitating better decisions for scaling and infrastructure planning.
+
 ## Conclusion
 
 Resource utilization metrics are key to understanding the health of your Kubernetes cluster. From the article, you learned how to get resource utilization snapshots using the `kubectl top` command. 
@@ -161,37 +238,18 @@ But if you're using Kubernetes in production, you can't rely on manual spot-chec
 
 SigNoz is a full-stack open-source APM tool that can help you monitor your Kubernetes cluster. It uses [OpenTelemetry](https://opentelemetry.io/) to collect metrics from your K8s cluster for monitoring. OpenTelemetry is becoming the world standard for instrumentation of cloud-native applications, and it is backed by [CNCF](https://www.cncf.io/) foundation, the same foundation under which Kubernetes graduated.
 
-SigNoz provides logs, metrics, and traces under a single pane of glass. It's easy to get started with SigNoz. SigNoz can be installed on macOS or Linux computers in just three steps by using a simple install script.
+## Getting started with SigNoz[](https://signoz.io/blog/opentelemetry-spans/#getting-started-with-signoz)
 
-The install script automatically installs Docker Engine on Linux. However, on macOS, you must manually install <a href = "https://docs.docker.com/engine/install/" rel="noopener noreferrer nofollow" target="_blank">Docker Engine</a> before running the install script.
+SigNoz cloud is the easiest way to run SigNoz. [Sign up](https://signoz.io/teams/) for a free account and get 30 days of unlimited access to all features.
 
-```bash
-git clone -b main https://github.com/SigNoz/signoz.git
-cd signoz/deploy/
-./install.sh
-```
+!https://signoz.io/assets/images/try-signoz-cloud-all-blog-cta-e236d6935472e7a48a103148be0117f7.webp
 
-You can visit our documentation for instructions on how to install SigNoz using Docker Swarm and Helm Charts.
+You can also install and self-host SigNoz yourself since it is open-source. With 16,000+ GitHub stars, [open-source SigNoz](https://github.com/signoz/signoz) is loved by developers. Find the [instructions](https://signoz.io/docs/install/) to self-host SigNoz.
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=kubectl_top)
+---
 
-When you are done installing SigNoz, you can access the UI at [http://localhost:3301](http://localhost:3301/application)
+#### **Related Posts**
 
-<figure data-zoomable>
-    <img src="/img/blog/common/signoz_dashboard_homepage.webp" alt="SigNoz dashboard"/>
-    <figcaption><i>SigNoz dashboard - It shows services from a sample app that comes bundled with the application</i></figcaption>
-</figure>
+- [Using Kubectl Logs | How to view Kubernetes Pod Logs?](https://signoz.io/blog/kubectl-logs/)
 
-<br></br>
-
-Learn about `kubectl logs` command to get information from existing resources in Kubernetes cluster.
-
-[Using Kubectl Logs | How to view Kubernetes Pod Logs?](https://signoz.io/blog/kubectl-logs/)
-
-If you wish to learn more about how to monitor your Kubernetes cluster with OpenTelemetry and SigNoz, follow this blog:
-
-[Kubernetes monitoring with OpenTelemetry and SigNoz](https://signoz.io/blog/kubernetes-monitoring/)
-
-If you wish to learn more about SigNoz, follow this blog:
-
-[SigNoz - an open-source alternative to DataDog](https://signoz.io/blog/open-source-datadog-alternative/)
+- [Kubernetes monitoring with OpenTelemetry and SigNoz](https://signoz.io/blog/kubernetes-monitoring/)

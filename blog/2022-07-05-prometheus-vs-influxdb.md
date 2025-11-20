@@ -1,7 +1,7 @@
 ---
 title: Prometheus vs InfluxDB - Key Differences, concepts, and similarities
 slug: prometheus-vs-influxdb
-date: 2022-07-05
+date: 2023-08-05
 tags: [Tools Comparison, Prometheus]
 authors: [tau]
 description: Prometheus and InfluxDB are both open-source projects that can be used for monitoring time-series data. While Prometheus is a metrics monitoring tool graduated under CNCF, InfluDB is a time-series database. In this article, let’s have a side-to-side review of Prometheus vs InfluxDB to...
@@ -13,6 +13,7 @@ keywords:
   - prometheus vs influxdb
   - metrics monitoring
 ---
+
 <head>
   <link rel="canonical" href="https://signoz.io/blog/prometheus-vs-influxdb/"/>
 </head>
@@ -66,7 +67,7 @@ Currently, data streams from the instrumentation of Prometheus' various <a href 
 
 <br></br>
 
-Available as an open-source tool, alongside a paid distribution of the same, InfluxDB provides a time-series data platform. InfluxDB is a capable time-series engine with a wide range of application areas.  It’s designed to ingest and process multiple data points ingesting anything from metrics, traces, logs, and events.
+Available as an open-source tool, alongside a paid distribution of the same, InfluxDB provides a time-series data platform. InfluxDB is a capable time-series engine with a wide range of application areas. It’s designed to ingest and process multiple data points ingesting anything from metrics, traces, logs, and events.
 
 InfluxDB was penned in Go, backed by the Y Combinator accelerator initiative, and officially deployed for public access in 2013 by then Errplane (now InfluxData).
 
@@ -127,7 +128,7 @@ When all is said and done, one should ensure the closer fit of either Prometheus
 
 Better still, when your application metrics monitoring scope is considerably large, going back to the fundamentals can be the way to go. Metrics are just one aspect of monitoring your application for performance issues. Today’s distributed applications need a combination of metrics, logs, and traces to debug performance issues quickly.
 
-For that you can explore OpenTelemetry based full-stack APM, [SigNoz](https://signoz.io/). With SigNoz you can monitor metrics and track transactions across services with distributed tracing. There are other features like exceptions monitoring, custom dashboards, and alerts too.
+For that you can explore OpenTelemetry based full-stack APM, [SigNoz](https://signoz.io/). With SigNoz you can monitor metrics and track transactions across services with [distributed tracing](https://signoz.io/blog/distributed-tracing-in-microservices/). There are other features like exceptions monitoring, custom dashboards, and alerts too.
 
 You can check out SigNoz GitHub repo here:
 

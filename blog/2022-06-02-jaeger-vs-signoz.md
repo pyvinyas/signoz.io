@@ -6,7 +6,7 @@ tags: [Tools Comparison, Jaeger, SigNoz]
 authors: ankit_anand
 description: Thinking of using Jaeger for distributed tracing? But wait, there is a much better alternative. SigNoz provides advanced capabilities for distributed tracing along with metrics and ...
 image: /img/blog/2022/06/jaeger_vs_signoz_cover.webp
-hide_table_of_contents: true
+hide_table_of_contents: false
 keywords:
   - jaeger
   - signoz
@@ -71,13 +71,15 @@ SigNoz also provides an easy way to track the top endpoints of your application,
     <figcaption><i>SigNoz UI showing application overview metrics like RPS, 50th/90th/99th Percentile latencies, and Error Rate</i></figcaption>
 </figure>
 
-<!-- <Screenshot
+<!-- <figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="SigNoz UI"
-    height={500}
+    
     src="/img/blog/2021/08/signoz_ui-min.webp"
-    title="SigNoz UI showing application overview metrics like RPS, 50th/90th/99th Percentile latencies, and Error Rate"
-    width={700}
-/> -->
+    />
+<figcaption><i>SigNoz UI showing application overview metrics like RPS, 50th/90th/99th Percentile latencies, and Error Rate"
+    </figure>
+<br/> -->
 
 ### Out of box charts and visualization with SigNoz
 
@@ -103,13 +105,15 @@ Jaeger does not provide Flamegraphs, and to view details of a span, you need to 
 
 Currently in beta, SigNoz also provides interactive service maps which can automatically identify the dependency between your services. The size of each circle is proportional to the number of requests it is serving. The dots connecting the services are synced with the flow of requests between the services.
 
-<!-- <Screenshot
+<!-- <figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="SigNoz service maps"
-    height={500}
+    
     src= "/img/blog/2021/08/signoz_service_maps-min.webp"
-    title="Interactive Service Maps shown on SigNoz dashboard"
-    width={700}
-/> -->
+    />
+<figcaption><i>Interactive Service Maps shown on SigNoz dashboard"
+    </figure>
+<br/> -->
 
 <figure data-zoomable>
     <img src="/img/blog/common/signoz_service_maps_beta.webp" alt="SigNoz service maps"/>
@@ -145,7 +149,6 @@ After filtering the traces, you can choose to visualize metrics like calls, dura
     <figcaption><i>See aggregated metrics of filtered traces</i></figcaption>
 </figure>
 
-
 ### Exceptions Monitoring
 
 SigNoz comes with a tab for `Exceptions` monitoring. You can monitor popular exceptions like `SSLError`, `ZeroDivisionError`, `MaxRetryError`, etc., occuring in your application code at one place. We have also empowered our users to dig deeper into why these exceptions are happening.
@@ -177,15 +180,17 @@ SigNoz uses [ClickHouse](https://clickhouse.com/) for storing observability data
 
 <br></br>
 
-<!-- <Screenshot
+<!-- <figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt=""
-    height={500}
+    
     src= "/img/blog/2021/08/SigNoz_architecture-min.webp"
-    title="Technical architecture of SigNoz with ClickHouse setup"
-    width={700}
-/> -->
+    />
+<figcaption><i>Technical architecture of SigNoz with ClickHouse setup"
+    </figure>
+<br/> -->
 
-ClickHouse is designed to be a <a href = "https://clickhouse.tech/docs/en/faq/general/why-clickhouse-is-so-fast/" rel="noopener noreferrer nofollow" target="_blank" >very fast</a> OLAP database. It is also low resource-intensive. For Jaeger, Cassandra and Elasticsearch are the primary supported storage backends. 
+ClickHouse is designed to be a <a href = "https://clickhouse.tech/docs/en/faq/general/why-clickhouse-is-so-fast/" rel="noopener noreferrer nofollow" target="_blank" >very fast</a> OLAP database. It is also low resource-intensive. For Jaeger, Cassandra and Elasticsearch are the primary supported storage backends.
 
 ### Custom Dashboards
 
@@ -198,7 +203,6 @@ SigNoz provides capabilities to create custom dashboards to monitor important co
 
 <br></br>
 
-
 ### Alerts on metrics that are important for you
 
 Using SigNoz, you can set alerts on metrics that matter to you. You can integrate alerts with popular channels like Slack and PagerDuty.
@@ -209,8 +213,6 @@ Using SigNoz, you can set alerts on metrics that matter to you. You can integrat
 </figure>
 
 <br></br>
-
-
 
 ### Role based access control for better team management
 
@@ -227,7 +229,7 @@ Org management will enable teams using SigNoz to collaborate better. There are t
     <figcaption><i>Organization settings on SigNoz dashboard</i></figcaption>
 </figure>
 
-<br></br> 
+<br></br>
 
 ---
 
@@ -249,15 +251,16 @@ git clone -b main https://github.com/SigNoz/signoz.git
 cd signoz/deploy/
 ./install.sh
 ```
+
 <br></br>
 
 For detailed instructions, you can visit our documentation.
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=jaeger_vs_signoz)
+[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/)
 
 If you have any questions around SigNoz or need any help in setting things up, join our slack community and ping us in `#support` channel.
 
-[![SigNoz Slack community](/img/blog/common/join_slack_cta.png)](https://signoz.io/slack)
+[![SigNoz Slack community](/img/blog/common/join_slack_cta.webp)](https://signoz.io/slack)
 
 You can check out SigNoz's GitHub repo here 👇
 [![SigNoz GitHub repo](/img/blog/common/signoz_github.webp)](https://github.com/SigNoz/signoz)

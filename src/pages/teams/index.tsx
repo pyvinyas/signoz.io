@@ -1,15 +1,14 @@
 import React from "react";
 import Layout from "@theme/Layout";
 import styles from "./styles.module.css";
-import PricingForm from "../../modules/pricing-form";
 import { DiscussYourProject } from "../../modules/discuss-your-project";
-import { HubspotProvider } from "@aaronhayes/react-use-hubspot-form";
+import SignozCloudSignUpForm from "../../modules/signoz-cloud-signup-form";
 
 const TEAMS_DATA = {
-  TITLE: "For Teams that need high-performing applications",
-  DESC: "Get started with observability. No need to manage multiple tools - Metrics, logs, and traces under a single pane of glass.",
+  TITLE: "SigNoz Cloud is the easiest way of running SigNoz",
+  DESC: "Experience SigNoz effortlessly. No installation, maintenance, or scaling needed. Get started now with a free trial account for 30 days.",
   PORTAL_ID: "22308423",
-  FORM_ID: "d6a11324-07d5-4dd3-8ce2-a53279b6c1db",
+  FORM_ID: "56f370ae-d84e-49b6-8629-134dbb74d90a ",
   FEATURE_POINTS: [
     {
       title: "Try it free for 30 days",
@@ -18,7 +17,7 @@ const TEAMS_DATA = {
     },
     {
       title: "Trusted by industry leaders",
-      desc: "Teams at Zoom, NetApp, ClearTax and other industry leaders have trusted SigNoz to run their observability stack.",
+      desc: "Teams at NetApp, ClearTax and other industry leaders have trusted SigNoz to run their observability stack.",
       imageUrl: "/svgs/icons/trusted-by-industry-light.svg",
     },
     {
@@ -38,10 +37,7 @@ function Teams() {
   return (
     <Layout title="Teams">
       <section className={styles.team}>
-        <DiscussYourProject
-          title={TEAMS_DATA.TITLE}
-          desc={TEAMS_DATA.DESC}
-        />
+        <DiscussYourProject title={TEAMS_DATA.TITLE} desc={TEAMS_DATA.DESC} />
         <div className={styles.teamSection}>
           <div className={`container ${styles.teamContainer}`}>
             <div className={`row ${styles.teamRow}`}>
@@ -65,12 +61,7 @@ function Teams() {
               <div className={"col col--6 margin-vert--md"}>
                 <div className={`card ${styles.teamCard}`}>
                   <div className="card__body">
-                    <HubspotProvider>
-                      <PricingForm
-                        portalId={TEAMS_DATA.PORTAL_ID}
-                        formId={TEAMS_DATA.FORM_ID}
-                      />
-                    </HubspotProvider>
+                    <SignozCloudSignUpForm />
                   </div>
                 </div>
               </div>

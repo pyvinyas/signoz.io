@@ -1,14 +1,14 @@
 ---
-title: Everything you need to know about OpenTelemetry Java agent
+title: OpenTelemetry Java Agent - Implement Observability With Zero Code Changes
 slug: java-agent
-date: 2022-01-10
+date: 2023-10-12
 tags: [java-monitoring]
 author: Ankit Anand
 author_title: SigNoz Team
 author_url: https://github.com/ankit01-oss
 author_image_url: https://avatars.githubusercontent.com/u/83692067?v=4
 description: The OpenTelemetry Java agent enables Java applications to generate and capture telemetry data automatically. It is very easy to get started...
-image: /img/blog/2021/08/opentelemetry_java_agent-min.png
+image: /img/blog/2023/10/otel-java-agent-cover-min.jpg
 keywords:
   - opentelemetry
   - opentelemetry java
@@ -21,7 +21,7 @@ OpenTelemetry emerged as a single project after the merging of OpenCensus(from G
 
 <!--truncate-->
 
-![Cover Image](/img/blog/2021/08/opentelemetry_java_agent-min.png)
+![Cover Image](/img/blog/2023/10/otel-java-agent-cover.webp)
 
 The OpenTelemetry Java agent enables Java applications to generate and capture telemetry data automatically. This article gives you a solid overview of the OpenTelemetry Java agent, including how it works. But first, let's take a short detour to understand what OpenTelemetry is.
 
@@ -129,7 +129,7 @@ The OpenTelemetry Java Jar agent provides a quick and convenient way to enable y
 
 As mentioned earlier, OpenTelemetry is a vendor-agnostic instrumentation library. So the telemetry data is portable. You can configure it to export in many different formats. A tool like [SigNoz](https://signoz.io/) supports the default OTLP formats and is a perfect choice for sending your telemetry data.
 
-SigNoz is a full-stack open-source APM tool built natively for OpenTelemetry. It provides metrics monitoring, log management, and distributed tracing under a single pane of glass.
+SigNoz is a full-stack open-source APM tool built natively for OpenTelemetry. It provides metrics monitoring, log management, and [distributed tracing](https://signoz.io/blog/distributed-tracing-in-microservices/) under a [single pane of glass](https://signoz.io/blog/single-pane-of-glass-monitoring/).
 
 It comes with a powerful visualization layer where you can visualize charts like the popular RED metrics and distributed tracing with flame graphs and Gantt charts.
 
@@ -143,26 +143,30 @@ cd signoz/deploy/
 ./install.sh
 ```
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.png)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=java_agent)
+[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/)
 
 
 import Screenshot from "@theme/Screenshot"
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
   alt="SigNoz UI showing RED metrics"
-  height={500}
+  
   src="/img/blog/common/signoz_charts_application_metrics.webp"
-  title="SigNoz Dashboard with visualization of the popular RED metrics for your application (Number of requests, rate of error & duration)"
-  width={700}
-/>
+  />
+<figcaption><i>SigNoz Dashboard with visualization of the popular RED metrics for your application (Number of requests, rate of error & duration)</i></figcaption>
+  </figure>
+<br/>
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
   alt="SigNoz UI showing RED metrics"
-  height={500}
+  
   src="/img/blog/common/signoz_flamegraphs.webp"
-  title="Flamegraphs and Gantt Charts for visualizing distributed tracing"
-  width={700}
-/>
+  />
+<figcaption><i>Flamegraphs and Gantt Charts for visualizing distributed tracing</i></figcaption>
+  </figure>
+<br/>
 
 
 Read how to monitor your Spring Boot application with OpenTelemetry Java agent and SigNoz 👇<br></br>

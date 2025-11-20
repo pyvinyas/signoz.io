@@ -1,7 +1,7 @@
 ---
 title: Spans - a key concept of distributed tracing
 slug: distributed-tracing-span
-date: 2023-01-21
+date: 2024-05-21
 tags: [Distributed Tracing]
 authors: ankit_anand
 description: Spans are fundamental blocks of distributed tracing. A single trace in distributed tracing consists of a series of tagged time intervals known as spans...
@@ -30,17 +30,25 @@ In a microservices architecture, a user request travels through hundreds, even t
 
 import Screenshot from "@theme/Screenshot"
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Microservices architecture"
-    height={500}
+    
     src="/img/blog/2021/12/fictional_ecommerce_microservices_architecture.webp"
-    title="Microservice architecture of a fictional e-commerce application"
-    width={700}
-/>
+    />
+<figcaption><i>Microservice architecture of a fictional e-commerce application</i></figcaption>
+</figure>
+<br/>
 
-Distributed tracing gives insights into how a particular service is performing as part of the whole in a distributed software system. It involves passing a trace context with each user request which is then passed across hosts, services, and protocols to track the user request.
+Distributed tracing gives insights into how a particular service is performing as part of the whole in a distributed software system. It involves passing a [trace context](https://signoz.io/blog/context-propagation-in-distributed-tracing/) with each user request which is then passed across hosts, services, and protocols to track the user request.
 
 These requests are broken down into spans, and the entire request is represented by a trace.
+
+## What is a Trace?
+
+**A trace** is a detailed representation of a request’s journey as it travels various services within a distributed system. It acts like a **map**, illustrating how the request moves through different components. A trace consists of multiple **spans**, each representing a discrete unit of work within a service (e.g., a network request or database query). These spans collectively form the entire path of the request through the system.
+
+Traces provide visibility into the entire lifecycle of a request, from start to finish. This is particularly useful in understanding the flow of operations, identifying issues, and troubleshooting problems in software or systems.
 
 > **What are spans in distributed tracing?**<br></br>
 > In distributed tracing, a user request or a transaction is represented by a trace. Traces are broken down into multiple spans. Spans represent a single logical operation within a trace. For example, a function call during a user request can be represented by a span.
@@ -61,13 +69,15 @@ Parent span calls four services which form the child spans, namely:
 
 These spans can then further have their own child spans.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="A complete trace consisting of multiple spans"
-    height={500}
+    
     src="/img/blog/2021/12/trace_spans.webp"
-    title="A sample trace demonstrating a request initiated by a frontend web client."
-    width={700}
-/>
+    />
+<figcaption><i>A sample trace demonstrating a request initiated by a frontend web client.</i></figcaption>
+</figure>
+<br/>
 
 The first span is known as the parent span and the subsequent spans are child spans. 
 
@@ -81,19 +91,27 @@ Combining all the spans in a trace can give you a detailed idea about how the re
 
 ### What are spans composed of?
 
-A span contains a span context that uniquely identifies the request the span is part of. Spans can provide request, error, and duration metrics that can be used to debug availability and performance issues.
+**Span attributes:**<br></br> Span attributes are key-value pairs that can be used to provide additional context on a span about the specific operation it tracks. They serve as descriptive elements, providing more information about the operation being performed within the span.
 
-You can also add span attributes to provide more context to your operations. Span attributes are key-value pairs that can be used to provide additional context on a span about the specific operation it tracks.
+**Span context:**<br></br> A Span context uniquely identifies the request a span is part of. It serves as a container holding critical information that links together spans across various services and machines. Span context consists of three core components: 
+
+- **Trace ID:** The same trace ID as in the trace context, linking spans to the broader trace.
+- **Span ID:** A unique identifier for each span within the trace, which is crucial for distinguishing the span's role within the trace.
+- **Timestamps:** Timing details for span creation.
+
+These contexts are propagated to child spans, ensuring that related spans are linked together for effective correlation of activities across distributed systems. Span contexts are instrumental in building a detailed and informative picture of the entire workflow or request, which is useful for effective troubleshooting of distributed transactions and gaining deep insights into system behavior.
 
 Let us see details of a selected span in an APM tool like [SigNoz](https://signoz.io/).
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Span attributes"
-    height={500}
+    
     src="/img/blog/2021/12/span_attributes1.webp"
-    title="Span attributes: Details associated with a span captured by SigNoz"
-    width={700}
-/>
+    />
+<figcaption><i>Span attributes: Details associated with a span captured by SigNoz</i></figcaption>
+</figure>
+<br/>
 
 ### Example of a basic span
 Let’s see an example of creating a basic span using the OpenTelemetry instrumentation library. <a href = "https://opentelemetry.io/" rel="noopener noreferrer nofollow" target="_blank" >OpenTelemetry</a> is a set of API, SDKs, libraries, and integrations that is aiming to standardize the generation, collection, and management of telemetry data(logs, metrics, and traces).
@@ -120,6 +138,16 @@ Span span = tracer.spanBuilder("/resource/path").setSpanKind(SpanKind.CLIENT).st
 span.setAttribute("http.method", "GET");
 span.setAttribute("http.url", url.toString());
 ```
+
+## Difference between Traces and Spans
+
+The key difference between Traces and Spans is that a **Trace** represents the complete journey of a request through a distributed system, while a **Span** represents a single unit of work or operation within that Trace. 
+
+Traces provide an end-to-end overview of the transaction flow, showing the complete path a request takes from start to finish. This overview helps in understanding the overall performance, latency, and any issues affecting the transaction as a whole.
+
+Spans, on the other hand, provide detailed information about individual operations or steps, such as an HTTP request to a service, a database query, or any other specific task. Each span contains metadata about the operation, including its duration, start and end time, and any associated tags or logs.
+
+In essence, Traces give a broad overview of a request journey while Spans give a detailed breakdown of each step within that journey.
 
 ## Getting started with Distributed Tracing
 
@@ -149,7 +177,7 @@ cd signoz/deploy/
 You can visit our documentation for instructions on how to install SigNoz using Docker Swarm and Helm Charts.
 
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=distributed_tracing_span)
+[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/)
 
 ---
 

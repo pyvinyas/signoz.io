@@ -1,7 +1,7 @@
 ---
 title: OpenMetrics vs OpenTelemetry - A guide on understanding these two specifications
 slug: openmetrics-vs-opentelemetry
-date: 2022-05-26
+date: 2023-08-30
 tags: [Tools Comparison]
 authors: [bhupesh]
 description: OpenMetrics and OpenTelemetry are popular open-source standards for generating telemetry data from application code. While OpenTelemetry can be used for logs, metrics, and traces, OpenMetrics is focused on generating metrics at scale from...
@@ -18,6 +18,8 @@ keywords:
 </head>
 
 import SignUps from '../docs/shared/sign-ups.md'
+import GetStartedSigNoz from '../docs/shared/get-started-signoz.md';
+
 
 OpenMetrics and OpenTelemetry are popular standards for instrumenting cloud-native applications. Both projects are part of the <a href = "https://cncf.io/" rel="noopener noreferrer nofollow" target="_blank">Cloud Native Computing Foundation (CNCF)</a> and aim to simplify how we generate, collect and monitor services in a modern cloud-native distributed application environment.
 
@@ -62,7 +64,7 @@ But as data can be exported in multiple formats, OpenTelemetry users have the fr
 
 OpenTelemetry provides its own set of <a href = "https://opentelemetry.io/docs/instrumentation/" rel="noopener noreferrer nofollow" target="_blank">client libraries</a> which makes it easier for you to integrate it into your application code. OpenTelemetry follows a specification-driven development. The client libraries follow the specification for their implementation.
 
-Monitoring apps have become a crucial component in a modern microservices architecture. A well setup observability stack with OpenTelemetry will help you answer questions like:
+Monitoring apps have become a crucial component in a modern microservices [architecture](https://signoz.io/blog/opentelemetry-architecture/). A well setup observability stack with OpenTelemetry will help you answer questions like:
 
 - Why is my application slow?
 - Why do we've so many errors?
@@ -77,7 +79,7 @@ The above questions can be answered on basis of these 3 key pieces of informatio
 
 <br></br>
 
-The OpenTelemetry project calls the above data points signals. It is currently working on four signals, namely, logs, metrics, traces, and baggage.
+The [OpenTelemetry project](https://signoz.io/blog/opentelemetry-apm/) calls the above data points signals. It is currently working on four signals, namely, logs, metrics, traces, and baggage.
 
 OpenTelemetry is a collaborative effort between 185 organizations around the world, involving thousands of individuals. Companies around the world have started adopting OpenTelemetry as a core engineering practice.
 
@@ -106,7 +108,7 @@ If you are choosing between OpenMetrics and OpenTelemetry, go for Opentelemetry.
 
 OpenTelemetry is becoming the world standard for instrumenting application code due to its multi-language support and ease of use. But OpenTelemetry helps only to generate and collect telemetry data. You need to export the telemetry data to a backend analysis tool so that your teams can store, query, and visualize the collected data.
 
-And that's where [SigNoz](https://signoz.io/?utm_source=blog&utm_medium=openmetrics_vs_opentelemetry) comes into the picture. SigNoz uses OpenTelemetry natively to instrument application codes. OpenTelemetry collector then sends the data to the SigNoz backend, where users can query and visualize their data with ease.
+And that's where [SigNoz](https://signoz.io/) comes into the picture. SigNoz uses OpenTelemetry natively to [instrument application](https://signoz.io/docs/instrumentation/) codes. OpenTelemetry collector then sends the data to the SigNoz backend, where users can query and visualize their data with ease.
 
 SigNoz comes with out of box visualization of things like RED metrics. There is a unified UI of metrics and traces so that you can easily identify the root cause of issues causing things like latency in your apps.
 
@@ -120,17 +122,7 @@ SigNoz comes with out of box visualization of things like RED metrics. There is 
 
 ## Getting started with SigNoz
 
-SigNoz can be installed on macOS or Linux computers in just three steps by using a simple install script.
-
-```bash
-git clone -b main https://github.com/SigNoz/signoz.git
-cd signoz/deploy/
-./install.sh
-```
-
-You can visit our documentation for instructions on how to install SigNoz using Docker Swarm and Helm Charts.
-
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=openmetrics-vs-opentelemetry)
+<GetStartedSigNoz />
 
 
 ## Further Reading

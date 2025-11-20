@@ -1,7 +1,7 @@
 ---
 title: Monitoring your Nextjs application using OpenTelemetry 
 slug: opentelemetry-nextjs
-date: 2023-06-05
+date: 2024-05-16
 tags: [OpenTelemetry Instrumentation, JavaScript]
 authors: [sai_deepesh]
 description: OpenTelemetry can help instrument Nextjs applications and provide you with end-to-end tracing. In this guide, we will demonstrate how to instrument your Nextjs app with OpenTelemetry...
@@ -35,7 +35,7 @@ OpenTelemetry is an open-source standard under Cloud Native Computing Foundation
 Instrumentation is the process of enabling your application code to generate telemetry data like logs, metrics, and traces. Using OpenTelemetry Nextjs client libraries, you can generate end-to-end tracing data from your Nextjs application.
 > 
 
-OpenTelemetry provides client libraries to take care of instrumentation. You then need to send the collected data to an analysis backend. In this tutorial, we will be using [SigNoz](https://signoz.io/?utm_source=blog&utm_medium=monitor_express) to store and visualize the telemetry data collected by OpenTelemetry from the sample Nextjs application
+OpenTelemetry provides client libraries to take care of instrumentation. You then need to send the collected data to an analysis backend. In this tutorial, we will be using [SigNoz](https://signoz.io/) to store and visualize the telemetry data collected by OpenTelemetry from the sample Nextjs application
 
 Before we demonstrate how to implement the OpenTelemetry Nextjs libraries, let’s have a brief overview of OpenTelmetry.
 
@@ -75,11 +75,11 @@ First of all, we need to install SigNoz for data collection then this data will 
 
 ### Installing SigNoz
 
-Frist, you need to install SigNoz so that OpenTelemetry can send the data to it.
+First, you need to install SigNoz so that OpenTelemetry can send the data to it.
 
-SigNoz can be installed on macOS or Linux computers in just three steps by using a simple install script.
+SigNoz cloud is the easiest way to run SigNoz. [Sign up](https://signoz.io/teams/) for a free account and get 30 days of unlimited access to all features.
 
-The install script automatically installs Docker Engine on Linux. However, on macOS, you must manually install <a href = "https://docs.docker.com/engine/install/" rel="noopener noreferrer nofollow" target="_blank">Docker Engine</a> before running the install script.
+You can also decide to self-host SigNoz. It can be installed on macOS or Linux computers in just three steps by using a simple install script. The install script automatically installs Docker Engine on Linux. However, on macOS, you must manually install <a href = "https://docs.docker.com/engine/install/" rel="noopener noreferrer nofollow" target="_blank">Docker Engine</a> before running the install script.
 
 ```bash
 git clone -b main https://github.com/SigNoz/signoz.git
@@ -89,7 +89,7 @@ cd signoz/deploy/
 
 You can visit our documentation for instructions on how to install SigNoz using Docker Swarm and Helm Charts.
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=opentelemetry_nextjs)
+[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/)
 
 When you are done installing SigNoz, you can access the UI at [http://localhost:3301](http://localhost:3301/application)
 
@@ -325,7 +325,7 @@ If you are someone who understands more from video, then you can watch the below
 
 If you face any issues while trying out SigNoz, you can reach out with your questions in #support channel 👇
 
-[![SigNoz Slack community](/img/blog/common/join_slack_cta.png)](https://signoz.io/slack)
+[![SigNoz Slack community](/img/blog/common/join_slack_cta.webp)](https://signoz.io/slack)
 
 ## Further Reading
 

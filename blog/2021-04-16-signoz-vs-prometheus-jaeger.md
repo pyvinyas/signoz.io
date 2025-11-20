@@ -4,7 +4,7 @@ slug: signoz-vs-prometheus-jaeger
 date: 2021-04-16
 tags: [SigNoz, Community]
 authors: ankit_nayan
-hide_table_of_contents: true
+hide_table_of_contents: false
 description: Why we felt there was a need for a full-stack open source observability platform and how we went about building it.
 image: /img/SigNoz_UI_hc.webp
 keywords:
@@ -226,7 +226,7 @@ The flattened data is then ingested to **Druid \***which is a real-time analytic
 
 ### To gain observability into your applications you need to follow 2 steps:
 
-1. Install SigNoz using instructions at [installation docs](https://signoz.io/docs/install/docker/). This installs all components needed to collect, process, analyze and visualize data.
+1. Install SigNoz using instructions at [installation docs](https://signoz.io/docs/install/). This installs all components needed to collect, process, analyze and visualize data.
 
 2. Instrument your application using OpenTelemetry to start sending data to SigNoz. We have opentelemetry instrumentation docs for [NodeJs](https://signoz.io/docs/instrumentation/nodejs), [Java](https://signoz.io/docs/instrumentation/java), [Python](https://signoz.io/docs/instrumentation/python), [Golang](https://signoz.io/docs/instrumentation/golang) and more to come.
 

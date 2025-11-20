@@ -1,7 +1,7 @@
 ---
 title: Latest top 17 API monitoring tools [open-source included]
 slug: api-monitoring-tools
-date: 2022-07-05
+date: 2024-02-08
 tags: [Tech Resources]
 authors: [sai_deepesh]
 description: Top 17 API monitoring tools including open source tools to monitor your APIs. 1.SigNoz 2.Prometheus 3.Graphite 4.Datadog 5.New Relic 6.Sauce Labs...
@@ -83,8 +83,8 @@ Some of the key features of SigNoz include:
 
 - Monitor important application metrics of each service with out-of-box charts and visualization.
 - For each service, monitor top endpoints and their key metrics
-- Drill down into the performance of each API with tracing data showing all spans processed by the endpoint
-- Analyze API calls as part of the whole user request with Flamegraphs and Gantt charts
+- Drill down into the performance of each API with tracing data showing all [spans](https://signoz.io/blog/distributed-tracing-span/) processed by the endpoint
+- Analyze API calls as part of the whole user request with [Flamegraphs and Gantt charts](https://signoz.io/blog/flamegraphs/)
 
 To see your application performance at a glance, you can use the `Metrics` tab. The top endpoints of your services will be listed in the `Top endpoints` table.
 
@@ -98,12 +98,18 @@ To see your application performance at a glance, you can use the `Metrics` tab. 
 You can then analyze the performance of each request that hits your endpoint with tracing data. The `Traces` tab provides powerful filters to analyze each event(or span) of that endpoint.
 
 
-<figure data-zoomable>
+<!-- <figure data-zoomable>
     <img src="/img/blog/common/signoz_list_of_traces_hc.webp" alt="SigNoz dashboard showing popular RED metrics"/>
     <figcaption><i>Analyze spans processed by a particular endpoint with the Traces tab of SigNoz</i></figcaption>
 </figure>
 
-<br></br>
+<br></br> -->
+
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2024/02/signoz_list_of_traces_hc.webp" alt="SigNoz dashboard showing popular RED metrics"/>
+    <figcaption><i>Analyze spans processed by a particular endpoint with the Traces tab of SigNoz</i></figcaption>
+</figure>
+<br/>
 
 You can also visualize your API calls as part of the whole user request using Flamegraphs and Gantt charts.
 
@@ -122,12 +128,18 @@ You can use Prometheus to monitor your REST APIs. Prometheus is a good tool for 
 
 Prometheus provides a very basic visualization layer, and it is usually combined with Grafana to create better visualization. It also provides an alertmanager to create alerts on critical metrics.
 
-<figure data-zoomable align='center'>
+<!-- <figure data-zoomable align='center'>
     <img src="/img/blog/2021/09/apm_tools_prometheus_grafana-min.webp" alt="Prometheus dashboard built with Grafana"/>
     <figcaption><i>Prometheus dashboard built with Grafana</i></figcaption>
 </figure>
 
-<br></br>
+<br></br> -->
+
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2024/02/apm_tools_prometheus_grafana-min.webp" alt="Prometheus dashboard built with Grafana"/>
+    <figcaption><i>Prometheus dashboard built with Grafana</i></figcaption>
+</figure>
+<br/>
 
 ### Graphite (Open Source)
 
@@ -141,12 +153,18 @@ Graphite does not do data collection. Instead, your app needs to be configured t
 
 Just like Prometheus, Graphite can be used to monitor API performance.
 
-<figure data-zoomable align='center'>
+<!-- <figure data-zoomable align='center'>
     <img src="/img/blog/2022/07/graphite_monitoring.webp" alt="Graphite monitoring dashboard"/>
     <figcaption><i>Graphite monitoring dashboard</i></figcaption>
 </figure>
 
-<br></br>
+<br></br> -->
+
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2024/02/graphite_monitoring.webp" alt="Graphite monitoring dashboard"/>
+    <figcaption><i>Graphite monitoring dashboard</i></figcaption>
+</figure>
+<br/>
 
 ### Datadog
 
@@ -407,6 +425,14 @@ Some of the features it provides are:
 
 - **Detect and fix slow database queries:** It keeps track of database calls to ensure they do not affect the application performance.
 
+## Choosing the right API monitoring tools
+
+Selecting the appropriate API monitoring tool is pivotal for effectively monitoring and resolving issues within applications. When evaluating potential tools, users should prioritize solutions that provide comprehensive visibility into their API ecosystem. This includes real-time insights into API response times, error rates, throughput, and dependencies. The ideal tool should be able to trace requests across distributed systems and identify performance bottlenecks for efficient troubleshooting and optimization. In this regard, SigNoz stands out as a robust option.
+
+SigNoz is a full-stack open surce APM tool designed natively for OpenTelemetry, a powerful framework for generating and collecting telemetry data (logs, metrics, and traces). This integration ensures thorough monitoring of service endpoints and offers valuable insights into key metrics like P95 and P99 latencies, service error rates, external API interactions, and individual endpoint performance.
+
+Its [distributed tracing](https://signoz.io/blog/distributed-tracing-in-microservices/) capabilities allow for quick identification of the root causes of API failures. With just a few clicks, you can delve into the exact traces responsible for the problem, allowing you to visualize and analyze detailed flamegraphs of individual request traces. This level of granularity empowers you to identify performance bottlenecks, dependencies, and anomalies with precision and facilitates rapid troubleshooting and optimization.
+
 ## Final Thoughts
 
 There are some fundamental metrics to monitor for API performance. Response times, error percentage, and requests per second are key metrics that can give insights into API performance. You can choose tools based on your use case and needs. 
@@ -431,7 +457,7 @@ cd signoz/deploy/
 
 You can visit our documentation for instructions on how to install SigNoz using Docker Swarm and Helm Charts.
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=api_monitoring_tools)
+[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/)
 
 ---
 

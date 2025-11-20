@@ -29,7 +29,7 @@ Jaeger is an open-source distributed tracing tool meant to monitor and troublesh
 
 In a microservice architecture, you can use Jaeger to track transactions across multiple services. The process of tracking transactions across different services is called distributed tracing.
 
-> Jaeger is a fantastic open-source tool for distributed tracing. But for effective resolution of production issues, engineering teams need more than traces. [SigNoz](https://signoz.io/?utm_source=blog&utm_medium=article), a full-stack open-source tool, provides a unified UI for logs, metrics, and traces.
+> Jaeger is a fantastic open-source tool for distributed tracing. But for effective resolution of production issues, engineering teams need more than traces. [SigNoz](https://signoz.io/), a full-stack open-source tool, provides a unified UI for logs, metrics, and traces.
 
 ## What is distributed tracing?
 In the world of microservices, a user request travels through hundreds of services before serving a user what they need. To make a business scalable, engineering teams are responsible for particular services with no insight into how the system performs as a whole. And that's where distributed tracing comes into the picture.
@@ -41,7 +41,7 @@ In the world of microservices, a user request travels through hundreds of servic
 
 <br></br>
 
-Distributed tracing gives you insight into how a particular service is performing as part of the whole in a distributed software system. There are two essential concepts involved in distributed tracing: **Spans** and **trace context**.
+Distributed tracing gives you insight into how a particular service is performing as part of the whole in a distributed software system. There are two essential concepts involved in distributed tracing: **[Spans](https://signoz.io/blog/distributed-tracing-span/)** and **[trace context](https://signoz.io/blog/context-propagation-in-distributed-tracing/)**.
 
 User requests are broken down into spans.
 
@@ -84,7 +84,7 @@ Let us see in detail what these components are and how these components come tog
 
 Instrumentation is the process of generating telemetry data(logs, metrics, and traces) from your application code. It is essentially writing code that enables your application code to emit telemetry data, which can be used later to investigate issues.
 
-Most distributed tracing tools offer clients libraries, agents, and SDKs to instrument application code. Jaeger's client libraries for instrumentation are based on <a href = "https://opentracing.io/" rel="noopener noreferrer nofollow" target="_blank" ><b>OpenTracing APIs</b></a>. 
+Most distributed tracing tools offer clients libraries, agents, and SDKs to [instrument application](https://signoz.io/docs/instrumentation/) code. Jaeger's client libraries for instrumentation are based on <a href = "https://opentracing.io/" rel="noopener noreferrer nofollow" target="_blank" ><b>OpenTracing APIs</b></a>. 
 
 OpenTracing was an open-source project aimed at providing vendor-neutral APIs and instrumentation for distributed tracing. It later got merged into <a href = "https://opentelemetry.io/" rel="noopener noreferrer nofollow" target="_blank" ><b>OpenTelemetry</b></a>. Jaeger has official client libraries in the following languages:
 
@@ -198,7 +198,7 @@ A few key challenges of using Jaeger as a distributed tracing tool are as follow
 - Databases supported by Jaeger need active maintenance.
 - Jaeger's web UI is limited with basic visualizations.
 
-For a fast-moving engineering team, you need dashboards that can drive quick insights and resolution. And that's where [SigNoz](https://signoz.io/?utm_source=blog&utm_medium=article) comes into the picture. It is a great alternative to Jaeger for distributed tracing in microservices.
+For a fast-moving engineering team, you need dashboards that can drive quick insights and resolution. And that's where [SigNoz](https://signoz.io/) comes into the picture. It is a great alternative to Jaeger for distributed tracing in microservices.
 
 ## SigNoz - a Jaeger alternative for distributed tracing
 

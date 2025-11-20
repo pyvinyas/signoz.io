@@ -1,7 +1,7 @@
 ---
-title: Jaeger vs Zipkin - Key architecture components, differences and alternatives
+title: Jaeger vs Zipkin - Which tool to choose for tracing?
 slug: jaeger-vs-zipkin
-date: 2023-03-02
+date: 2024-01-25
 tags: [Tools Comparison, Jaeger]
 authors: ankit_anand
 description: Jaeger and Zipkin are two popular open-source projects used for end-to-end distributed tracing. While Zipkin is an older project and has a wider community, Jaeger has a modern, scalable architecture and supports open standards of instrumentation libraries..
@@ -17,7 +17,7 @@ keywords:
   <link rel="canonical" href="https://signoz.io/blog/jaeger-vs-zipkin/"/>
 </head>
 
-Distributed tracing is becoming a critical component of any application's performance monitoring stack. However, setting it up in-house is an arduous task, and that's why many companies prefer outside tools. Jaeger and Zipkin are two popular open-source projects used for end-to-end distributed tracing. Let us explore their key differences in this article.
+[Distributed tracing](https://signoz.io/blog/distributed-tracing-in-microservices/) is becoming a critical component of any application's performance monitoring stack. However, setting it up in-house is an arduous task, and that's why many companies prefer outside tools. [Jaeger](https://signoz.io/blog/distributed-tracing-jaeger/) and Zipkin are two popular open-source projects used for end-to-end distributed tracing. Let us explore their key differences in this article.
 
 <!--truncate-->
 
@@ -33,15 +33,17 @@ In the world of microservices, a user request travels through hundreds of servic
 
 import Screenshot from "@theme/Screenshot"
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Microservices architecture"
-    height={500}
+    
     src="/img/blog/2021/09/jaeger_vs_zipkin_microservices_architecture.webp"
-    title="Microservice architecture of a fictional e-commerce application"
-    width={700}
-/>
+    />
+<figcaption><i>Microservice architecture of a fictional e-commerce application</i></figcaption>
+</figure>
+<br/>
 
-Distributed tracing gives you insight into how a particular service is performing as part of the whole in a distributed software system. There are two important concepts involved in distributed tracing: **Spans** and **trace context**.
+Distributed tracing gives you insight into how a particular service is performing as part of the whole in a distributed software system. There are two important concepts involved in distributed tracing: **[Spans](https://signoz.io/blog/distributed-tracing-span/)** and **[trace context](https://signoz.io/blog/context-propagation-in-distributed-tracing/)**.
 
 User requests are broken down into spans.
 
@@ -50,13 +52,15 @@ User requests are broken down into spans.
 
 A trace context is passed along when requests travel between services, which tracks a user request across services. You can see how a user request performs across services and identify what exactly needs your attention without manually shifting through multiple dashboards.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Trace context is passed to track user requests across services"
-    height={500}
+    
     src="/img/blog/2021/09/opentelemetry_distributed_tracing-min.webp"
-    title="A trace context is passed when user requests pass from one service to another"
-    width={700}
-/>
+    />
+<figcaption><i>A trace context is passed when user requests pass from one service to another</i></figcaption>
+</figure>
+<br/>
 
 ## Jaeger and Zipkin: Key components
 <a href = "https://github.com/jaegertracing/jaeger" rel="noopener noreferrer nofollow" target="_blank" ><b>Jaeger's</b></a> source code is primarily written in Go, while <a href = "https://github.com/openzipkin/zipkin" rel="noopener noreferrer nofollow" target="_blank" ><b>Zipkin's</b></a> source code is primarily written in Java. The architecture of Jaeger and Zipkin is somewhat similar. Major components in both architectures include:
@@ -66,30 +70,38 @@ A trace context is passed along when requests travel between services, which tra
 - Query Service and web UI
 - Database Storage
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Jaeger architecture"
-    height={500}
+    
     src="/img/blog/2021/09/Jaeger_architecture-min.webp"
-    title="Illustration of  Jaeger architecture (Source: Jaeger website)"
-    width={700}
-/>
+    />
+<figcaption><i>Illustration of  Jaeger architecture (Source: Jaeger website)</i></figcaption>
+</figure>
+<br/>
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Zipkin architecture"
-    height={500}
+    
     src="/img/blog/2021/09/zipkin_architecture-min.webp"
-    title="Illustration of Zipkin architecture (Source: Zipkin website)"
-    width={700}
-/>
+    />
+<figcaption><i>Illustration of Zipkin architecture (Source: Zipkin website)</i></figcaption>
+</figure>
+<br/>
 
 ### Instrumentation Libraries
 Instrumentation is the process of generating telemetry data(logs, metrics, and traces) from an application code. Both Jaeger and Zipkin provide language-specific instrumentation libraries. Instrumentation enables a service to create spans on incoming requests and to attach context information on outgoing requests.
 
 Key points to note about instrumentation libraries of Jaeger and Zipkin:
 
-- Jaeger's instrumentation libraries are based on <a href = "https://opentracing.io/" rel="noopener noreferrer nofollow" target="_blank" ><b>OpenTracing APIs</b></a>. OpenTracing was also started at Uber with an aim to create vendor-neutral instrumentation APIs for distributed tracing. Zipkin has its own instrumentation libraries.
+- Jaeger recommends using OpenTelemetry APIs and SDKs for generating traces. Using OpenTelemetry users have the advantage of using a single open source standard for all types of telemetry signals as OpenTelemetry aslo supports logs and metrics.
 
-- Jaeger has <a href = "https://www.jaegertracing.io/docs/1.26/client-libraries/" rel="noopener noreferrer nofollow" target="_blank" ><b>official client libraries</b></a> in Go, Java, Node.js, Python, C++, C#. Zipkin team maintains <a href = "https://zipkin.io/pages/tracers_instrumentation.html" rel="noopener noreferrer nofollow" target="_blank" ><b>instrumentation libraries</b></a> for frameworks in C#, Go, Java, Javascript, Ruby, Scala, and PHP.
+- Zipkin provides client libraries in popular languages like C#, Go, Java, Javascript, Ruby, Scala, PHP, etc. There are also a lot of community supported libraries that you can use for instrumenting specific frameworks.
+
+<!-- - Jaeger's instrumentation libraries are based on <a href = "https://opentracing.io/" rel="noopener noreferrer nofollow" target="_blank" ><b>OpenTracing APIs</b></a>. OpenTracing was also started at Uber with an aim to create vendor-neutral instrumentation APIs for distributed tracing. Zipkin has its own instrumentation libraries.
+
+- Jaeger has <a href = "https://www.jaegertracing.io/docs/1.26/client-libraries/" rel="noopener noreferrer nofollow" target="_blank" ><b>official client libraries</b></a> in Go, Java, Node.js, Python, C++, C#. Zipkin team maintains <a href = "https://zipkin.io/pages/tracers_instrumentation.html" rel="noopener noreferrer nofollow" target="_blank" ><b>instrumentation libraries</b></a> for frameworks in C#, Go, Java, Javascript, Ruby, Scala, and PHP. -->
 
 - Both Jaeger and Zipkin support out-of-box instrumentation for a lot of popular frameworks. Jaeger is also compatible with Zipkin's API. That means you can use instrumentation libraries of Zipkin with Jaeger.
 
@@ -105,21 +117,25 @@ Zipkin provides a JSON API for finding and retrieving traces. Jaeger provides st
 
 The consumer of the query service is a Web UI in both Jaeger and Zipkin, which is used to visualize trace data by a user.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Jaeger's web UI showing Gantt charts"
-    height={500}
+    
     src="/img/blog/2021/08/jaeger_gantt_charts-min.webp"
-    title="Jaeger's Web UI showing spans with Gantt charts"
-    width={700}
-/>
+    />
+<figcaption><i>Jaeger's Web UI showing spans with Gantt charts</i></figcaption>
+</figure>
+<br/>
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Zipkin trace UI"
-    height={500}
+    
     src="/img/blog/2021/09/jaeger_vs_zipkin_trace_ui.webp"
-    title="Zipkin's trace UI"
-    width={700}
-/>
+    />
+<figcaption><i>Zipkin's trace UI</i></figcaption>
+</figure>
+<br/>
 
 ### Database storage
 Both Jaeger and Zipkin provide pluggable storage backends for trace data. Cassandra and Elasticsearch are the primarily supported storage backends by Jaeger.
@@ -127,44 +143,56 @@ Both Jaeger and Zipkin provide pluggable storage backends for trace data. Cassan
 Zipkin was originally built to store data in Cassandra, but it later started supporting Elasticsearch and MySQL too.
 
 ## Comparing Jaeger and Zipkin
+
 Jaeger and Zipkin have a lot of similarities in their architecture. Though Zipkin is an older project, Jaeger has a more modern and scalable design. 
 
 Summarizing the key differences between Jaeger and Zipkin:
 
-- Jaeger's has wider support of instrumentation libraries as it supports OpenTracing APIs and is also compatible with Zipkin's API. Jaeger also provides an option to <a href = "https://www.jaegertracing.io/docs/1.26/getting-started/#migrating-from-zipkin" rel="noopener noreferrer nofollow" target="_blank" ><b>migrate from Zipkin</b></a>. On the other hand, Zipkin supports popular frameworks in the official clients, while leaving the community to instrument smaller libraries like database drivers.
+- **Instrumentation libraries**<br></br>
+    Jaeger has shifted from its client libraries based on Opentracing APIs to recommended OpenTelemetry APIs and SDKs for application instrumentation. OpenTelemetry is a broader framework for observability that can help you generate different kinds of telemetry signals and correlate them for better contextual insights. Zipkin cal also receive traces from OpenTelemetry instrumented applications. Zipkin's instrumentation libraries are focused on simplicity and ease of integration. 
 
-- Jaeger can be deployed as a single binary where all Jaeger backend components run as a single process or as a scalable distributed system. Zipkin, on the other hand, can only be run as a single binary that includes the collector, storage, query service, and web UI.
+- **Deployment**<br></br>
+    Jaeger can be deployed as a single binary where all Jaeger backend components run as a single process or as a scalable distributed system. Zipkin, on the other hand, can only be run as a single binary that includes the collector, storage, query service, and web UI.
 
-- As Jaeger comes under CNCF along with other projects such as Kubernetes, there are official orchestration templates for running Jaeger with [Kubernetes](https://github.com/jaegertracing/jaeger-kubernetes) and [OpenShift](https://github.com/jaegertracing/jaeger-openshift). Zipkin provides three options to build and start an instance of Zipkin: using Java, Docker, or running from the source.
+- **Integrations**<br></br>
+    As Jaeger comes under CNCF along with other projects such as Kubernetes, there are official orchestration templates for running Jaeger with [Kubernetes](https://github.com/jaegertracing/jaeger-kubernetes) and [OpenShift](https://github.com/jaegertracing/jaeger-openshift). Zipkin provides three options to build and start an instance of Zipkin: using Java, Docker, or running from the source.
 
-- Despite being older, Jaeger has caught up to Zipkin in terms of community support. Zipkin is a standalone project which came into existence before containerization went mainstream. Jaeger, as part of CNCF, is a recognized project in cloud-native architectures.
+- **Sampling strategis**<br></br>
+    Jaeger offers adaptive sampling, which adjusts the sampling rate based on the traffic and error rates, enabling more efficient trace data collection without overwhelming storage with too much data. Zipkin relies on simpler, less flexible sampling strategies, such as per-service sampling, which may not be as efficient in environments with highly variable traffic patterns.
 
-Both Jaeger and Zipkin are strong contenders when it comes to a distributed tracing tool. But are traces enough to solve all performance issues of a modern distributed application? The answer is no. You also need metrics and a way to correlate metrics with traces with a single dashboard. Most SaaS vendors provide both metrics and traces under a single pane of glass. But the beauty of Jaeger and Zipkin is that they are open-source. What if an open-source solution does both and comes with a great web UI with actionable insights for your engineering teams?
+- **Community Support**<br></br>
+    Despite being newer, Jaeger has caught up to Zipkin in terms of community support. Zipkin is a standalone project which came into existence before containerization went mainstream. Jaeger, as part of CNCF, is a recognized project in cloud-native architectures.
 
-That's where [SigNoz](https://signoz.io/?utm_source=blog&utm_medium=jaeger_vs_zipkin) comes into the picture.
+Both Jaeger and Zipkin are strong contenders when it comes to a distributed tracing tool. But are traces enough to solve all performance issues of a modern distributed application? The answer is no. You also need metrics and a way to correlate metrics with traces with a single dashboard. Most SaaS vendors provide both metrics and traces under a [single pane of glass](https://signoz.io/blog/single-pane-of-glass-monitoring/). But the beauty of Jaeger and Zipkin is that they are open-source. What if an open-source solution does both and comes with a great web UI with actionable insights for your engineering teams?
+
+That's where [SigNoz](https://signoz.io/) comes into the picture.
 
 ## A better to alternative to Jaeger and Zipkin - SigNoz
 SigNoz is a full-stack open-source application performance monitoring and observability tool which can be used in place of Jaeger and Zipkin. It provides advanced distributed tracing capabilities along with metrics under a single dashboard.
 
 SigNoz is built to support OpenTelemetry natively. It also provides a fast OLAP datastore, ClickHouse as the storage backend.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="Architecture of SigNoz with OpenTelemetry and ClickHouse"
-    height={500}
+    
     src="/img/blog/2021/09/SigNoz_architecture_clickhouse.webp"
-    title="Architecture of SigNoz with ClickHouse as storage backend and OpenTelemetry for code instrumentatiion"
-    width={700}
-/>
+    />
+<figcaption><i>Architecture of SigNoz with ClickHouse as storage backend and OpenTelemetry for code instrumentatiion</i></figcaption>
+</figure>
+<br/>
 
 SigNoz comes with out of box visualization of things like RED metrics.
 
-<Screenshot
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="SigNoz UI showing the popular RED metrics"
-    height={500}
+    
     src="/img/blog/common/signoz_charts_application_metrics.webp"
-    title="SigNoz UI showing application overview metrics like RPS, 50th/90th/99th Percentile latencies, and Error Rate"
-    width={700}
-/>
+    />
+<figcaption><i>SigNoz UI showing application overview metrics like RPS, 50th/90th/99th Percentile latencies, and Error Rate</i></figcaption>
+</figure>
+<br/>
 
 Some of the things SigNoz can help you track:
 
@@ -181,7 +209,7 @@ You can check out SigNoz's GitHub repo here 👇
 
 We also have an active slack community. Feel free to join in and say hi! 👋
 
-[![SigNoz Slack community](/img/blog/common/join_slack_cta.png)](https://signoz.io/slack)
+[![SigNoz Slack community](/img/blog/common/join_slack_cta.webp)](https://signoz.io/slack)
 
 ___
 

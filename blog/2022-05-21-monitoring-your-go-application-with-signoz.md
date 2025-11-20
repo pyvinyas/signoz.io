@@ -88,7 +88,7 @@ cd signoz/deploy/
 
 You can visit our documentation for instructions on how to install SigNoz using Docker Swarm and Helm Charts.
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=golang_monitoring)
+[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/)
 
 When you are done installing SigNoz, you can access the UI at [http://localhost:3301](http://localhost:3301/application)
 
@@ -135,11 +135,13 @@ Verify if you have Golang installed on your machine by running `$ go version` on
 
     If you see an empty array, it means your application is working. You can check out how to write, update and delete books in your array from the article [here](https://blog.logrocket.com/how-to-build-a-rest-api-with-golang-using-gin-and-gorm/).
 
-    <Screenshot
+    <figure data-zoomable align='center'>
+    <img className="box-shadowed-image"
     alt="endpoint of bookstore app"
-    height={500}
+    
     src="/img/blog/2021/06/screenzy-1623261415095.webp"
-    title="endpoint of our bookstore app"
+    />
+<figcaption><i>endpoint of our bookstore app"
     width={700}
     />
 
@@ -211,55 +213,59 @@ To configure your application to send data we will need a function to initialize
 
 ```go
 import (
-  	.....
+    .....
 
-	"github.com/gin-gonic/gin"
-	"go.opentelemetry.io/otel"
-	"go.opentelemetry.io/otel/attribute"
-	"go.opentelemetry.io/otel/exporters/otlp/otlptrace"
-	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
+    "google.golang.org/grpc/credentials"
+    "github.com/gin-gonic/gin"
+    "go.opentelemetry.io/otel"
+    "go.opentelemetry.io/otel/attribute"
+    "go.opentelemetry.io/otel/exporters/otlp/otlptrace"
+    "go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
 
-	"go.opentelemetry.io/otel/sdk/resource"
-	sdktrace "go.opentelemetry.io/otel/sdk/trace"
+    "go.opentelemetry.io/otel/sdk/resource"
+    sdktrace "go.opentelemetry.io/otel/sdk/trace"
 )
 
 func initTracer() func(context.Context) error {
 
-	secureOption := otlptracegrpc.WithTLSCredentials(credentials.NewClientTLSFromCert(nil, ""))
-	if len(insecure) > 0 {
-		secureOption = otlptracegrpc.WithInsecure()
-	}
+    var secureOption otlptracegrpc.Option
 
-	exporter, err := otlptrace.New(
-		context.Background(),
-		otlptracegrpc.NewClient(
-			secureOption,
-			otlptracegrpc.WithEndpoint(collectorURL),
-		),
-	)
+    if strings.ToLower(insecure) == "false" || insecure == "0" || strings.ToLower(insecure) == "f" {
+        secureOption = otlptracegrpc.WithTLSCredentials(credentials.NewClientTLSFromCert(nil, ""))
+    } else {
+        secureOption = otlptracegrpc.WithInsecure()
+    }
 
-	if err != nil {
-		log.Fatal(err)
-	}
-	resources, err := resource.New(
-		context.Background(),
-		resource.WithAttributes(
-			attribute.String("service.name", serviceName),
-			attribute.String("library.language", "go"),
-		),
-	)
-	if err != nil {
-		log.Printf("Could not set resources: ", err)
-	}
+    exporter, err := otlptrace.New(
+        context.Background(),
+        otlptracegrpc.NewClient(
+            secureOption,
+            otlptracegrpc.WithEndpoint(collectorURL),
+        ),
+    )
 
-	otel.SetTracerProvider(
-		sdktrace.NewTracerProvider(
+    if err != nil {
+        log.Fatalf("Failed to create exporter: %v", err)
+    }
+    resources, err := resource.New(
+        context.Background(),
+        resource.WithAttributes(
+            attribute.String("service.name", serviceName),
+            attribute.String("library.language", "go"),
+        ),
+    )
+    if err != nil {
+        log.Fatalf("Could not set resources: %v", err)
+    }
+
+    otel.SetTracerProvider(
+        sdktrace.NewTracerProvider(
             sdktrace.WithSampler(sdktrace.AlwaysSample()),
-			sdktrace.WithBatcher(exporter),
-			sdktrace.WithResource(resources),
-		),
-	)
-	return exporter.Shutdown
+            sdktrace.WithBatcher(exporter),
+            sdktrace.WithResource(resources),
+        ),
+    )
+    return exporter.Shutdown
 }
 ```
 
@@ -390,7 +396,7 @@ If you are someone who understands more from video, then you can watch the our v
 
 If you have any questions or need any help in setting things up, join our slack community and ping us in `#support` channel.
 
-[![SigNoz Slack community](/img/blog/common/join_slack_cta.png)](https://signoz.io/slack)
+[![SigNoz Slack community](/img/blog/common/join_slack_cta.webp)](https://signoz.io/slack)
 
 ---
 

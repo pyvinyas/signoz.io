@@ -59,14 +59,17 @@ span.set_status(Status(StatusCode.ERROR, "internal error"))
 ### Record Exceptions in JavaScript:
 
 ```javascript
-// Get the current span from the tracer
-const span = api.getSpan(api.context.active());
+// import relevant opentelemetry functions
+const { trace, SpanStatusCode } = require("@opentelemetry/api");
 
+// Get the current span from the tracer
+const span = trace.getActiveSpan();
+// Create a new sample error
+err = new Error("This is a sample error");
 // recordException converts the error into a span event. 
 span.recordException(err);
-
 // Update the span status to failed.
-span.setStatus({ code: api.SpanStatusCode.ERROR, message: String(err)});
+span.setStatus({ code: SpanStatusCode.ERROR, message: String(err) });
 ```
 
 ### Record Exceptions in .NET:
@@ -93,6 +96,9 @@ using (var activity = MyActivitySource.StartActivity("Foo"))
 ### Record Exceptions in Ruby:
 
 ```ruby
+# Import otel sdk
+require "opentelemetry/sdk"
+
 # Get the current span from the tracer
 span = OpenTelemetry::Trace.current_span
 
@@ -142,15 +148,15 @@ It shows the list of exceptions in the applications in a separate page so that u
 
 You can sort exceptions by Last Seen, First Seen, Count, Exception type and Application name
 
-![exception-list](../../static/img/docs/exception-list.png)
+![exception-list](../../static/img/docs/exception-list.webp)
 
 Exception detail page includes the stack trace of the exception, exception attributes and link to the span which caused the exception.
 
-![exception-detail-1](../../static/img/docs/exception-detail-1.png)
+![exception-detail-1](../../static/img/docs/exception-detail-1.webp)
 
 By clicking `errors in the trace page` you can see the exceptions in the context of the trace request in which the exception was thrown
 
-![exception-detail-2](../../static/img/docs/exception-detail-2.png)
+![exception-detail-2](../../static/img/docs/exception-detail-2.webp)
 
 
 ## Grouping Exceptions

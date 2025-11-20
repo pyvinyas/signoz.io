@@ -1,188 +1,118 @@
 ---
 id: opentelemetry-binary-usage-in-virtual-machine
 title: OpenTelemetry Binary Usage in Virtual Machine
-description: Using OpenTelemetry binary usage and monitor the virtual machine (VM).
+description: Using OpenTelemetry binary as an agent collector to monitor the virtual machine (VM) and applications running on it.
+hide_table_of_contents: true
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 import HostMetrics from '../shared/hostmetrics-list.md'
+import OtelDownloadLinuxAmd from '../shared/otel-binary-download-linux-amd.md'
+import OtelDownloadLinuxArm from '../shared/otel-binary-download-linux-arm.md'
+import OtelDownloadMacosAmd from '../shared/otel-binary-download-macos-amd.md'
+import OtelDownloadMacosArm from '../shared/otel-binary-download-macos-arm.md'
+import OtelExtractLinuxAmd from '../shared/otel-binary-extract-linux-amd.md'
+import OtelExtractLinuxArm from '../shared/otel-binary-extract-linux-arm.md'
+import OtelExtractMacosAmd from '../shared/otel-binary-extract-macos-amd.md'
+import OtelExtractMacosArm from '../shared/otel-binary-extract-macos-arm.md'
+import CloudConfig from '../shared/otel-binary-cloud-config.md'
+import OtelExecuteLinux from '../shared/otel-binary-execute-linux.md'
+import OtelExecuteMacos from '../shared/otel-binary-execute-macos.md'
+import TailLogs from '../shared/otel-binary-logs.md'
+import OtelStop from '../shared/otel-binary-stop.md'
 
 ### Overview
 
-This tutorial shows how you can deploy OpenTelemetry binary an agent, which
+This tutorial shows how you can deploy OpenTelemetry binary as an agent, which
 collects telemetry data. Data such as traces, metrics and logs generated
 by applications most likely running in the same virtual machine (VM).
 
 It can also be used for collecting data from other VMs in the same cluster,
-data center or region, however binary is not recommended in that scenerio but
+data center or region, however, binary is not recommended in that scenario but
 container or deployment which can be easily scaled.
 
-In this guide, you will also learn to set up hostmetrics receiver to collect
+In this guide, you will also learn to set up a hostmetrics receiver to collect
 metrics from the VM and view in SigNoz.
 
-### Prerequisites
+<Tabs>
+<TabItem value="cloud" label="SigNoz Cloud" default>
 
-- SigNoz application up and running
-- SigNoz endpoint accessible from the VM
-- availability of ports: `4317`, `4318`, `8888`, `1777`, `13133`
+## Setup Otel Collector as agent
 
-## Installation
+OpenTelemetry-instrumented applications in a VM can send data to the `otel-binary` agent running in the same VM. The OTel agent can then be configured to send data to the SigNoz cloud.
 
-You can obtain OpenTelemetry collector binary in the assets of each releases:
-[open-telemetry/opentelemetry-collector-releases/releases][1].
-There are two ways of installation with binary release assets: `deb` as
-`systemd` and `tar.gz` as plain binary.
+<figure data-zoomable align='center'>
+    <img src="/img/docs/saas-docs/vm-setup-2x.webp" alt="Collecting data from applications deployed in VM"/>
+    <figcaption><i>OpenTelemetry-instrumented applications in a VM can send data to otel-binary which then sends data to SigNoz cloud.</i></figcaption>
+</figure>
 
-### Systemd
+<br></br>
 
-Using `deb` file, OpenTelemetry Collector will be installed as a `systemd` and
-default configuration prepopulated at `/etc/otelcol-contrib` path. This method
-would be preferable in case you want the OpenTelemetry collector to always be
-running in the background.
+Here are the steps to set up OpenTelemetry binary as an agent.
 
-To download `deb` file of release version `0.66.0`:
+<Tabs groupId="os-arch">
+<TabItem value="linux-amd" label="Linux (amd64)" default>
 
-```bash
-wget https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v0.66.0/otelcol-contrib_0.66.0_linux_amd64.deb
-```
+1. <OtelDownloadLinuxAmd />
 
-:::info
-In case of different OpenTelemetry collector version, replace `0.66.0` with respective version.
-:::
+2. <OtelExtractLinuxAmd />
 
-To install `otelcol` as `systemd` using `dpkg`:
+3. <CloudConfig />
 
-```bash
-sudo dpkg -i otelcol-contrib_0.66.0_linux_amd64.deb
-```
+4. <OtelExecuteLinux />
 
-### Plain Binary
+   <TailLogs />
 
-Using `tar.gz` release asset, we can extract the OpenTelemetry collector binary
-and default configuration at our desired path. We can run the binary directly
-with flags either use `tmux
+   <OtelStop />
 
-To download `tar.gz` file of release version `0.66.0`:
+</TabItem>
+<TabItem value="linux-arm" label="Linux (arm64)">
 
-```bash
-wget https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v0.66.0/otelcol-contrib_0.66.0_linux_amd64.tar.gz
-```
+1. <OtelDownloadLinuxArm />
 
-:::info
-In case of different OpenTelemetry collector version, replace `0.66.0` with respective version.
-:::
+2. <OtelExtractLinuxArm />
 
-To create `otelcol` folder and extract files from `tar.gz` to newly created folder:
+3. <CloudConfig />
 
-```bash
-mkdir otelcol-contrib && tar xvzf otelcol-contrib_0.66.0_linux_amd64.tar.gz -C otelcol-contrib/
-```
+4. <OtelExecuteLinux />
 
-## OpenTelemetry Collector Configuration
+   <TailLogs />
 
-Let's download standalone configuration for `otelcol` binary running in the VM:
+   <OtelStop />
 
-```bash
-wget https://raw.githubusercontent.com/SigNoz/benchmark/main/docker/standalone/config.yaml
-```
+</TabItem>
+<TabItem value="macos-amd" label="MacOS (amd64)">
 
-Replace `<IP of machine hosting SigNoz>` with the address to SigNoz in configuration
-highlighted below:
+1. <OtelDownloadMacosAmd />
 
-```yaml {3}
-exporters:
-   otlp:
-     endpoint: "<IP of machine hosting SigNoz>:4317"
-     tls:
-       insecure: true
-```
+2. <OtelExtractMacosAmd />
 
-In the configuration above, we enable three receivers: `OTLP`, `hostmetrics`
-and `prometheus`.
+3. <CloudConfig />
 
-`OTLP` receiver is configured to receive all types of telemetry data:
-traces, metrics and logs. These data would be forwarded to SigNoz via
-OTLP gRPC endpoint.
+4. <OtelExecuteMacos />
 
-`hostmetrics` receiver is configured to collect various metrics of the virtual
-machine. It consists of metrics related to CPU, memory, disk, file system,
-network, and others.
+   <TailLogs />
 
-`prometheus` receiver is configured to collect the internal metrics of the
-`otelcol`. You can update it as per your need to include additional scrape
-targets accessible from the VM or remove existing targets.
+   <OtelStop />
 
-## OpenTelemetry Collector Usage
+</TabItem>
+<TabItem value="macos-arm" label="MacOS (arm64)">
 
-You copy the configuration file to the respective config paths as per your
-installation methods. Followed by respective instructions to start, restart,
-and view logs of the `otelcol` binary.
+1. <OtelDownloadMacosArm />
 
-### Systemd
+2. <OtelExtractMacosArm />
 
-To copy the updated `config.yaml` file:
+3. <CloudConfig />
 
-```bash
-sudo cp config.yaml /etc/otelcol-contrib/config.yaml
-```
+4. <OtelExecuteMacos />
 
-To restart `otelcol` with updated config:
+   <TailLogs />
 
-```bash
-sudo systemctl restart otelcol-contrib.service
-```
+  <OtelStop />
 
-To check status of `otelcol`:
-
-```bash
-sudo systemctl status otelcol-contrib.service
-```
-
-To view logs of `otelcol`:
-
-```bash
-sudo journalctl -u otelcol-contrib.service
-```
-
-To stop of `otelcol`:
-
-```bash
-sudo systemctl stop otelcol-contrib.service
-```
-
-### Plain Binary
-
-It is recommended to use the `otelcol` binary inside terminal multiplexer
-tools like `tmux` or `screen`, since plain binary usage is ephemeral.
-
-To copy the updated `config.yaml` file:
-
-```bash
-cp config.yaml ./otelcol-contrib/config.yaml
-```
-
-To change directory inside `otelcol-contrib` folder:
-
-```bash
-cd otelcol-contrib
-```
-
-To start `otelcol` with updated config:
-
-```bash
-./otelcol-contrib --config ./config.yaml &> otelcol-output.log & echo "$!" > otel-pid
-```
-
-To view last 50 lines of `otelcol` logs:
-
-```bash
-tail -f -n 50 otelcol-output.log
-```
-
-To stop `otelcol`:
-
-```bash
-kill "$(< otel-pid)"
-```
+</TabItem>
+</Tabs>
 
 ## Test Sending Traces
 
@@ -224,33 +154,282 @@ from `telemetrygen` in the SigNoz UI.
 
 ![traces generated by telemetrygen][2]
 
-## HostMetrics Dashboard
 
-In this section, we will generate and import dashboard with VM HostMetrics.
+</TabItem>
 
-:::info
-Optionally, we can use generic dashboard with hostname variable. To do that,
-import the `hostmetrics-with-variable.json` file in SigNoz UI from [here][4].
-:::
+<TabItem value="self-host" label="Self-Host">
 
-It involves two steps: generting dashboard JSON using bash script and
-importing dashboard JSON in SigNoz UI.
+## Prerequisites
 
-To generate HostMetrics dashboards for the VM:
+- SigNoz application up and running
+- SigNoz endpoint accessible from the VM
+- availability of ports: `4317`, `4318`, `8888`, `1777`, `13133`
+
+## Installation
+
+You can obtain the OpenTelemetry collector binary in the assets of each release:
+[open-telemetry/opentelemetry-collector-releases/releases][1].
+There are two ways of installation with binary release assets: `deb` as
+`systemd` and `tar.gz` as plain binary.
+
+### Systemd
+
+Using the `deb` file, OpenTelemetry Collector will be installed as a `systemd` and
+default configuration prepopulated at the `/etc/otelcol-contrib` path. This method
+would be preferable in case you want the OpenTelemetry collector to always be
+running in the background.
+
+To download the `deb` file of release version `0.88.0`:
+
+Here are the steps to set up OpenTelemetry binary as an agent.
+
+<Tabs groupId="systemd-arch">
+<TabItem value="amd" label="amd64" default>
 
 ```bash
-curl -sL https://github.com/SigNoz/benchmark/raw/main/dashboards/hostmetrics/hostmetrics-import.sh | bash
+wget https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v0.88.0/otelcol-contrib_0.88.0_linux_amd64.deb
 ```
 
-Output should look similar to the following:
+</TabItem>
+<TabItem value="arm" label="arm64">
+
+```bash
+wget https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v0.88.0/otelcol-contrib_0.88.0_linux_arm64.deb
+```
+
+</TabItem>
+</Tabs>
+
+:::info
+In the case of different OpenTelemetry collector versions, replace `0.88.0` with the respective version.
+:::
+
+To install `otelcol` as `systemd` using `dpkg`:
+
+<Tabs groupId="systemd-arch">
+<TabItem value="amd" label="amd64" default>
+
+```bash
+sudo dpkg -i otelcol-contrib_0.88.0_linux_amd64.deb
+```
+
+</TabItem>
+<TabItem value="arm" label="arm64">
+
+```bash
+sudo dpkg -i otelcol-contrib_0.88.0_linux_arm64.deb
+```
+
+</TabItem>
+</Tabs>
+
+### Plain Binary
+
+Using the `tar.gz` release asset, we can extract the OpenTelemetry collector binary
+and default configuration at our desired path. We can run the binary directly
+with flags either use `tmux
+
+<Tabs groupId="plainbin-arch">
+<TabItem value="linux-amd" label="Linux (amd64)" default>
+
+<OtelDownloadLinuxAmd />
+
+<OtelExtractLinuxAmd />
+
+</TabItem>
+<TabItem value="linux-arm" label="Linux (arm64)">
+
+<OtelDownloadLinuxArm />
+
+<OtelExtractLinuxArm />
+
+</TabItem>
+<TabItem value="macos-amd" label="MacOS (amd64)">
+
+<OtelDownloadMacosAmd />
+
+<OtelExtractMacosAmd />
+
+</TabItem>
+<TabItem value="macos-arm" label="MacOS (arm64)">
+
+<OtelDownloadMacosArm />
+
+<OtelExtractMacosArm />
+
+</TabItem>
+</Tabs>
+
+## OpenTelemetry Collector Configuration
+
+Let's download the standalone configuration for the `otelcol` binary running in the VM:
+
+```bash
+wget https://raw.githubusercontent.com/SigNoz/benchmark/main/docker/standalone/config.yaml
+```
+
+Replace `<IP of machine hosting SigNoz>` with the address to SigNoz in the configuration
+highlighted below:
+
+```yaml {3}
+exporters:
+   otlp:
+     endpoint: "<IP of machine hosting SigNoz>:4317"
+     tls:
+       insecure: true
+```
+
+In the configuration above, we enable three receivers: `OTLP`, `hostmetrics`
+and `prometheus`.
+
+`OTLP` receiver is configured to receive all types of telemetry data:
+traces, metrics, and logs. These data would be forwarded to SigNoz via
+OTLP gRPC endpoint.
+
+`hostmetrics` receiver is configured to collect various metrics of the virtual
+machine. It consists of metrics related to CPU, memory, disk, file system,
+network, and others.
+
+`prometheus` receiver is configured to collect the internal metrics of the
+`otelcol`. You can update it as per your need to include additional scrape
+targets accessible from the VM or remove existing targets.
+
+## OpenTelemetry Collector Usage
+
+You copy the configuration file to the respective config paths as per your
+installation methods. Followed by respective instructions to start, restart,
+and view logs of the `otelcol` binary.
+
+### Systemd
+
+To copy the updated `config.yaml` file:
+
+```bash
+sudo cp config.yaml /etc/otelcol-contrib/config.yaml
+```
+
+To restart `otelcol` with updated config:
+
+```bash
+sudo systemctl restart otelcol-contrib.service
+```
+
+To check the status of `otelcol`:
+
+```bash
+sudo systemctl status otelcol-contrib.service
+```
+
+To view logs of `otelcol`:
+
+```bash
+sudo journalctl -u otelcol-contrib.service
+```
+
+To stop `otelcol`:
+
+```bash
+sudo systemctl stop otelcol-contrib.service
+```
+
+### Plain Binary
+
+It is recommended to use the `otelcol` binary inside the terminal multiplexer
+tools like `tmux` or `screen`, since plain binary usage is ephemeral.
+
+To copy the updated `config.yaml` file:
+
+```bash
+cp config.yaml ./otelcol-contrib/config.yaml
+```
+
+To change the directory inside the `otelcol-contrib` folder:
+
+```bash
+cd otelcol-contrib
+```
+
+<Tabs groupId="plainbin-arch">
+<TabItem value="linux-amd" label="Linux (amd64)" default>
+
+<OtelExecuteLinux />
+
+</TabItem>
+<TabItem value="linux-arm" label="Linux (arm64)">
+
+<OtelExecuteLinux />
+
+</TabItem>
+<TabItem value="macos-amd" label="MacOS (amd64)">
+
+<OtelExecuteMacos />
+
+</TabItem>
+<TabItem value="macos-arm" label="MacOS (arm64)">
+
+<OtelExecuteMacos />
+
+</TabItem>
+</Tabs>
+
+To view the last 50 lines of `otelcol` logs:
+
+```bash
+tail -f -n 50 otelcol-output.log
+```
+
+To stop `otelcol`:
+
+```bash
+kill "$(< otel-pid)"
+```
+
+## Test Sending Traces
+
+OpenTelemetry collector binary should be able to forward all types of telemetry data received:
+traces, metrics, and logs, to SigNoz OTLP endpoint via gRPC.
+
+Let's send sample traces to the `otelcol` using `telemetrygen`.
+
+To install telemetrygen binary:
+
+```bash
+go install github.com/open-telemetry/opentelemetry-collector-contrib/cmd/telemetrygen@latest
+```
+
+To send trace data using `telemetrygen`, execute the command below:
+
+```bash
+telemetrygen traces --traces 1 --otlp-endpoint localhost:4317 --otlp-insecure
+```
+
+The output should look like this:
 
 ```
-✅ Succesfully generated Host Metrics dashboard: signoz-hostmetrics-one-piece.json
+...
+2023-03-15T11:04:38.967+0545    INFO    channelz/funcs.go:340   [core][Channel #1] Channel Connectivity change to READY {"system": "grpc", "grpc_log": true}
+2023-03-15T11:04:38.968+0545    INFO    traces/traces.go:124    generation of traces isn't being throttled
+2023-03-15T11:04:38.968+0545    INFO    traces/worker.go:90     traces generated        {"worker": 0, "traces": 1}
+2023-03-15T11:04:38.969+0545    INFO    traces/traces.go:87     stop the batch span processor
+2023-03-15T11:04:38.983+0545    INFO    channelz/funcs.go:340   [core][Channel #1] Channel Connectivity change to SHUTDOWN      {"system": "grpc", "grpc_log": true}
+2023-03-15T11:04:38.984+0545    INFO    channelz/funcs.go:340   [core][Channel #1 SubChannel #2] Subchannel Connectivity change to SHUTDOWN     {"system": "grpc", "grpc_log": true}
+2023-03-15T11:04:38.984+0545    INFO    channelz/funcs.go:340   [core][Channel #1 SubChannel #2] Subchannel deleted     {"system": "grpc", "grpc_log": true}
+2023-03-15T11:04:38.984+0545    INFO    channelz/funcs.go:340   [core][Channel #1] Channel deleted      {"system": "grpc", "grpc_log": true}
+2023-03-15T11:04:38.984+0545    INFO    traces/traces.go:79     stopping the exporter
 ```
 
-After importing the dashboard JSON, we should see the following dashboard in SigNoz UI:
+If the SigNoz endpoint in the configuration is set correctly and accessible,
+you should be able to see the traces sent via the OpenTelemetry collector in the VM
+from `telemetrygen` in the SigNoz UI.
 
-![hostmetrics dashboard][3]
+![traces generated by telemetrygen][2]
+
+</TabItem>
+</Tabs>
+
+## HostMetrics Dashboard
+
+To setup the Hostmetrics Dashboard, check the docs [here](https://signoz.io/docs/userguide/hostmetrics/).
 
 ---
 
@@ -261,6 +440,6 @@ After importing the dashboard JSON, we should see the following dashboard in Sig
 ---
 
 [1]: https://github.com/open-telemetry/opentelemetry-collector-releases/releases
-[2]: /img/docs/telemetrygen-output.png
-[3]: /img/docs/hostmetrics-dashboard.png
+[2]: /img/docs/telemetrygen-output.webp
+[3]: /img/docs/hostmetrics-dashboard.webp
 [4]: https://github.com/SigNoz/dashboards/raw/main/hostmetrics/hostmetrics-with-variable.json

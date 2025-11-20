@@ -1,12 +1,12 @@
 ---
-title: Top 13 open source APM tools in 2023
+title: Top 13 Open Source APM Tools [2024 Guide]
 slug: open-source-apm-tools
-date: 2023-06-05
+date: 2024-05-13
 tags: [Tech Resources]
 authors: ankit_anand
 description: Looking for an open source APM tool? Latest top open source APM tool list - 1.SigNoz 2.Graphite 3.Pinpoint 4.Prometheus 5.JavaMelody 6.StageMonitor 7.Scouter 8.Zipkin 9.Jaeger 10.Skywalking...
-image: /img/blog/2023/01/open_source_apm_tools_cover-min.jpg
-hide_table_of_contents: true
+image: /img/blog/2023/01/open-source-apm-tools-cover.jpeg
+hide_table_of_contents: false
 keywords:
   - Open Source
   - Open Source apm tools
@@ -17,14 +17,16 @@ keywords:
   <link rel="canonical" href="https://signoz.io/blog/open-source-apm-tools/"/>
 </head>
 
+import GetStartedSigNoz from '../docs/shared/get-started-signoz.md';
+
 Choosing the right APM tool is critical. How do you know which is the right one for you? Here are the top 13 open source application performance monitoring(APM) tools which can solve your monitoring needs.
 
 <!--truncate-->
 
-![Cover Image](/img/blog/2023/01/open_source_apm_tools_cover.webp)
+![Cover Image](/img/blog/2023/01/open-source-apm-tools-cover.webp)
 
 > **What is an open source APM tool?**<br></br>
-> APM stands for Application Performance Monitoring. APM tools help you to monitor your application for any performance issues. When you opt for an open source APM tool, you get the added advantage of having access to the tool's source code. 
+> APM stands for Application Performance Monitoring. APM tools help you to monitor your application for any performance issues. When you opt for an open source APM tool, you get the added advantage of having access to the tool's source code.
 > You can host the tool within your infra to adhere to data governance and privacy regulations.
 
 <!-- Businesses are embracing digital transformation now more than ever. In most cases, the digital channel is the primary driver of revenue and growth. Customers and end-users are going online to fulfill both their daily and long-term needs.
@@ -33,8 +35,7 @@ The digital shift has made the app production environment a critical piece of an
 
 This has led to the birth of a number of application performance monitoring tools. Open source APM tools have added benefits over their SaaS counterparts as the source code is available to your org's developers. -->
 
-Open source APM tools have added benefits over their SaaS counterparts. Open source tools are more transparent as you can verify its source code, and you can use it without going through the pains of taking approvals usually required for using a third-party vendor tool. 
-
+Open source APM tools have added benefits over their SaaS counterparts. Open source tools are more transparent as you can verify its source code, and you can use it without going through the pains of taking approvals usually required for using a third-party vendor tool.
 
 **Benefits of Open Source APM tool over SaaS APM tools:**
 
@@ -66,25 +67,25 @@ A few essential APM benefits in solving performance issues are as follows:
 - **Increase revenue** by protecting against downtime and user churn
 - **Saves engineering bandwidth** in debugging and troubleshooting
 
-**List of top 13 open source APM tools in 2023**
+**List of top 13 open source APM tools in 2024**
 
- - [SigNoz](#signoz)
- - [Graphite](#graphite)
- - [Pinpoint](#pinpoint)
- - [Prometheus](#prometheus)
- - [Javamelody](#javamelody)
- - [Stagemonitor](#stagemonitor)
- - [Scouter](#scouter)
- - [Zipkin](#zipkin)
- - [Jaeger](#jaeger)
- - [Apache Skywalking](#apache-skywalking)
- - [Elastic APM](#elastic-apm)
- - [App Metrics](#app-metrics)
- - [Glowroot](#glowroot)
+- [SigNoz](#signoz)
+- [Graphite](#graphite)
+- [Pinpoint](#pinpoint)
+- [Prometheus](#prometheus)
+- [Javamelody](#javamelody)
+- [Stagemonitor](#stagemonitor)
+- [Scouter](#scouter)
+- [Zipkin](#zipkin)
+- [Jaeger](#jaeger)
+- [Apache Skywalking](#apache-skywalking)
+- [Elastic APM](#elastic-apm)
+- [App Metrics](#app-metrics)
+- [Glowroot](#glowroot)
 
 ## Top Open Source APM Tools
 
-Now let's explore the top 13 open source APM tools in 2023.
+Now let's explore the top 13 open source APM tools in 2024.
 
 ### SigNoz
 
@@ -94,19 +95,17 @@ Now let's explore the top 13 open source APM tools in 2023.
 
 <br></br>
 
-- **Github stars:** 13k
+- **Github stars:** 15.7k
 - **Alternative to:** Datadog, New Relic, Dynatrace
 - [SigNoz on GitHub](https://github.com/SigNoz/signoz)
 
-[SigNoz](https://signoz.io/?utm_source=blog&utm_medium=open_source_apm_tools) is a full-stack open source APM and observability tool. It provides logs, metrics, and traces under a single pane of glass. It is built to support OpenTelemetry natively, and uses Clickhouse - a powerful OLAP database for faster ingestion and aggregations. 
-
+[SigNoz](https://signoz.io/) is a full-stack open source APM and observability tool. It provides logs, metrics, and traces under a [single pane of glass](https://signoz.io/blog/single-pane-of-glass-monitoring/). It is built to support OpenTelemetry natively, and uses Clickhouse - a powerful OLAP database for faster ingestion and aggregations.
 
 <!-- - User requests per second
 - 50th, 90th, and 99th percentile latencies of microservices in your application
 - Error rate of requests to your services
 - Slow endpoints in your application
 - User requests across different microservices using distributed tracing -->
-
 
 import Screenshot from "@theme/Screenshot"
 
@@ -119,14 +118,13 @@ import Screenshot from "@theme/Screenshot"
 
 SigNoz has most features that vendors like Datadog offers. The feature set covers capabilities across the three telemetry signals: logs, metrics, and traces. You can monitor APM metrics like user requests for each of your applications, error rate, app latencies, etc.
 
-Using distributed tracing, you can identify the root cause of performance issues. The logs tab in SigNoz comes with advanced query builder, multiple compact views, and live tail logging. 
+Using [distributed tracing](https://signoz.io/blog/distributed-tracing-in-microservices/), you can identify the root cause of performance issues. The logs tab in SigNoz comes with advanced query builder, multiple compact views, and live tail logging.
 
 #### Open Source license and Cloud Option
 
-SigNoz Open Source is free to use. You can get started with the open source by using Docker, Docker Swarm or Kubernetes. You can find the instructions to self-host SigNoz [here](https://signoz.io/docs/install/?utm_source=blog&utm_medium=open_source_apm_tools).
+SigNoz Open Source is free to use. You can get started with the open source by using Docker, Docker Swarm or Kubernetes. You can find the instructions to self-host SigNoz [here](https://signoz.io/docs/install/).
 
-Signing up for [SigNoz cloud](https://signoz.io/teams/?utm_source=blog&utm_medium=open_source_apm_tools) gives you the most easiest way to get started with SigNoz. The cloud version gives you access to some paid-only features as well as customer support. SigNoz can help you save up to 86% of your Datadog bill. Here's a [pricing comparsion with detailed spreadsheet](https://signoz.io/blog/pricing-comparison-signoz-vs-datadog-vs-newrelic-vs-grafana/?utm_source=blog&utm_medium=open_source_apm_tools).
-
+Signing up for [SigNoz cloud](https://signoz.io/teams/) gives you the most easiest way to get started with SigNoz. The cloud version gives you access to some paid-only features as well as customer support. SigNoz can help you save up to 86% of your Datadog bill. Here's a [pricing comparsion with detailed spreadsheet](https://signoz.io/blog/pricing-comparison-signoz-vs-datadog-vs-newrelic-vs-grafana/).
 
 ### Graphite
 
@@ -167,23 +165,19 @@ Pinpoint is an open source APM tool meant for large-scale distributed systems wr
 - APM agents which require minimal changes to code
 - Minimal impact on performance
 
-<Screenshot
-   alt="Pinpoint APM tool architecture"
-   height={500}
-   src="/img/blog/2021/07/pinpoint-architecture-min.webp"
-   title="Architecture of Pinpoint (Source: Pinpoint Documentation)"
-   width={700}
-/>
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2021/07/pinpoint-architecture-min.webp" alt="Pinpoint APM tool architecture"/>
+    <figcaption><i>Architecture of Pinpoint (Source: Pinpoint Documentation)</i></figcaption>
+</figure>
+<br/>
 
 The main purpose of the Pinpoint APM tool is to identify and track how transactions flow between different components of a system. It does not track logs and metrics.
 
-<Screenshot
-   alt="Pinpoint dashboard"
-   height={500}
-   src="/img/blog/2021/07/pinpoint-dashboard-min.webp"
-   title="Pinpoint Dashboard (Source: Pinpoint documentation)"
-   width={700}
-/>
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2021/07/pinpoint-dashboard-min.webp" alt="Pinpoint dashboard"/>
+    <figcaption><i>Pinpoint Dashboard (Source: Pinpoint documentation)</i></figcaption>
+</figure>
+<br/>
 
 ### Prometheus
 
@@ -203,32 +197,26 @@ Prometheus monitoring stack includes the following components:
 - Alertmanager
 - Visualization Layer
 
-<Screenshot
-   alt="Prometheus APM tool architecture"
-   height={500}
-   src="/img/blog/2021/07/Prometheus_architecture-min.webp"
-   title="Prometheus Architecture (Source: Prometheus Documentation)"
-   width={700}
-/>
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2021/07/Prometheus_architecture-min.webp" alt="Prometheus APM tool architecture"/>
+    <figcaption><i>Prometheus Architecture (Source: Prometheus Documentation)</i></figcaption>
+</figure>
+<br/>
 
 Prometheus does not do distributed tracing but can be used effectively to monitor time-series data as metrics. It also has some limitations at scale as it is designed for a single machine.
 The visualization layer of Prometheus is basic, but it is generally used with Grafana, a visualization tool to create charts and graphs.
 
-<Screenshot
-   alt="Prometheus Expression Browser"
-   height={500}
-   src="/img/blog/2021/07/prom_exp_browser-min.webp"
-   title="Prometheus Expression Browser"
-   width={700}
-/>
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2021/07/prom_exp_browser-min.webp" alt="Prometheus Expression Browser"/>
+    <figcaption><i>Prometheus Expression Browser</i></figcaption>
+</figure>
+<br/>
 
-<Screenshot
-   alt="Grafana dashboard visualizing Prometheus metrics"
-   height={500}
-   src="/img/blog/2021/07/prometheus_grafana-min.webp"
-   title="Grafana used for visualization with Prometheus"
-   width={700}
-/>
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2021/07/prometheus_grafana-min.webp" alt="Grafana dashboard visualizing Prometheus metrics"/>
+    <figcaption><i>Grafana used for visualization with Prometheus</i></figcaption>
+</figure>
+<br/>
 
 ### Javamelody
 
@@ -244,13 +232,11 @@ Some of the key metrics captured by the Javamelody APM tool are as follows:
 - Number of user sessions
 - Number of JDBC connections
 
-<Screenshot
-   alt="Charts shown on JavaMelody dashboard"
-   height={500}
-   src="/img/blog/2021/07/javamelody_ui-min.webp"
-   title="Charts provided by Javamelody APM tool (Source: Javamelody GitHub repo)"
-   width={700}
-/>
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2021/07/javamelody_ui-min.webp" alt="Charts shown on JavaMelody dashboard"/>
+    <figcaption><i>Charts provided by Javamelody APM tool (Source: Javamelody GitHub repo)</i></figcaption>
+</figure>
+<br/>
 
 ### Stagemonitor
 
@@ -268,13 +254,11 @@ Some of the key features of Stagemonitor APM tool includes:
 - Production Monitoring
 - Preconfigured Dashboards
 
-<Screenshot
-   alt="Architecture diagram of Stagemonitor APM tool"
-   height={500}
-   src="/img/blog/2021/07/stagemonitor_architecture-min.webp"
-   title="Stagemonitor architecture (Source: Stagemonitor GitHub repo)"
-   width={700}
-/>
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2021/07/stagemonitor_architecture-min.webp" alt="Architecture diagram of Stagemonitor APM tool"/>
+    <figcaption><i>Stagemonitor architecture (Source: Stagemonitor GitHub repo)</i></figcaption>
+</figure>
+<br/>
 
 ### Scouter
 
@@ -286,13 +270,11 @@ Scouter is an open source APM tool written in Java, Javascript, and Scala. It ca
 - Services - Active service, TPS, Response time, Application profiles
 - Resources - Cpu, Memory, Network and Heap usage, Connection pools, etc.
 
-<Screenshot
-   alt="Architecture diagram of Scouter APM tool"
-   height={500}
-   src="/img/blog/2021/07/scouter_architecture-min-1.webp"
-   title="Scouter Architecture (Source: Scouter GitHub repo)"
-   width={700}
-/>
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2021/07/scouter_architecture-min.webp" alt="Architecture diagram of Scouter APM tool"/>
+    <figcaption><i>Scouter Architecture (Source: Scouter GitHub repo)</i></figcaption>
+</figure>
+<br/>
 
 Scouter's architecture consists of the following components:
 
@@ -301,13 +283,11 @@ Scouter's architecture consists of the following components:
 - Java Agent to capture performance data of the Java program such as heap memory, thread, profiles
 - Client(Viewer) to visualize collected data
 
-<Screenshot
-   alt="Charts visualized with Scouter APM"
-   height={500}
-   src="/img/blog/2021/07/scouter_ui-min.webp"
-   title="Scouter UI (Source: Scouter GitHub repo)"
-   width={700}
-/>
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2021/07/scouter_ui-min.webp" alt="Charts visualized with Scouter APM"/>
+    <figcaption><i>Scouter UI (Source: Scouter GitHub repo)</i></figcaption>
+</figure>
+<br/>
 
 ### Zipkin
 
@@ -326,33 +306,27 @@ Zipkin's architecture includes:
 - API to query data
 - UI
 
-<Screenshot
-   alt="Zipkin architecture diagram"
-   height={500}
-   src="/img/blog/2021/07/Zipkin_architecture-min.webp"
-   title="Zipkin architecture (Source: Zipkin website)"
-   width={700}
-/>
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2021/07/Zipkin_architecture-min.webp" alt="Zipkin architecture diagram"/>
+    <figcaption><i>Zipkin architecture (Source: Zipkin website)</i></figcaption>
+</figure>
+<br/>
 
 Zipkin's in-built UI is limited, and you can use Grafana or Kibana from the ELK stack for better analytics and visualizations.
 
-<Screenshot
-   alt="Zipkin dashboard showing traces"
-   height={500}
-   src="/img/blog/2021/07/Zipkin_ui-min.webp"
-   title="Zipkin UI (Source: Zipkin's GitHub repo)"
-   width={700}
-/>
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2021/07/Zipkin_ui-min.webp" alt="Zipkin dashboard showing traces"/>
+    <figcaption><i>Zipkin UI (Source: Zipkin's GitHub repo)</i></figcaption>
+</figure>
+<br/>
 
 It also includes a dependency diagram that shows how many user requests went through each service. It can help you to identify error paths and calls to deprecated services.
 
-<Screenshot
-   alt="Zipkin dependency diagram to show user requests across services"
-   height={500}
-   src="/img/blog/2021/07/zipkin_dependency_diagram-min.webp"
-   title="Zipkin dependency diagram (Source: GitHub repo)"
-   width={700}
-/>
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2021/07/zipkin_dependency_diagram-min.webp" alt="Zipkin dependency diagram to show user requests across services"/>
+    <figcaption><i>Zipkin dependency diagram (Source: GitHub repo)</i></figcaption>
+</figure>
+<br/>
 
 ### Jaeger
 
@@ -370,23 +344,19 @@ It is used for monitoring and troubleshooting microservices-based distributed sy
 - Service dependency analysis
 - Performance / latency optimization
 
-<Screenshot
-   alt="Architecture diagram of Jaeger APM"
-   height={500}
-   src="/img/blog/2021/07/jaeger_architecture-min.webp"
-   title="Jaeger Architecture (Source: Uber Engineering)"
-   width={700}
-/>
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2021/07/jaeger_architecture-min.webp" alt="Architecture diagram of Jaeger APM"/>
+    <figcaption><i>Jaeger Architecture (Source: Uber Engineering)</i></figcaption>
+</figure>
+<br/>
 
 Jaeger supports two popular open source NoSQL databases as trace storage backends: Cassandra and Elasticsearch. Jaeger's UI can be used to see individual traces. You can also filter the traces based on service, duration, and tags.
 
-<Screenshot
-   alt="Jaeger UI"
-   height={500}
-   src="/img/blog/2021/07/jaeger_ui-min.webp"
-   title="Jaeger UI showing list of filtered traces"
-   width={700}
-/>
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2021/07/jaeger_ui-min.webp" alt="Jaeger UI"/>
+    <figcaption><i>Jaeger UI showing list of filtered traces</i></figcaption>
+</figure>
+<br/>
 
 ### Apache Skywalking
 
@@ -404,13 +374,11 @@ This open source APM tool is focused on monitoring distributed systems, includin
 
 Skywalking also supports the collection of telemetry data in multiple formats.
 
-<Screenshot
-   alt="Skywalking dashboard"
-   height={500}
-   src="/img/blog/2021/07/skywalking_ui-min.webp"
-   title="Skywalking dashboard (Source: Skywalking website)"
-   width={700}
-/>
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2021/07/skywalking_ui-min.webp" alt="Skywalking dashboard"/>
+    <figcaption><i>Skywalking dashboard (Source: Skywalking website)</i></figcaption>
+</figure>
+<br/>
 
 ### Elastic APM
 
@@ -425,23 +393,19 @@ You might already be familiar with Elasticsearch. Elastic APM is an open source 
 - Elasticsearch - It is used to store the APM performance metrics.
 - Kibana - It is a visualization platform designed to work with Elastsearch.
 
-<Screenshot
-   alt="Elastic APM architecture diagram"
-   height={500}
-   src="/img/blog/2021/07/elastic_apm_architecture-min.webp"
-   title="Elastic APM architecture (Source: Elastic APM documentation)"
-   width={700}
-/>
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2021/07/elastic_apm_architecture-min.webp" alt="Elastic APM architecture diagram"/>
+    <figcaption><i>Elastic APM architecture (Source: Elastic APM documentation)</i></figcaption>
+</figure>
+<br/>
 
 With Kibana, you can have visualize your requests and services.
 
-<Screenshot
-   alt="Service maps on Elastic APM dashboard"
-   height={500}
-   src="/img/blog/2021/07/elasticapm_servicemaps-min.webp"
-   title="Service Maps in Elastic APM (Source: Elastic APM website)"
-   width={700}
-/>
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2021/07/elasticapm_servicemaps-min.webp" alt="Service maps on Elastic APM dashboard"/>
+    <figcaption><i>Service Maps in Elastic APM (Source: Elastic APM website)</i></figcaption>
+</figure>
+<br/>
 
 ### App Metrics
 
@@ -457,13 +421,11 @@ App Metrics is an open source and cross-platform .NET library that can be used t
 
 App Metrics does not include a visualization tool, but it does provide App Metrics specific Grafana dashboards.
 
-<Screenshot
-   alt="Grafana charts for visualization of App Metrics"
-   height={500}
-   src="/img/blog/2021/07/app-metrics-dashboard-min.webp"
-   title="App Metrics dashboard using Grafana (Source: App Metrics website)"
-   width={700}
-/>
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2021/07/app-metrics-dashboard-min.webp" alt="Grafana charts for visualization of App Metrics"/>
+    <figcaption><i>App Metrics dashboard using Grafana (Source: App Metrics website)</i></figcaption>
+</figure>
+<br/>
 
 ### Glowroot
 
@@ -476,13 +438,11 @@ Glowroot is an open source Java APM tool. It is used to monitor Java-based appli
 - With embedded collectors that can be used to monitor stand-alone applications
 - With central collector that can be used to monitor distributed systems
 
-<Screenshot
-   alt="Glowroot architecture diagram"
-   height={500}
-   src="/img/blog/2021/07/glowroot-architecture-min.webp"
-   title="Glowroot architecture"
-   width={700}
-/>
+<figure data-zoomable align='center'>
+    <img className="box-shadowed-image" src="/img/blog/2021/07/glowroot-architecture-min.webp" alt="Glowroot architecture diagram"/>
+    <figcaption><i>Glowroot architecture</i></figcaption>
+</figure>
+<br/>
 
 Glowroot agents help to capture metrics like:
 
@@ -506,25 +466,12 @@ Logs, metrics, and traces form the three cornerstones of full-stack APM tools. I
 
 ## Getting started with SigNoz
 
-You can get started with SigNoz using just three commands at your terminal.
+<GetStartedSigNoz />
 
-```jsx
-git clone -b main https://github.com/SigNoz/signoz.git
-cd signoz/deploy/
-./install.sh
-```
-<br></br>
+---
 
-For detailed instructions, you can visit our documentation.
+**Further Reading**
 
-[![Deployment Docs](/img/blog/common/deploy_docker_documentation.webp)](https://signoz.io/docs/install/docker/?utm_source=blog&utm_medium=open_source_apm_tools)
-
-You can check out SigNoz's GitHub repo here 👇
-
-[![SigNoz GitHub repo](/img/blog/common/signoz_github.webp)](https://github.com/SigNoz/signoz)
-
-If you want to read more about SigNoz 👇
-
-[Golang Application Performance Monitoring with SigNoz](/blog/monitoring-your-go-application-with-signoz/)
-
-[Nodejs Application Performance Monitoring with SigNoz](/blog/nodejs-opensource-application-monitoring/)
+[Kubernetes Monitoring Tools](https://signoz.io/blog/kubernetes-monitoring-tools/)<br></br>
+[New Relic Alternatives](https://signoz.io/blog/new-relic-alternatives/)<br></br>
+[Log Monitoring](https://signoz.io/blog/log-monitoring/)<br></br>

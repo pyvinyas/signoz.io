@@ -77,7 +77,7 @@ The advantages that the cloud brings come at the cost of increased application c
 
 What you need is visibility into your hybrid cloud infra and rich context for every user requests. A robust observability stack can get engineering teams the context to resolve issues faster and earlier.
 
-19. 94% of software leaders say observability is key to developing software. (<a href = "https://newrelic.com/more-perfect-software/more-perfect-software/" rel="noopener noreferrer nofollow" target="_blank" >New Relic</a>)
+19. 94% of software leaders say observability is key to developing software. (<a href = "https://newrelic.com/resources/report/more-perfect-software" rel="noopener noreferrer nofollow" target="_blank" >New Relic</a>)
 
 20. 99% of leaders say their culture and observability technology allow developers to make quick decisions, without fear of repercussions. (<a href = "https://newrelic.com/resources/ebooks/more-perfect-software-gated" rel="noopener noreferrer nofollow" target="_blank" >New Relic</a>)
 
@@ -121,4 +121,4 @@ The verdict is in! And it says you need to start your observability journey or m
 
 So when are you starting your observability journey?
 
-You can check out **[SigNoz](https://signoz.io/?utm_source=learn&utm_medium=observability_statistics)** - our open-source full-stack observability platform to get started. It is an all-in-one platform to address your observability needs.
+You can check out **[SigNoz](https://signoz.io/)** - our open-source full-stack observability platform to get started. It is an all-in-one platform to address your observability needs.
